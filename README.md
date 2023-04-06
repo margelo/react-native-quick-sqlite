@@ -4,12 +4,12 @@
   <pre align="center">
     yarn add react-native-quick-sqlite
     npx pod-install</pre>
-  <a align="center" href="https://github.com/margelo?tab=followers">
-    <img src="https://img.shields.io/github/followers/margelo?label=Follow%20%40margelo&style=social" />
+  <a align="center" href="https://github.com/mrousavy?tab=followers">
+    <img src="https://img.shields.io/github/followers/mrousavy?label=Follow%20%40mrousavy&style=social" />
   </a>
   <br />
-  <a align="center" href="https://twitter.com/margelo">
-    <img src="https://img.shields.io/twitter/follow/margelo?label=Follow%20%40margelo&style=social" />
+  <a align="center" href="https://twitter.com/margelo_io">
+    <img src="https://img.shields.io/twitter/follow/margelo_io?label=Follow%20%40margelo_io&style=social" />
   </a>
 </div>
 <br />
