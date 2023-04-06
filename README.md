@@ -317,6 +317,10 @@ You can specify flags via `<PROJECT_ROOT>/android/gradle.properties` like so:
 quickSqliteFlags="<SQLITE_FLAGS>"
 ```
 
+## Oscar
+
+react-native-quick-sqlite was originally created by [Oscar Franco](https://github.com/ospfranco). Thanks Oscar!
+
 ## License
 
 MIT License.
