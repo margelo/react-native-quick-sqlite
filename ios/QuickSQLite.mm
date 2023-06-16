@@ -31,9 +31,20 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   auto &runtime = *jsiRuntime;
   auto callInvoker = bridge.jsCallInvoker;
 
-  // Get iOS app's document directory (to safely store database .sqlite3 file)
-  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
-  NSString *documentPath = [paths objectAtIndex:0];
+  // TODO: how should we configure this?
+  // NSString *appGroupID = @"group.com.myappexample";
+  NSString *documentPath; 
+
+  if (appGroupID != nil) {
+    // Get the app groups container storage url
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *storeUrl = [fileManager containerURLForSecurityApplicationGroupIdentifier:appGroupID];
+    documentPath = [storeUrl path];
+  } else {
+    // Get iOS app's document directory (to safely store database .sqlite3 file)
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
+    documentPath = [paths objectAtIndex:0];
+  }
 
   osp::install(runtime, callInvoker,[documentPath UTF8String]);
   return @true;
