@@ -31,8 +31,8 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   auto &runtime = *jsiRuntime;
   auto callInvoker = bridge.jsCallInvoker;
 
-  // TODO: how should we configure this?
-  // NSString *appGroupID = @"group.com.myappexample";
+  // Get appGroupID value from Info.plist using key "AppGroup"
+  NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppGroup"];
   NSString *documentPath; 
 
   if (appGroupID != nil) {
@@ -46,7 +46,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
     documentPath = [paths objectAtIndex:0];
   }
 
-  osp::install(runtime, callInvoker,[documentPath UTF8String]);
+  osp::install(runtime, callInvoker, [documentPath UTF8String]);
   return @true;
 }
 
