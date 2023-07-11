@@ -39,6 +39,13 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
     // Get the app groups container storage url
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *storeUrl = [fileManager containerURLForSecurityApplicationGroupIdentifier:appGroupID];
+
+    if (storeUrl == nil) {
+      NSLog(@"Invalid AppGroup ID provided (%@). Check the value of \"AppGroup\" in your Info.plist file", appGroupID);
+      return @false;
+    }
+    NSLog(@"Configured with AppGroup ID: %@", appGroupID);
+
     documentPath = [storeUrl path];
   } else {
     // Get iOS app's document directory (to safely store database .sqlite3 file)
