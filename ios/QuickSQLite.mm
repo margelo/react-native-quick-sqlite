@@ -32,8 +32,8 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   auto callInvoker = bridge.jsCallInvoker;
 
   // Get appGroupID value from Info.plist using key "AppGroup"
-  NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppGroup"];
-  NSString *documentPath; 
+  NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ReactNativeQuickSQLite_AppGroup"];
+  NSString *documentPath;
 
   if (appGroupID != nil) {
     // Get the app groups container storage url
