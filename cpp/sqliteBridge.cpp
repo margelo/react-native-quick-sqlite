@@ -337,7 +337,7 @@ SQLiteOPResult sqliteExecute(string const dbName, string const &query, vector<Qu
             {
               int blob_size = sqlite3_column_bytes(statement, i);
               const void *blob = sqlite3_column_blob(statement, i);
-              uint8_t *data;
+              uint8_t *data = new uint8_t[blob_size];
               memcpy(data, blob, blob_size);
               row[column_name] = createArrayBufferQuickValue(data, blob_size);
               break;
