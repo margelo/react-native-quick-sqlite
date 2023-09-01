@@ -325,6 +325,10 @@ On iOS, the SQLite database can be placed in an app group, in order to make it a
 
 To use an app group, add the app group ID as the value for the `ReactNativeQuickSQLite_AppGroup` key in your project's `Info.plist` file. You'll also need to configure the app group in your project settings. (Xcode -> Project Settings -> Signing & Capabilities -> Add Capability -> App Groups)
 
+## Community Discord
+
+[Join the Margelo Community Discord](https://discord.gg/6CSHz2qAvA) to chat about react-native-quick-sqlite or other Margelo libraries.
+
 ## Oscar
 
 react-native-quick-sqlite was originally created by [Oscar Franco](https://github.com/ospfranco). Thanks Oscar!
