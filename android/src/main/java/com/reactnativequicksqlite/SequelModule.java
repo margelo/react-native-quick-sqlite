@@ -34,4 +34,13 @@ class SequelModule extends ReactContextBaseJavaModule {
       return false;
     }
   }
+
+  @Override
+  public void onCatalystInstanceDestroy() {
+    try {
+      QuickSQLiteBridge.instance.clearState();
+    } catch (Exception exception) {
+      Log.e(NAME, "Failed to clear state!", exception);
+    }
+  }
 }

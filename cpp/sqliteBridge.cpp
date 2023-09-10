@@ -121,13 +121,22 @@ SQLiteOPResult sqliteCloseDb(string const dbName)
 
   sqlite3 *db = dbMap[dbName];
 
-  sqlite3_close(db);
+  sqlite3_close_v2(db);
 
   dbMap.erase(dbName);
 
   return SQLiteOPResult{
     .type = SQLiteOk,
   };
+}
+
+void sqliteCloseAll() {
+  for (auto const& x : dbMap) {
+    // In certain cases, this will return SQLITE_OK, mark the database connection as an unusable "zombie",
+    // and deallocate the connection later.
+    sqlite3_close_v2(x.second);
+  }
+  dbMap.clear();
 }
 
 SQLiteOPResult sqliteAttachDb(string const mainDBName, string const docPath, string const databaseToAttach, string const alias)

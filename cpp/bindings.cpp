@@ -17,6 +17,10 @@ namespace osp {
 string docPathStr;
 std::shared_ptr<react::CallInvoker> invoker;
 
+void clearState() {
+  sqliteCloseAll(); 
+}
+
 void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker, const char *docPath)
 {
   docPathStr = std::string(docPath);

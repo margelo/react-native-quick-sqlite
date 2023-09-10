@@ -26,3 +26,5 @@ SQLiteOPResult sqliteDetachDb(string const mainDBName, string const alias);
 SQLiteOPResult sqliteExecute(string const dbName, string const &query, vector<QuickValue> *values, vector<map<string, QuickValue>> *result, vector<QuickColumnMetadata> *metadata);
 
 SequelLiteralUpdateResult sqliteExecuteLiteral(string const dbName, string const &query);
+
+void sqliteCloseAll();
