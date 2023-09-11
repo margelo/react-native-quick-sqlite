@@ -6,5 +6,6 @@ using namespace facebook;
 
 namespace osp {
 void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker, const char *docPath);
+void clearState();
 }
 

@@ -57,4 +57,9 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   return @true;
 }
 
+- (void)invalidate {
+  osp::clearState();
+}
+
+
 @end

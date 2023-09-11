@@ -28,6 +28,10 @@ private:
 
     osp::install(*jsiRuntime, jsCallInvoker, docPathString.c_str());
   }
+
+  static void clearStateNativeJsi() {
+    osp::clearState();
+  }
 };
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *) {
