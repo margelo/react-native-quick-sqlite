@@ -14,7 +14,10 @@ struct QuickSQLiteBridge : jni::JavaClass<QuickSQLiteBridge> {
     javaClassStatic()->registerNatives(
         {// initialization for JSI
          makeNativeMethod("installNativeJsi",
-                          QuickSQLiteBridge::installNativeJsi)});
+                          QuickSQLiteBridge::installNativeJsi),
+         makeNativeMethod("clearStateNativeJsi",
+                          QuickSQLiteBridge::clearStateNativeJsi)
+      });
   }
 
 private:
@@ -29,7 +32,7 @@ private:
     osp::install(*jsiRuntime, jsCallInvoker, docPathString.c_str());
   }
 
-  static void clearStateNativeJsi() {
+  static void clearStateNativeJsi(jni::alias_ref<jni::JObject> thiz) {
     osp::clearState();
   }
 };
