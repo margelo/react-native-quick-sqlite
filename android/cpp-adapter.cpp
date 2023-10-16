@@ -24,12 +24,14 @@ private:
   static void installNativeJsi(
       jni::alias_ref<jni::JObject> thiz, jlong jsiRuntimePtr,
       jni::alias_ref<react::CallInvokerHolder::javaobject> jsCallInvokerHolder,
-      jni::alias_ref<jni::JString> docPath) {
+      jni::alias_ref<jni::JString> docPath,
+      jni::alias_ref<jni::JString> cachePath) {
     auto jsiRuntime = reinterpret_cast<jsi::Runtime *>(jsiRuntimePtr);
     auto jsCallInvoker = jsCallInvokerHolder->cthis()->getCallInvoker();
     std::string docPathString = docPath->toStdString();
+    std::string cachePathString = cachePath->toStdString();
 
-    osp::install(*jsiRuntime, jsCallInvoker, docPathString.c_str());
+    osp::install(*jsiRuntime, jsCallInvoker, docPathString.c_str(), cachePathString.c_str());
   }
 
   static void clearStateNativeJsi(jni::alias_ref<jni::JObject> thiz) {
