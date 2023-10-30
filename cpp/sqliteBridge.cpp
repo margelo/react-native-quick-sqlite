@@ -411,6 +411,217 @@ SQLiteOPResult sqliteExecute(string const dbName, string const &query, vector<Qu
     .insertId = static_cast<double>(latestInsertRowId)};
 }
 
+
+SQLiteOPResult sqliteExecute2(jsi::Runtime &rt, string const dbName, string const &query, vector<QuickValue> *params, bool const returnArrays, vector<jsi::Object> *results, vector<QuickColumnMetadata> *metadata)
+{
+
+  if (dbMap.count(dbName) == 0)
+  {
+    return SQLiteOPResult{
+      .type = SQLiteError,
+      .errorMessage = "[react-native-quick-sqlite]: Database " + dbName + " is not open",
+      .rowsAffected = 0
+    };
+  }
+
+  sqlite3 *db = dbMap[dbName];
+
+  sqlite3_stmt *statement;
+
+  int statementStatus = sqlite3_prepare_v2(db, query.c_str(), -1, &statement, NULL);
+
+  if (statementStatus == SQLITE_OK) // statemnet is correct, bind the passed parameters
+  {
+    bindStatement(statement, params);
+  }
+  else
+  {
+    const char *message = sqlite3_errmsg(db);
+    return SQLiteOPResult{
+      .type = SQLiteError,
+      .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + string(message),
+      .rowsAffected = 0};
+  }
+
+  bool isConsuming = true;
+  bool isFailed = false;
+
+  int result, i, count, column_type;
+  string column_name, column_declared_type;
+  const char *column_name_char;
+  jsi::Array arrayRow = jsi::Array(rt, 0);
+  jsi::Object objectRow = jsi::Object(rt);
+
+  while (isConsuming)
+  {
+    result = sqlite3_step(statement);
+
+    switch (result)
+    {
+      case SQLITE_ROW:
+        if(results == NULL)
+        {
+          break;
+        }
+
+        i = 0;
+        count = sqlite3_column_count(statement);
+        if (returnArrays) {
+          arrayRow = jsi::Array(rt, count);
+        } else {
+          objectRow = jsi::Object(rt);
+        }
+
+        while (i < count)
+        {
+          column_type = sqlite3_column_type(statement, i);
+          column_name = sqlite3_column_name(statement, i);
+
+          if (!returnArrays) {
+            column_name_char = column_name.c_str();
+          }
+
+          switch (column_type)
+          {
+
+            case SQLITE_INTEGER:
+            {
+              /**
+               * It's not possible to send a int64_t in a jsi::Value because JS cannot represent the whole number range.
+               * Instead, we're sending a double, which can represent all integers up to 53 bits long, which is more
+               * than what was there before (a 32-bit int).
+               *
+               * See https://github.com/margelo/react-native-quick-sqlite/issues/16 for more context.
+               */
+              double column_value = sqlite3_column_double(statement, i);
+              if (returnArrays) {
+                arrayRow.setValueAtIndex(rt, i, column_value);
+              } else {
+                objectRow.setProperty(rt, column_name_char, column_value);
+              }
+              break;
+            }
+
+            case SQLITE_FLOAT:
+            {
+              double column_value = sqlite3_column_double(statement, i);
+              if (returnArrays) {
+                arrayRow.setValueAtIndex(rt, i, column_value);
+              } else {
+                objectRow.setProperty(rt, column_name_char, column_value);
+              }
+              break;
+            }
+
+            case SQLITE_TEXT:
+            {
+              const unsigned char *column_value = sqlite3_column_text(statement, i);
+              int byteLen = sqlite3_column_bytes(statement, i);
+              if (byteLen > 0) {
+                // Specify length too; in case string contains NULL in the middle (which SQLite supports!)
+                jsi::String jsiValue = jsi::String::createFromUtf8(rt, column_value, byteLen);
+                if (returnArrays) {
+                  arrayRow.setValueAtIndex(rt, i, jsiValue);
+                } else {
+                  objectRow.setProperty(rt, column_name_char, jsiValue);
+                }
+              } else {
+                if (returnArrays) {
+                  arrayRow.setValueAtIndex(rt, i, jsi::Value::null());
+                } else {
+                  objectRow.setProperty(rt, column_name_char, jsi::Value::null());
+                }
+              }
+              break;
+            }
+
+            case SQLITE_BLOB:
+            {
+              int blob_size = sqlite3_column_bytes(statement, i);
+              const void *blob = sqlite3_column_blob(statement, i);
+
+              jsi::Function array_buffer_ctor = rt.global().getPropertyAsFunction(rt, "ArrayBuffer");
+              jsi::Object o = array_buffer_ctor.callAsConstructor(rt, blob_size).getObject(rt);
+              jsi::ArrayBuffer buf = o.getArrayBuffer(rt);
+              memcpy(buf.data(rt), blob, blob_size);
+
+              if (returnArrays) {
+                arrayRow.setValueAtIndex(rt, i, o);
+              } else {
+                objectRow.setProperty(rt, column_name_char, o);
+              }
+              break;
+            }
+
+            case SQLITE_NULL:
+              // Intentionally left blank to switch to default case
+            default:
+                if (returnArrays) {
+                  arrayRow.setValueAtIndex(rt, i, jsi::Value::null());
+                } else {
+                  objectRow.setProperty(rt, column_name_char, jsi::Value::null());
+                }
+              break;
+          }
+          i++;
+        }
+
+        if (returnArrays) {
+          results->push_back(move(arrayRow));
+        } else {
+          results->push_back(move(objectRow));
+        }
+        
+        break;
+      case SQLITE_DONE:
+        if(metadata != NULL)
+        {
+          i = 0;
+          count = sqlite3_column_count(statement);
+          while (i < count)
+          {
+            column_name = sqlite3_column_name(statement, i);
+            const char *tp = sqlite3_column_decltype(statement, i);
+            column_declared_type = tp != NULL ? tp : "UNKNOWN";
+            QuickColumnMetadata meta = {
+              .colunmName = column_name,
+              .columnIndex = i,
+              .columnDeclaredType = column_declared_type,
+            };
+            metadata->push_back(meta);
+            i++;
+          }
+        }
+        isConsuming = false;
+        break;
+
+      default:
+        isFailed = true;
+        isConsuming = false;
+    }
+  }
+
+  sqlite3_finalize(statement);
+
+  if (isFailed)
+  {
+    const char *message = sqlite3_errmsg(db);
+    return SQLiteOPResult{
+      .type = SQLiteError,
+      .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + string(message),
+      .rowsAffected = 0,
+      .insertId = 0
+    };
+  }
+
+  int changedRowCount = sqlite3_changes(db);
+  long long latestInsertRowId = sqlite3_last_insert_rowid(db);
+  return SQLiteOPResult{
+    .type = SQLiteOk,
+    .rowsAffected = changedRowCount,
+    .insertId = static_cast<double>(latestInsertRowId)};
+}
+
 SequelLiteralUpdateResult sqliteExecuteLiteral(string const dbName, string const &query)
 {
   // Check if db connection is opened

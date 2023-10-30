@@ -112,9 +112,15 @@ export interface FileLoadResult extends BatchQueryResult {
 export interface Transaction {
   commit: () => QueryResult;
   execute: (query: string, params?: any[]) => QueryResult;
+  execute2: (query: string, params?: any[], returnArrays?: boolean) => QueryResult;
   executeAsync: (
     query: string,
     params?: any[] | undefined
+  ) => Promise<QueryResult>;
+  executeAsync2: (
+    query: string,
+    params?: any[] | undefined,
+    returnArrays?: boolean
   ) => Promise<QueryResult>;
   rollback: () => QueryResult;
 }
@@ -148,10 +154,17 @@ interface ISQLite {
     fn: (tx: Transaction) => Promise<void> | void
   ) => Promise<void>;
   execute: (dbName: string, query: string, params?: any[]) => QueryResult;
+  execute2: (dbName: string, query: string, params?: any[], returnArrays?: boolean) => QueryResult;
   executeAsync: (
     dbName: string,
     query: string,
     params?: any[]
+  ) => Promise<QueryResult>;
+  executeAsync2: (
+    dbName: string,
+    query: string,
+    params?: any[],
+    returnArrays?: boolean
   ) => Promise<QueryResult>;
   executeBatch: (dbName: string, commands: SQLBatchTuple[]) => BatchQueryResult;
   executeBatchAsync: (
@@ -210,6 +223,18 @@ QuickSQLite.execute = (
   return result;
 };
 
+const _execute2 = QuickSQLite.execute2;
+QuickSQLite.execute2 = (
+  dbName: string,
+  query: string,
+  params?: any[] | undefined,
+  returnArrays?: boolean
+): QueryResult => {
+  const result = _execute2(dbName, query, params, returnArrays);
+  enhanceQueryResult(result);
+  return result;
+};
+
 const _executeAsync = QuickSQLite.executeAsync;
 QuickSQLite.executeAsync = async (
   dbName: string,
@@ -217,6 +242,18 @@ QuickSQLite.executeAsync = async (
   params?: any[] | undefined
 ): Promise<QueryResult> => {
   const res = await _executeAsync(dbName, query, params);
+  enhanceQueryResult(res);
+  return res;
+};
+
+const _executeAsync2 = QuickSQLite.executeAsync2;
+QuickSQLite.executeAsync2 = async (
+  dbName: string,
+  query: string,
+  params?: any[] | undefined,
+  returnArrays?: boolean
+): Promise<QueryResult> => {
+  const res = await _executeAsync2(dbName, query, params, returnArrays);
   enhanceQueryResult(res);
   return res;
 };
@@ -241,6 +278,16 @@ QuickSQLite.transaction = async (
     return QuickSQLite.execute(dbName, query, params);
   };
 
+  // Local transaction context object implementation
+  const execute2 = (query: string, params?: any[], returnArrays?: boolean): QueryResult => {
+    if (isFinalized) {
+      throw Error(
+        `Quick SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
+      );
+    }
+    return QuickSQLite.execute2(dbName, query, params, returnArrays);
+  };
+
   const executeAsync = (query: string, params?: any[] | undefined) => {
     if (isFinalized) {
       throw Error(
@@ -248,6 +295,15 @@ QuickSQLite.transaction = async (
       );
     }
     return QuickSQLite.executeAsync(dbName, query, params);
+  };
+
+  const executeAsync2 = (query: string, params?: any[] | undefined, returnArrays?: boolean) => {
+    if (isFinalized) {
+      throw Error(
+        `Quick SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
+      );
+    }
+    return QuickSQLite.executeAsync2(dbName, query, params, returnArrays);
   };
 
   const commit = () => {
@@ -279,7 +335,9 @@ QuickSQLite.transaction = async (
       await fn({
         commit,
         execute,
+        execute2,
         executeAsync,
+        executeAsync2,
         rollback,
       });
 
@@ -422,7 +480,9 @@ export type QuickSQLiteConnection = {
   detach: (alias: string) => void;
   transaction: (fn: (tx: Transaction) => Promise<void> | void) => Promise<void>;
   execute: (query: string, params?: any[]) => QueryResult;
+  execute2: (query: string, params?: any[], returnArrays?: boolean) => QueryResult;
   executeAsync: (query: string, params?: any[]) => Promise<QueryResult>;
+  executeAsync2: (query: string, params?: any[], returnArrays?: boolean) => Promise<QueryResult>;
   executeBatch: (commands: SQLBatchTuple[]) => BatchQueryResult;
   executeBatchAsync: (commands: SQLBatchTuple[]) => Promise<BatchQueryResult>;
   loadFile: (location: string) => FileLoadResult;
@@ -445,11 +505,19 @@ export const open = (options: {
       QuickSQLite.transaction(options.name, fn),
     execute: (query: string, params?: any[] | undefined): QueryResult =>
       QuickSQLite.execute(options.name, query, params),
+    execute2: (query: string, params?: any[] | undefined, returnArrays?: boolean | undefined): QueryResult =>
+      QuickSQLite.execute2(options.name, query, params, returnArrays),
     executeAsync: (
       query: string,
       params?: any[] | undefined
     ): Promise<QueryResult> =>
       QuickSQLite.executeAsync(options.name, query, params),
+    executeAsync2: (
+      query: string,
+      params?: any[] | undefined,
+      returnArrays?: boolean | undefined
+    ): Promise<QueryResult> =>
+      QuickSQLite.executeAsync2(options.name, query, params, returnArrays),
     executeBatch: (commands: SQLBatchTuple[]) =>
       QuickSQLite.executeBatch(options.name, commands),
     executeBatchAsync: (commands: SQLBatchTuple[]) =>
