@@ -550,7 +550,9 @@ void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker
   module.setProperty(rt, "detach", move(detach));
   module.setProperty(rt, "delete", move(remove));
   module.setProperty(rt, "execute", move(execute));
+  module.setProperty(rt, "execute2", move(execute2));
   module.setProperty(rt, "executeAsync", move(executeAsync));
+  module.setProperty(rt, "executeAsync2", move(executeAsync2));
   module.setProperty(rt, "executeBatch", move(executeBatch));
   module.setProperty(rt, "executeBatchAsync", move(executeBatchAsync));
   module.setProperty(rt, "loadFile", move(loadFile));
