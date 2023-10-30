@@ -110,5 +110,6 @@ QuickValue createInt64QuickValue(long long value);
 QuickValue createDoubleQuickValue(double value);
 QuickValue createArrayBufferQuickValue(uint8_t *arrayBufferValue, size_t arrayBufferSize);
 jsi::Value createSequelQueryExecutionResult(jsi::Runtime &rt, SQLiteOPResult status, vector<map<string, QuickValue>> *results, vector<QuickColumnMetadata> *metadata);
+jsi::Value createSequelQueryExecutionResult2(jsi::Runtime &rt, SQLiteOPResult status, jsi::Array &results, vector<QuickColumnMetadata> *metadata);
 
 #endif /* JSIHelper_h */

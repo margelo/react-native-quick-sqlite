@@ -205,3 +205,45 @@ jsi::Value createSequelQueryExecutionResult(jsi::Runtime &rt, SQLiteOPResult sta
 
   return move(res);
 }
+
+jsi::Value createSequelQueryExecutionResult2(jsi::Runtime &rt, SQLiteOPResult status, jsi::Array &results, vector<QuickColumnMetadata> *metadata)
+{
+  if(status.type == SQLiteError) {
+    throw std::invalid_argument(status.errorMessage);
+  }
+
+  jsi::Object res = jsi::Object(rt);
+
+  res.setProperty(rt, "rowsAffected", jsi::Value(status.rowsAffected));
+  if (status.rowsAffected > 0 && status.insertId != 0)
+  {
+    res.setProperty(rt, "insertId", jsi::Value(status.insertId));
+  }
+
+  // Converting row results into objects
+  size_t rowCount = results.size(rt);
+  jsi::Object rows = jsi::Object(rt);
+  if (rowCount > 0)
+  {
+    rows.setProperty(rt, "_array", move(results));
+    res.setProperty(rt, "rows", move(rows));
+  }
+
+  if(metadata != NULL)
+  {
+    size_t column_count = metadata->size();
+    auto column_array = jsi::Array(rt, column_count);
+    for (int i = 0; i < column_count; i++) {
+      auto column = metadata->at(i);
+      jsi::Object column_object = jsi::Object(rt);
+      column_object.setProperty(rt, "columnName", jsi::String::createFromUtf8(rt, column.colunmName.c_str()));
+      column_object.setProperty(rt, "columnDeclaredType", jsi::String::createFromUtf8(rt, column.columnDeclaredType.c_str()));
+      column_object.setProperty(rt, "columnIndex", jsi::Value(column.columnIndex));
+      column_array.setValueAtIndex(rt, i, move(column_object));
+    }
+    res.setProperty(rt, "metadata", move(column_array));
+  }
+  rows.setProperty(rt, "length", jsi::Value((int)rowCount));
+
+  return move(res);
+}

@@ -206,6 +206,51 @@ void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker
     }
   });
 
+
+  auto execute2 = HOSTFN("execute2", 4)
+  {
+    const string dbName = args[0].asString(rt).utf8(rt);
+    const string query = args[1].asString(rt).utf8(rt);
+    vector<QuickValue> params;
+    bool returnArrays = false;
+    if(count > 2) {
+      const jsi::Value &originalParams = args[2];
+      jsiQueryArgumentsToSequelParam(rt, originalParams, &params);
+    }
+
+    if (count == 4) {
+      returnArrays = args[3].asBool();
+    }
+
+    vector<jsi::Object> results;
+    vector<QuickColumnMetadata> metadata;
+
+    // Converting results into a JSI Response
+    try {
+      auto status = sqliteExecute2(rt, dbName, query, &params, returnArrays, &results, &metadata);
+
+      if(status.type == SQLiteError) {
+//        throw std::runtime_error(status.errorMessage);
+        throw jsi::JSError(rt, status.errorMessage);
+//        return {};
+      }
+
+      jsi::Array ar = jsi::Array(rt, results.size());
+
+      int i = 0;
+      for (auto const& result : results) {
+        ar.setValueAtIndex(rt, i, move(result));
+        i++;
+      }
+      
+      auto jsiResult = createSequelQueryExecutionResult2(rt, status, ar, &metadata);
+
+      return jsiResult;
+    } catch(std::exception &e) {
+      throw jsi::JSError(rt, e.what());
+    }
+  });
+
   auto executeAsync = HOSTFN("executeAsync", 3)
   {
     if (count < 3)
@@ -242,6 +287,73 @@ void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker
             } else {
               auto errorCtr = rt.global().getPropertyAsFunction(rt, "Error");
               auto error = errorCtr.callAsConstructor(rt, jsi::String::createFromUtf8(rt, status_copy.errorMessage));
+              reject->asObject(rt).asFunction(rt).call(rt, error);
+            }
+          });
+
+        }
+        catch (std::exception &exc)
+        {
+          invoker->invokeAsync([&rt, &exc] {
+            jsi::JSError(rt, exc.what());
+          });
+        }
+      };
+
+      pool->queueWork(task);
+
+      return {};
+    }));
+
+    return promise;
+  });
+
+
+  auto executeAsync2 = HOSTFN("executeAsync2", 4)
+  {
+    if (count < 4)
+    {
+      throw jsi::JSError(rt, "[react-native-quick-sqlite][executeAsync2] Incorrect arguments for executeAsync2");
+    }
+
+    const string dbName = args[0].asString(rt).utf8(rt);
+    const string query = args[1].asString(rt).utf8(rt);
+    const jsi::Value &originalParams = args[2];
+    const bool returnArrays = args[3].asBool();
+
+    // Converting query parameters inside the javascript caller thread
+    vector<QuickValue> params;
+    jsiQueryArgumentsToSequelParam(rt, originalParams, &params);
+
+    auto promiseCtr = rt.global().getPropertyAsFunction(rt, "Promise");
+    auto promise = promiseCtr.callAsConstructor(rt, HOSTFN("executor", 2) {
+      auto resolve = std::make_shared<jsi::Value>(rt, args[0]);
+      auto reject = std::make_shared<jsi::Value>(rt, args[1]);
+
+      auto task =
+      [&rt, dbName, query, params = make_shared<vector<QuickValue>>(params), returnArrays, resolve, reject]()
+      {
+        try
+        {
+          invoker->invokeAsync([&rt, dbName, query, params, returnArrays, resolve, reject]
+                               {
+          vector<jsi::Object> results;
+          vector<QuickColumnMetadata> metadata;
+          auto status = sqliteExecute2(rt, dbName, query, params.get(), returnArrays, &results, &metadata);
+            if(status.type == SQLiteOk) {
+              jsi::Array ar = jsi::Array(rt, results.size());
+
+              int i = 0;
+              for (auto const& result : results) {
+                ar.setValueAtIndex(rt, i, move(result));
+                i++;
+              }
+
+              auto jsiResult = createSequelQueryExecutionResult2(rt, status, ar, &metadata);
+              resolve->asObject(rt).asFunction(rt).call(rt, move(jsiResult));
+            } else {
+              auto errorCtr = rt.global().getPropertyAsFunction(rt, "Error");
+              auto error = errorCtr.callAsConstructor(rt, jsi::String::createFromUtf8(rt, status.errorMessage));
               reject->asObject(rt).asFunction(rt).call(rt, error);
             }
           });
@@ -438,7 +550,9 @@ void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker
   module.setProperty(rt, "detach", move(detach));
   module.setProperty(rt, "delete", move(remove));
   module.setProperty(rt, "execute", move(execute));
+  module.setProperty(rt, "execute2", move(execute2));
   module.setProperty(rt, "executeAsync", move(executeAsync));
+  module.setProperty(rt, "executeAsync2", move(executeAsync2));
   module.setProperty(rt, "executeBatch", move(executeBatch));
   module.setProperty(rt, "executeBatchAsync", move(executeBatchAsync));
   module.setProperty(rt, "loadFile", move(loadFile));
