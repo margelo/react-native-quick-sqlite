@@ -1442,6 +1442,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@sqlite.org/sqlite-wasm@^3.45.0-build1":
+  version "3.45.0-build1"
+  resolved "https://registry.yarnpkg.com/@sqlite.org/sqlite-wasm/-/sqlite-wasm-3.45.0-build1.tgz#5a89fa4c41060cb5b7fdfd85d24398d141eaf779"
+  integrity sha512-QAwE4n16t82g8kbhpuBzy6pzh7bm5VKziNKwQHmIPmtCBUk2AlUndsGS5qL8pAfOrrafXq9xILa0LdZkPFetgA==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz#8467d4b3c087805d63580480890791277ce35c44"

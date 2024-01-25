@@ -76,5 +76,7 @@
       ]
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "@sqlite.org/sqlite-wasm": "^3.45.0-build1"
+  }
 }

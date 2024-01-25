@@ -1679,6 +1679,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@sqlite.org/sqlite-wasm@^3.45.0-build1":
+  version "3.45.0-build1"
+  resolved "https://registry.yarnpkg.com/@sqlite.org/sqlite-wasm/-/sqlite-wasm-3.45.0-build1.tgz#5a89fa4c41060cb5b7fdfd85d24398d141eaf779"
+  integrity sha512-QAwE4n16t82g8kbhpuBzy6pzh7bm5VKziNKwQHmIPmtCBUk2AlUndsGS5qL8pAfOrrafXq9xILa0LdZkPFetgA==
+
 "@sqltools/formatter@^1.2.2":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.5.tgz#3abc203c79b8c3e90fd6c156a0c62d5403520e12"
@@ -4960,7 +4965,9 @@ react-native-quick-base64@^2.0.5:
     base64-js "^1.5.1"
 
 react-native-quick-sqlite@./..:
-  version "8.0.0-beta.1"
+  version "8.0.6"
+  dependencies:
+    "@sqlite.org/sqlite-wasm" "^3.45.0-build1"
 
 react-native-safe-area-context@^4.5.0:
   version "4.5.0"
