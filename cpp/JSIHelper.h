@@ -22,13 +22,13 @@ using namespace facebook;
  */
 enum QuickDataType
 {
-  NULL_VALUE,
-  TEXT,
-  INTEGER,
-  INT64,
-  DOUBLE,
-  BOOLEAN,
-  ARRAY_BUFFER,
+	NULL_VALUE,
+	TEXT,
+	INTEGER,
+	INT64,
+	DOUBLE,
+	BOOLEAN,
+	ARRAY_BUFFER,
 };
 
 /**
@@ -36,13 +36,13 @@ enum QuickDataType
  */
 struct QuickValue
 {
-  QuickDataType dataType;
-  int booleanValue;
-  double doubleOrIntValue;
-  long long int64Value;
-  string textValue;
-  shared_ptr<uint8_t> arrayBufferValue;
-  size_t arrayBufferSize;
+	QuickDataType dataType;
+	int booleanValue;
+	double doubleOrIntValue;
+	long long int64Value;
+	string textValue;
+	shared_ptr<uint8_t> arrayBufferValue;
+	size_t arrayBufferSize;
 };
 
 /**
@@ -50,8 +50,8 @@ struct QuickValue
  */
 struct QuickColumnValue
 {
-  QuickValue value;
-  string columnName;
+	QuickValue value;
+	string columnName;
 };
 
 /**
@@ -59,31 +59,31 @@ struct QuickColumnValue
  */
 enum ResultType
 {
-  SQLiteOk,
-  SQLiteError
+	SQLiteOk,
+	SQLiteError
 };
 
 struct SQLiteOPResult
 {
-  ResultType type;
-  string errorMessage;
-  int rowsAffected;
-  double insertId;
+	ResultType type;
+	string errorMessage;
+	int rowsAffected;
+	double insertId;
 };
 
 struct SequelLiteralUpdateResult
 {
-  ResultType type;
-  string message;
-  int affectedRows;
+	ResultType type;
+	string message;
+	int affectedRows;
 };
 
 struct SequelBatchOperationResult
 {
-  ResultType type;
-  string message;
-  int affectedRows;
-  int commands;
+	ResultType type;
+	string message;
+	int affectedRows;
+	int commands;
 };
 
 /**
@@ -91,9 +91,9 @@ struct SequelBatchOperationResult
  */
 struct QuickColumnMetadata
 {
-  string colunmName;
-  int columnIndex;
-  string columnDeclaredType;
+	string columnName;
+	int columnIndex;
+	string columnDeclaredType;
 };
 
 /**
