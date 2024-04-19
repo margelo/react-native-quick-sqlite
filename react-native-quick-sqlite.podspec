@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.header_mappings_dir = "cpp"
   s.source_files = "ios/**/*.{h,hpp,m,mm}", "cpp/**/*.{h,cpp,c}"
 
-  if defined?(install_modules_dependencies()) != nil
+  if defined?(install_modules_dependencies())
     install_modules_dependencies(s)
   else
     s.dependency "React-callinvoker"
