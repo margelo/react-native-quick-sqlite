@@ -22,9 +22,13 @@ Pod::Spec.new do |s|
   s.header_mappings_dir = "cpp"
   s.source_files = "ios/**/*.{h,hpp,m,mm}", "cpp/**/*.{h,cpp,c}"
 
-  s.dependency "React-callinvoker"
-  s.dependency "React"
-  s.dependency "React-Core"
+  if defined?(install_modules_dependencies())
+    install_modules_dependencies(s)
+  else
+    s.dependency "React-callinvoker"
+    s.dependency "React"
+    s.dependency "React-Core"
+  end
 
   if ENV['QUICK_SQLITE_USE_PHONE_VERSION'] == '1' then
     s.exclude_files = "cpp/sqlite3.c", "cpp/sqlite3.h"
