@@ -24,7 +24,7 @@ let QuickSqliteModule: Spec | undefined = isTurboModuleEnabled
 if (!isTurboModuleEnabled) {
   // Check if the constructor exists. If not, try installing the JSI bindings.
   if (QuickSqliteModule == null) {
-    // Get the native Encryptify ReactModule
+    // Get the native RNQuickSQLite ReactModule
     const QuickSqliteBridgeModule = NativeModules.QuickSQLite;
 
     if (QuickSqliteBridgeModule == null) {
