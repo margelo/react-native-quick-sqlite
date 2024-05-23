@@ -27,6 +27,7 @@
     "prepare": "bob build",
     "example": "yarn --cwd example",
     "pods": "cd example/ios && bundle exec pod install",
+    "codegen": "node node_modules/react-native/scripts/generate-codegen-artifacts.js --path . --outputPath ios",
     "bootstrap": "yarn example && yarn && yarn pods",
     "bump": "./bump-version.sh"
   },
