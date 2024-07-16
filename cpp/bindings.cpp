@@ -9,6 +9,7 @@
 #include <string>
 #include "macros.h"
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 using namespace facebook;
@@ -21,8 +22,11 @@ void clearState() {
   sqliteCloseAll(); 
 }
 
-void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker, const char *docPath)
+void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker, const char *docPath, const char *cachePath)
 {
+  // android 12 fix
+  setenv("TMPDIR", cachePath, 1);
+
   docPathStr = std::string(docPath);
   auto pool = std::make_shared<ThreadPool>();
   invoker = jsCallInvoker;

@@ -52,8 +52,9 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
     documentPath = [paths objectAtIndex:0];
   }
+  NSString *cachePath = NSTemporaryDirectory();
 
-  osp::install(runtime, callInvoker, [documentPath UTF8String]);
+  osp::install(runtime, callInvoker, [documentPath UTF8String], [cachePath UTF8String]);
   return @true;
 }
 
