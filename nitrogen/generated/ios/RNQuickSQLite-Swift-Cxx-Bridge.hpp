@@ -17,10 +17,12 @@ namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
-// Forward declaration of `QueryResultRow` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct QueryResultRow; }
+// Forward declaration of `QueryResultRows` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResultRows; }
 // Forward declaration of `QueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
+// Forward declaration of `QuickValue` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QuickValue; }
 // Forward declaration of `Transaction` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
@@ -29,7 +31,8 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include "ColumnMetadata.hpp"
 #include "FileLoadResult.hpp"
 #include "QueryResult.hpp"
-#include "QueryResultRow.hpp"
+#include "QueryResultRows.hpp"
+#include "QuickValue.hpp"
 #include "Transaction.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <NitroModules/PromiseHolder.hpp>
@@ -49,45 +52,11 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 namespace margelo::nitro::rnquicksqlite::bridge::swift {
 
   /**
-   * Specialized version of `std::function<void(const std::string& / * dbName * /, const std::string& / * location * /)>`.
+   * Specialized version of `std::optional<std::string>`.
    */
-  using Func_void_std__string_std__string = std::function<void(const std::string& /* dbName */, const std::string& /* location */)>;
-  inline Func_void_std__string_std__string create_Func_void_std__string_std__string(void* closureHolder, void(*call)(void* /* closureHolder */, std::string, std::string), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::string& location) -> void {
-      call(sharedClosureHolder.get(), dbName, location);
-    };
-  }
-  inline std::shared_ptr<Func_void_std__string_std__string> share_Func_void_std__string_std__string(const Func_void_std__string_std__string& value) {
-    return std::make_shared<Func_void_std__string_std__string>(value);
-  }
-  
-  /**
-   * Specialized version of `std::function<void(const std::string& / * dbName * /)>`.
-   */
-  using Func_void_std__string = std::function<void(const std::string& /* dbName */)>;
-  inline Func_void_std__string create_Func_void_std__string(void* closureHolder, void(*call)(void* /* closureHolder */, std::string), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName) -> void {
-      call(sharedClosureHolder.get(), dbName);
-    };
-  }
-  inline std::shared_ptr<Func_void_std__string> share_Func_void_std__string(const Func_void_std__string& value) {
-    return std::make_shared<Func_void_std__string>(value);
-  }
-  
-  /**
-   * Specialized version of `std::function<void(const std::string& / * mainDbName * /, const std::string& / * dbNameToAttach * /, const std::string& / * alias * /, const std::string& / * location * /)>`.
-   */
-  using Func_void_std__string_std__string_std__string_std__string = std::function<void(const std::string& /* mainDbName */, const std::string& /* dbNameToAttach */, const std::string& /* alias */, const std::string& /* location */)>;
-  inline Func_void_std__string_std__string_std__string_std__string create_Func_void_std__string_std__string_std__string_std__string(void* closureHolder, void(*call)(void* /* closureHolder */, std::string, std::string, std::string, std::string), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias, const std::string& location) -> void {
-      call(sharedClosureHolder.get(), mainDbName, dbNameToAttach, alias, location);
-    };
-  }
-  inline std::shared_ptr<Func_void_std__string_std__string_std__string_std__string> share_Func_void_std__string_std__string_std__string_std__string(const Func_void_std__string_std__string_std__string_std__string& value) {
-    return std::make_shared<Func_void_std__string_std__string_std__string_std__string>(value);
+  using std__optional_std__string_ = std::optional<std::string>;
+  inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) {
+    return std::optional<std::string>(value);
   }
   
   /**
@@ -107,54 +76,44 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::vector<std::nullptr_t>`.
+   * Specialized version of `std::vector<QuickValue>`.
    */
-  using std__vector_std__nullptr_t_ = std::vector<std::nullptr_t>;
-  inline std::vector<std::nullptr_t> create_std__vector_std__nullptr_t_(size_t size) {
-    std::vector<std::nullptr_t> vector;
+  using std__vector_QuickValue_ = std::vector<QuickValue>;
+  inline std::vector<QuickValue> create_std__vector_QuickValue_(size_t size) {
+    std::vector<QuickValue> vector;
     vector.reserve(size);
     return vector;
   }
   
   /**
-   * Specialized version of `std::function<std::future<std::nullptr_t>(double / * idx * /)>`.
+   * Specialized version of `std::function<std::future<QuickValue>(double / * idx * /)>`.
    */
-  using Func_std__future_std__nullptr_t__double = std::function<std::future<std::nullptr_t>(double /* idx */)>;
-  inline Func_std__future_std__nullptr_t__double create_Func_std__future_std__nullptr_t__double(void* closureHolder, PromiseHolder<std::nullptr_t>(*call)(void* /* closureHolder */, double), void(*destroy)(void*)) {
+  using Func_std__future_QuickValue__double = std::function<std::future<QuickValue>(double /* idx */)>;
+  inline Func_std__future_QuickValue__double create_Func_std__future_QuickValue__double(void* closureHolder, PromiseHolder<QuickValue>(*call)(void* /* closureHolder */, double), void(*destroy)(void*)) {
     std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](double idx) -> std::future<std::nullptr_t> {
+    return [sharedClosureHolder, call](double idx) -> std::future<QuickValue> {
       auto result = call(sharedClosureHolder.get(), idx);
       return result.getFuture();
     };
   }
-  inline std::shared_ptr<Func_std__future_std__nullptr_t__double> share_Func_std__future_std__nullptr_t__double(const Func_std__future_std__nullptr_t__double& value) {
-    return std::make_shared<Func_std__future_std__nullptr_t__double>(value);
+  inline std::shared_ptr<Func_std__future_QuickValue__double> share_Func_std__future_QuickValue__double(const Func_std__future_QuickValue__double& value) {
+    return std::make_shared<Func_std__future_QuickValue__double>(value);
   }
   
   /**
-   * Specialized version of `PromiseHolder<std::nullptr_t>`.
+   * Specialized version of `PromiseHolder<QuickValue>`.
    */
-  using PromiseHolder_std__nullptr_t_ = PromiseHolder<std::nullptr_t>;
-  inline PromiseHolder<std::nullptr_t> create_PromiseHolder_std__nullptr_t_() {
-    return PromiseHolder<std::nullptr_t>();
+  using PromiseHolder_QuickValue_ = PromiseHolder<QuickValue>;
+  inline PromiseHolder<QuickValue> create_PromiseHolder_QuickValue_() {
+    return PromiseHolder<QuickValue>();
   }
   
   /**
-   * Specialized version of `std::vector<QueryResultRow>`.
+   * Specialized version of `std::optional<QueryResultRows>`.
    */
-  using std__vector_QueryResultRow_ = std::vector<QueryResultRow>;
-  inline std::vector<QueryResultRow> create_std__vector_QueryResultRow_(size_t size) {
-    std::vector<QueryResultRow> vector;
-    vector.reserve(size);
-    return vector;
-  }
-  
-  /**
-   * Specialized version of `std::optional<std::vector<QueryResultRow>>`.
-   */
-  using std__optional_std__vector_QueryResultRow__ = std::optional<std::vector<QueryResultRow>>;
-  inline std::optional<std::vector<QueryResultRow>> create_std__optional_std__vector_QueryResultRow__(const std::vector<QueryResultRow>& value) {
-    return std::optional<std::vector<QueryResultRow>>(value);
+  using std__optional_QueryResultRows_ = std::optional<QueryResultRows>;
+  inline std::optional<QueryResultRows> create_std__optional_QueryResultRows_(const QueryResultRows& value) {
+    return std::optional<QueryResultRows>(value);
   }
   
   /**
@@ -295,48 +254,11 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::function<std::future<std::future<void>>(const std::string& / * dbName * /, const std::function<std::future<std::future<void>>(const Transaction& / * tx * /)>& / * fn * /)>`.
+   * Specialized version of `std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
    */
-  using Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____ = std::function<std::future<std::future<void>>(const std::string& /* dbName */, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& /* fn */)>;
-  inline Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____ create_Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____(void* closureHolder, PromiseHolder<std::future<void>>(*call)(void* /* closureHolder */, std::string, std::function<std::future<std::future<void>>(const Transaction& /* tx */)>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& fn) -> std::future<std::future<void>> {
-      auto result = call(sharedClosureHolder.get(), dbName, fn);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____> share_Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____(const Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____& value) {
-    return std::make_shared<Func_std__future_std__future_void___std__string_std__function_std__future_std__future_void___const_Transaction_____tx_____>(value);
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<QueryResult>(const std::string& / * dbName * /, const std::string& / * query * /, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& / * params * /)>`.
-   */
-  using Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::function<std::future<QueryResult>(const std::string& /* dbName */, const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>;
-  inline Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */, std::string, std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::string& query, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& params) -> std::future<QueryResult> {
-      auto result = call(sharedClosureHolder.get(), dbName, query, params);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__> share_Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& value) {
-    return std::make_shared<Func_std__future_QueryResult__std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__>(value);
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<std::future<QueryResult>>(const std::string& / * dbName * /, const std::string& / * query * /, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& / * params * /)>`.
-   */
-  using Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::function<std::future<std::future<QueryResult>>(const std::string& /* dbName */, const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>;
-  inline Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(void* closureHolder, PromiseHolder<std::future<QueryResult>>(*call)(void* /* closureHolder */, std::string, std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::string& query, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& params) -> std::future<std::future<QueryResult>> {
-      auto result = call(sharedClosureHolder.get(), dbName, query, params);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__> share_Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& value) {
-    return std::make_shared<Func_std__future_std__future_QueryResult___std__string_std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__>(value);
+  using std__optional_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
+  inline std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__optional_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& value) {
+    return std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>(value);
   }
   
   /**
@@ -345,6 +267,16 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   using std__tuple_std__string_ = std::tuple<std::string>;
   inline std::tuple<std::string> create_std__tuple_std__string_(const std::string& arg0) {
     return std::tuple<std::string> { arg0 };
+  }
+  
+  /**
+   * Specialized version of `std::vector<std::nullptr_t>`.
+   */
+  using std__vector_std__nullptr_t_ = std::vector<std::nullptr_t>;
+  inline std::vector<std::nullptr_t> create_std__vector_std__nullptr_t_(size_t size) {
+    std::vector<std::nullptr_t> vector;
+    vector.reserve(size);
+    return vector;
   }
   
   /**
@@ -410,21 +342,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::function<std::future<BatchQueryResult>(const std::string& / * dbName * /, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& / * commands * /)>`.
-   */
-  using Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______ = std::function<std::future<BatchQueryResult>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& /* commands */)>;
-  inline Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______ create_Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______(void* closureHolder, PromiseHolder<BatchQueryResult>(*call)(void* /* closureHolder */, std::string, std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) -> std::future<BatchQueryResult> {
-      auto result = call(sharedClosureHolder.get(), dbName, commands);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______> share_Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______(const Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______& value) {
-    return std::make_shared<Func_std__future_BatchQueryResult__std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______>(value);
-  }
-  
-  /**
    * Specialized version of `PromiseHolder<BatchQueryResult>`.
    */
   using PromiseHolder_BatchQueryResult_ = PromiseHolder<BatchQueryResult>;
@@ -433,72 +350,11 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::function<std::future<std::future<BatchQueryResult>>(const std::string& / * dbName * /, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& / * commands * /)>`.
-   */
-  using Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______ = std::function<std::future<std::future<BatchQueryResult>>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& /* commands */)>;
-  inline Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______ create_Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______(void* closureHolder, PromiseHolder<std::future<BatchQueryResult>>(*call)(void* /* closureHolder */, std::string, std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) -> std::future<std::future<BatchQueryResult>> {
-      auto result = call(sharedClosureHolder.get(), dbName, commands);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______> share_Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______(const Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______& value) {
-    return std::make_shared<Func_std__future_std__future_BatchQueryResult___std__string_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______>(value);
-  }
-  
-  /**
-   * Specialized version of `PromiseHolder<std::future<BatchQueryResult>>`.
-   */
-  using PromiseHolder_std__future_BatchQueryResult__ = PromiseHolder<std::future<BatchQueryResult>>;
-  inline PromiseHolder<std::future<BatchQueryResult>> create_PromiseHolder_std__future_BatchQueryResult__() {
-    return PromiseHolder<std::future<BatchQueryResult>>();
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<FileLoadResult>(const std::string& / * dbName * /, const std::string& / * location * /)>`.
-   */
-  using Func_std__future_FileLoadResult__std__string_std__string = std::function<std::future<FileLoadResult>(const std::string& /* dbName */, const std::string& /* location */)>;
-  inline Func_std__future_FileLoadResult__std__string_std__string create_Func_std__future_FileLoadResult__std__string_std__string(void* closureHolder, PromiseHolder<FileLoadResult>(*call)(void* /* closureHolder */, std::string, std::string), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::string& location) -> std::future<FileLoadResult> {
-      auto result = call(sharedClosureHolder.get(), dbName, location);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_FileLoadResult__std__string_std__string> share_Func_std__future_FileLoadResult__std__string_std__string(const Func_std__future_FileLoadResult__std__string_std__string& value) {
-    return std::make_shared<Func_std__future_FileLoadResult__std__string_std__string>(value);
-  }
-  
-  /**
    * Specialized version of `PromiseHolder<FileLoadResult>`.
    */
   using PromiseHolder_FileLoadResult_ = PromiseHolder<FileLoadResult>;
   inline PromiseHolder<FileLoadResult> create_PromiseHolder_FileLoadResult_() {
     return PromiseHolder<FileLoadResult>();
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<std::future<FileLoadResult>>(const std::string& / * dbName * /, const std::string& / * location * /)>`.
-   */
-  using Func_std__future_std__future_FileLoadResult___std__string_std__string = std::function<std::future<std::future<FileLoadResult>>(const std::string& /* dbName */, const std::string& /* location */)>;
-  inline Func_std__future_std__future_FileLoadResult___std__string_std__string create_Func_std__future_std__future_FileLoadResult___std__string_std__string(void* closureHolder, PromiseHolder<std::future<FileLoadResult>>(*call)(void* /* closureHolder */, std::string, std::string), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& dbName, const std::string& location) -> std::future<std::future<FileLoadResult>> {
-      auto result = call(sharedClosureHolder.get(), dbName, location);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_std__future_FileLoadResult___std__string_std__string> share_Func_std__future_std__future_FileLoadResult___std__string_std__string(const Func_std__future_std__future_FileLoadResult___std__string_std__string& value) {
-    return std::make_shared<Func_std__future_std__future_FileLoadResult___std__string_std__string>(value);
-  }
-  
-  /**
-   * Specialized version of `PromiseHolder<std::future<FileLoadResult>>`.
-   */
-  using PromiseHolder_std__future_FileLoadResult__ = PromiseHolder<std::future<FileLoadResult>>;
-  inline PromiseHolder<std::future<FileLoadResult>> create_PromiseHolder_std__future_FileLoadResult__() {
-    return PromiseHolder<std::future<FileLoadResult>>();
   }
 
 } // namespace margelo::nitro::rnquicksqlite::bridge::swift

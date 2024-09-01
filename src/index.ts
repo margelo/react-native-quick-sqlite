@@ -1,6 +1,7 @@
 import { NitroModules } from 'react-native-nitro-modules';
 import { QuickSQLite } from 'src/specs/QuickSQLite.nitro';
 import {
+  ExecuteParams,
   PendingTransaction,
   QueryResult,
   QuickSQLiteConnection,
@@ -52,7 +53,7 @@ const _execute = QuickSQLite.execute;
 QuickSQLite.execute = (
   dbName: string,
   query: string,
-  params?: any[] | undefined
+  params?: ExecuteParams
 ): QueryResult => {
   const result = _execute(dbName, query, params);
   enhanceQueryResult(result);
@@ -63,7 +64,7 @@ const _executeAsync = QuickSQLite.executeAsync;
 QuickSQLite.executeAsync = async (
   dbName: string,
   query: string,
-  params?: any[] | undefined
+  params?: ExecuteParams
 ): Promise<QueryResult> => {
   const res = await _executeAsync(dbName, query, params);
   enhanceQueryResult(res);
@@ -81,7 +82,7 @@ QuickSQLite.transaction = async (
   let isFinalized = false;
 
   // Local transaction context object implementation
-  const execute = (query: string, params?: any[]): QueryResult => {
+  const execute = (query: string, params?: ExecuteParams): QueryResult => {
     if (isFinalized) {
       throw Error(
         `Quick SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
@@ -90,7 +91,7 @@ QuickSQLite.transaction = async (
     return QuickSQLite.execute(dbName, query, params);
   };
 
-  const executeAsync = (query: string, params?: any[] | undefined) => {
+  const executeAsync = (query: string, params?: ExecuteParams) => {
     if (isFinalized) {
       throw Error(
         `Quick SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
@@ -209,7 +210,7 @@ export const typeORMDriver = {
       const connection = {
         executeSql: async (
           sql: string,
-          params: any[] | undefined,
+          params: ExecuteParams | undefined,
           ok: (res: QueryResult) => void,
           fail: (msg: string) => void
         ) => {
@@ -278,11 +279,11 @@ export const open = (options: {
     detach: (alias: string) => QuickSQLite.detach(options.name, alias),
     transaction: (fn: (tx: Transaction) => Promise<void> | void) =>
       QuickSQLite.transaction(options.name, fn),
-    execute: (query: string, params?: any[] | undefined): QueryResult =>
+    execute: (query: string, params?: ExecuteParams | undefined): QueryResult =>
       QuickSQLite.execute(options.name, query, params),
     executeAsync: (
       query: string,
-      params?: any[] | undefined
+      params?: ExecuteParams | undefined
     ): Promise<QueryResult> =>
       QuickSQLite.executeAsync(options.name, query, params),
     executeBatch: (commands: SQLBatchTuple[]) =>

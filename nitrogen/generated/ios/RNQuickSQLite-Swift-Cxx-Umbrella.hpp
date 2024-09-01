@@ -17,10 +17,14 @@ namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
-// Forward declaration of `QueryResultRow` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct QueryResultRow; }
+// Forward declaration of `QueryResultRows` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResultRows; }
 // Forward declaration of `QueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
+// Forward declaration of `QuickDataType` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { enum class QuickDataType; }
+// Forward declaration of `QuickValue` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QuickValue; }
 // Forward declaration of `Transaction` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
@@ -29,7 +33,9 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include "ColumnMetadata.hpp"
 #include "FileLoadResult.hpp"
 #include "QueryResult.hpp"
-#include "QueryResultRow.hpp"
+#include "QueryResultRows.hpp"
+#include "QuickDataType.hpp"
+#include "QuickValue.hpp"
 #include "Transaction.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <functional>

@@ -19,14 +19,14 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `QueryResultRow` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct QueryResultRow; }
+// Forward declaration of `QueryResultRows` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResultRows; }
 // Forward declaration of `ColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 
 #include <optional>
+#include "QueryResultRows.hpp"
 #include <vector>
-#include "QueryResultRow.hpp"
 #include "ColumnMetadata.hpp"
 
 namespace margelo::nitro::rnquicksqlite {
@@ -38,11 +38,11 @@ namespace margelo::nitro::rnquicksqlite {
   public:
     std::optional<double> insertId     SWIFT_PRIVATE;
     double rowsAffected     SWIFT_PRIVATE;
-    std::optional<std::vector<QueryResultRow>> rows     SWIFT_PRIVATE;
+    std::optional<QueryResultRows> rows     SWIFT_PRIVATE;
     std::optional<std::vector<ColumnMetadata>> metadata     SWIFT_PRIVATE;
 
   public:
-    explicit QueryResult(std::optional<double> insertId, double rowsAffected, std::optional<std::vector<QueryResultRow>> rows, std::optional<std::vector<ColumnMetadata>> metadata): insertId(insertId), rowsAffected(rowsAffected), rows(rows), metadata(metadata) {}
+    explicit QueryResult(std::optional<double> insertId, double rowsAffected, std::optional<QueryResultRows> rows, std::optional<std::vector<ColumnMetadata>> metadata): insertId(insertId), rowsAffected(rowsAffected), rows(rows), metadata(metadata) {}
   };
 
 } // namespace margelo::nitro::rnquicksqlite
@@ -59,7 +59,7 @@ namespace margelo::nitro {
       return QueryResult(
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "insertId")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "rowsAffected")),
-        JSIConverter<std::optional<std::vector<QueryResultRow>>>::fromJSI(runtime, obj.getProperty(runtime, "rows")),
+        JSIConverter<std::optional<QueryResultRows>>::fromJSI(runtime, obj.getProperty(runtime, "rows")),
         JSIConverter<std::optional<std::vector<ColumnMetadata>>>::fromJSI(runtime, obj.getProperty(runtime, "metadata"))
       );
     }
@@ -67,7 +67,7 @@ namespace margelo::nitro {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "insertId", JSIConverter<std::optional<double>>::toJSI(runtime, arg.insertId));
       obj.setProperty(runtime, "rowsAffected", JSIConverter<double>::toJSI(runtime, arg.rowsAffected));
-      obj.setProperty(runtime, "rows", JSIConverter<std::optional<std::vector<QueryResultRow>>>::toJSI(runtime, arg.rows));
+      obj.setProperty(runtime, "rows", JSIConverter<std::optional<QueryResultRows>>::toJSI(runtime, arg.rows));
       obj.setProperty(runtime, "metadata", JSIConverter<std::optional<std::vector<ColumnMetadata>>>::toJSI(runtime, arg.metadata));
       return obj;
     }
@@ -78,7 +78,7 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "insertId"))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "rowsAffected"))) return false;
-      if (!JSIConverter<std::optional<std::vector<QueryResultRow>>>::canConvert(runtime, obj.getProperty(runtime, "rows"))) return false;
+      if (!JSIConverter<std::optional<QueryResultRows>>::canConvert(runtime, obj.getProperty(runtime, "rows"))) return false;
       if (!JSIConverter<std::optional<std::vector<ColumnMetadata>>>::canConvert(runtime, obj.getProperty(runtime, "metadata"))) return false;
       return true;
     }

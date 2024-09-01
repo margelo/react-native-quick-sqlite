@@ -25,9 +25,10 @@ namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 
-#include <functional>
 #include <string>
+#include <optional>
 #include <future>
+#include <functional>
 #include "Transaction.hpp"
 #include "QueryResult.hpp"
 #include <variant>
@@ -61,34 +62,22 @@ namespace margelo::nitro::rnquicksqlite {
 
     public:
       // Properties
-      virtual std::function<void(const std::string& /* dbName */, const std::string& /* location */)> getOpen() = 0;
-      virtual void setOpen(const std::function<void(const std::string& /* dbName */, const std::string& /* location */)>& open) = 0;
-      virtual std::function<void(const std::string& /* dbName */)> getClose() = 0;
-      virtual void setClose(const std::function<void(const std::string& /* dbName */)>& close) = 0;
-      virtual std::function<void(const std::string& /* dbName */, const std::string& /* location */)> getDelete() = 0;
-      virtual void setDelete(const std::function<void(const std::string& /* dbName */, const std::string& /* location */)>& delete) = 0;
-      virtual std::function<void(const std::string& /* mainDbName */, const std::string& /* dbNameToAttach */, const std::string& /* alias */, const std::string& /* location */)> getAttach() = 0;
-      virtual void setAttach(const std::function<void(const std::string& /* mainDbName */, const std::string& /* dbNameToAttach */, const std::string& /* alias */, const std::string& /* location */)>& attach) = 0;
-      virtual std::function<void(const std::string& /* mainDbName */, const std::string& /* alias */)> getDetach() = 0;
-      virtual void setDetach(const std::function<void(const std::string& /* mainDbName */, const std::string& /* alias */)>& detach) = 0;
-      virtual std::function<std::future<std::future<void>>(const std::string& /* dbName */, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& /* fn */)> getTransaction() = 0;
-      virtual void setTransaction(const std::function<std::future<std::future<void>>(const std::string& /* dbName */, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& /* fn */)>& transaction) = 0;
-      virtual std::function<std::future<QueryResult>(const std::string& /* dbName */, const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)> getExecute() = 0;
-      virtual void setExecute(const std::function<std::future<QueryResult>(const std::string& /* dbName */, const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>& execute) = 0;
-      virtual std::function<std::future<std::future<QueryResult>>(const std::string& /* dbName */, const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)> getExecuteAsync() = 0;
-      virtual void setExecuteAsync(const std::function<std::future<std::future<QueryResult>>(const std::string& /* dbName */, const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>& executeAsync) = 0;
-      virtual std::function<std::future<BatchQueryResult>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& /* commands */)> getExecuteBatch() = 0;
-      virtual void setExecuteBatch(const std::function<std::future<BatchQueryResult>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& /* commands */)>& executeBatch) = 0;
-      virtual std::function<std::future<std::future<BatchQueryResult>>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& /* commands */)> getExecuteBatchAsync() = 0;
-      virtual void setExecuteBatchAsync(const std::function<std::future<std::future<BatchQueryResult>>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& /* commands */)>& executeBatchAsync) = 0;
-      virtual std::function<std::future<FileLoadResult>(const std::string& /* dbName */, const std::string& /* location */)> getLoadFile() = 0;
-      virtual void setLoadFile(const std::function<std::future<FileLoadResult>(const std::string& /* dbName */, const std::string& /* location */)>& loadFile) = 0;
-      virtual std::function<std::future<std::future<FileLoadResult>>(const std::string& /* dbName */, const std::string& /* location */)> getLoadFileAsync() = 0;
-      virtual void setLoadFileAsync(const std::function<std::future<std::future<FileLoadResult>>(const std::string& /* dbName */, const std::string& /* location */)>& loadFileAsync) = 0;
+      
 
     public:
       // Methods
-      
+      virtual void open(const std::string& dbName, const std::optional<std::string>& location) = 0;
+      virtual void close(const std::string& dbName) = 0;
+      virtual void delete(const std::string& dbName, const std::optional<std::string>& location) = 0;
+      virtual void attach(const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias, const std::optional<std::string>& location) = 0;
+      virtual void detach(const std::string& mainDbName, const std::string& alias) = 0;
+      virtual std::future<void> transaction(const std::string& dbName, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& fn) = 0;
+      virtual QueryResult execute(const std::string& dbName, const std::string& query, const std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) = 0;
+      virtual std::future<QueryResult> executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) = 0;
+      virtual BatchQueryResult executeBatch(const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) = 0;
+      virtual std::future<BatchQueryResult> executeBatchAsync(const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) = 0;
+      virtual FileLoadResult loadFile(const std::string& dbName, const std::string& location) = 0;
+      virtual std::future<FileLoadResult> loadFileAsync(const std::string& dbName, const std::string& location) = 0;
 
     protected:
       // Hybrid Setup

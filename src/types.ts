@@ -1,3 +1,33 @@
+// enum QuickDataType
+// {
+//   NULL_VALUE,
+//   TEXT,
+//   INTEGER,
+//   INT64,
+//   DOUBLE,
+//   BOOLEAN,
+//   ARRAY_BUFFER,
+// };
+
+type QuickDataType =
+  | 'NULL_VALUE'
+  | 'TEXT'
+  | 'INTEGER'
+  | 'INT64'
+  | 'DOUBLE'
+  | 'BOOLEAN'
+  | 'ARRAY_BUFFER';
+
+export interface QuickValue {
+  dataType: QuickDataType;
+  booleanValue: boolean;
+  doubleOrIntValue: number;
+  int64Value: number;
+  textValue: string;
+  arrayBufferValue: ArrayBuffer;
+  arrayBufferSize: number;
+}
+
 /**
  * Object returned by SQL Query executions {
  *  insertId: Represent the auto-generated row id if applicable
@@ -8,31 +38,35 @@
  *
  * @interface QueryResult
  */
-export type QueryResult = {
+export interface QueryResult {
   insertId?: number;
   rowsAffected: number;
-  rows?: {
-    /** Raw array with all dataset */
-    _array: any[];
-    /** The lengh of the dataset */
-    length: number;
-    /** A convenience function to acess the index based the row object
-     * @param idx the row index
-     * @returns the row structure identified by column names
-     */
-    item: (idx: number) => any;
-  };
+  rows?: QueryResultRows;
   /**
    * Query metadata, avaliable only for select query results
    */
   metadata?: ColumnMetadata[];
-};
+}
+
+export type ExecuteParams = number | boolean | bigint | string | ArrayBuffer;
+
+export interface QueryResultRows {
+  /** Raw array with all dataset */
+  _array: QuickValue[];
+  /** The lengh of the dataset */
+  length: number;
+  /** A convenience function to acess the index based the row object
+   * @param idx the row index
+   * @returns the row structure identified by column names
+   */
+  item: (idx: number) => QuickValue;
+}
 
 /**
  * Column metadata
  * Describes some information about columns fetched by the query
  */
-export type ColumnMetadata = {
+export interface ColumnMetadata {
   /** The name used for this column for this resultset */
   columnName: string;
   /** The declared column type for this column, when fetched directly from a table or a View resulting from a table column. "UNKNOWN" for dynamic values, like function returned ones. */
@@ -40,7 +74,7 @@ export type ColumnMetadata = {
   /**
    * The index for this column for this resultset*/
   columnIndex: number;
-};
+}
 
 /**
  * Allows the execution of bulk of sql commands
@@ -48,16 +82,18 @@ export type ColumnMetadata = {
  * If a single query must be executed many times with different arguments, its preferred
  * to declare it a single time, and use an array of array parameters.
  */
-export type SQLBatchTuple = [string] | [string, Array<any> | Array<Array<any>>];
+export type SQLBatchTuple =
+  | [string]
+  | [string, Array<undefined> | Array<Array<undefined>>];
 
 /**
  * status: 0 or undefined for correct execution, 1 for error
  * message: if status === 1, here you will find error description
  * rowsAffected: Number of affected rows if status == 0
  */
-export type BatchQueryResult = {
+export interface BatchQueryResult {
   rowsAffected?: number;
-};
+}
 
 /**
  * Result of loading a file and executing every line as a SQL command
@@ -68,13 +104,16 @@ export interface FileLoadResult extends BatchQueryResult {
 }
 
 export interface Transaction {
-  commit: () => QueryResult;
-  execute: (query: string, params?: any[]) => QueryResult;
-  executeAsync: (
+  commit<RowData = QuickValue>(): QueryResult;
+  execute<RowData = QuickValue>(
     query: string,
-    params?: any[] | undefined
-  ) => Promise<QueryResult>;
-  rollback: () => QueryResult;
+    params?: ExecuteParams
+  ): QueryResult;
+  executeAsync<RowData>(
+    query: string,
+    params?: ExecuteParams
+  ): Promise<QueryResult>;
+  rollback<RowData>(): QueryResult;
 }
 
 export interface PendingTransaction {
@@ -90,16 +129,22 @@ export interface PendingTransaction {
   start: () => void;
 }
 
-export type QuickSQLiteConnection = {
-  close: () => void;
-  delete: () => void;
-  attach: (dbNameToAttach: string, alias: string, location?: string) => void;
-  detach: (alias: string) => void;
-  transaction: (fn: (tx: Transaction) => Promise<void> | void) => Promise<void>;
-  execute: (query: string, params?: any[]) => QueryResult;
-  executeAsync: (query: string, params?: any[]) => Promise<QueryResult>;
-  executeBatch: (commands: SQLBatchTuple[]) => BatchQueryResult;
-  executeBatchAsync: (commands: SQLBatchTuple[]) => Promise<BatchQueryResult>;
-  loadFile: (location: string) => FileLoadResult;
-  loadFileAsync: (location: string) => Promise<FileLoadResult>;
-};
+export interface QuickSQLiteConnection {
+  close(): void;
+  delete(): void;
+  attach(dbNameToAttach: string, alias: string, location?: string): void;
+  detach(alias: string): void;
+  transaction(fn: (tx: Transaction) => Promise<void> | void): Promise<void>;
+  execute<RowData = QuickValue>(
+    query: string,
+    params?: ExecuteParams
+  ): QueryResult<RowData>;
+  executeAsync<RowData = QuickValue>(
+    query: string,
+    params?: ExecuteParams
+  ): Promise<QueryResult<RowData>>;
+  executeBatch(commands: SQLBatchTuple[]): BatchQueryResult;
+  executeBatchAsync(commands: SQLBatchTuple[]): Promise<BatchQueryResult>;
+  loadFile(location: string): FileLoadResult;
+  loadFileAsync(location: string): Promise<FileLoadResult>;
+}

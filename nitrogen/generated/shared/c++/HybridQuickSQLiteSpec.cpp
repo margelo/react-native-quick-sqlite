@@ -15,30 +15,18 @@ namespace margelo::nitro::rnquicksqlite {
     HybridObject::loadHybridMethods();
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
-      prototype.registerHybridGetter("open", &HybridQuickSQLiteSpec::getOpen);
-      prototype.registerHybridSetter("open", &HybridQuickSQLiteSpec::setOpen);
-      prototype.registerHybridGetter("close", &HybridQuickSQLiteSpec::getClose);
-      prototype.registerHybridSetter("close", &HybridQuickSQLiteSpec::setClose);
-      prototype.registerHybridGetter("delete", &HybridQuickSQLiteSpec::getDelete);
-      prototype.registerHybridSetter("delete", &HybridQuickSQLiteSpec::setDelete);
-      prototype.registerHybridGetter("attach", &HybridQuickSQLiteSpec::getAttach);
-      prototype.registerHybridSetter("attach", &HybridQuickSQLiteSpec::setAttach);
-      prototype.registerHybridGetter("detach", &HybridQuickSQLiteSpec::getDetach);
-      prototype.registerHybridSetter("detach", &HybridQuickSQLiteSpec::setDetach);
-      prototype.registerHybridGetter("transaction", &HybridQuickSQLiteSpec::getTransaction);
-      prototype.registerHybridSetter("transaction", &HybridQuickSQLiteSpec::setTransaction);
-      prototype.registerHybridGetter("execute", &HybridQuickSQLiteSpec::getExecute);
-      prototype.registerHybridSetter("execute", &HybridQuickSQLiteSpec::setExecute);
-      prototype.registerHybridGetter("executeAsync", &HybridQuickSQLiteSpec::getExecuteAsync);
-      prototype.registerHybridSetter("executeAsync", &HybridQuickSQLiteSpec::setExecuteAsync);
-      prototype.registerHybridGetter("executeBatch", &HybridQuickSQLiteSpec::getExecuteBatch);
-      prototype.registerHybridSetter("executeBatch", &HybridQuickSQLiteSpec::setExecuteBatch);
-      prototype.registerHybridGetter("executeBatchAsync", &HybridQuickSQLiteSpec::getExecuteBatchAsync);
-      prototype.registerHybridSetter("executeBatchAsync", &HybridQuickSQLiteSpec::setExecuteBatchAsync);
-      prototype.registerHybridGetter("loadFile", &HybridQuickSQLiteSpec::getLoadFile);
-      prototype.registerHybridSetter("loadFile", &HybridQuickSQLiteSpec::setLoadFile);
-      prototype.registerHybridGetter("loadFileAsync", &HybridQuickSQLiteSpec::getLoadFileAsync);
-      prototype.registerHybridSetter("loadFileAsync", &HybridQuickSQLiteSpec::setLoadFileAsync);
+      prototype.registerHybridMethod("open", &HybridQuickSQLiteSpec::open);
+      prototype.registerHybridMethod("close", &HybridQuickSQLiteSpec::close);
+      prototype.registerHybridMethod("delete", &HybridQuickSQLiteSpec::delete);
+      prototype.registerHybridMethod("attach", &HybridQuickSQLiteSpec::attach);
+      prototype.registerHybridMethod("detach", &HybridQuickSQLiteSpec::detach);
+      prototype.registerHybridMethod("transaction", &HybridQuickSQLiteSpec::transaction);
+      prototype.registerHybridMethod("execute", &HybridQuickSQLiteSpec::execute);
+      prototype.registerHybridMethod("executeAsync", &HybridQuickSQLiteSpec::executeAsync);
+      prototype.registerHybridMethod("executeBatch", &HybridQuickSQLiteSpec::executeBatch);
+      prototype.registerHybridMethod("executeBatchAsync", &HybridQuickSQLiteSpec::executeBatchAsync);
+      prototype.registerHybridMethod("loadFile", &HybridQuickSQLiteSpec::loadFile);
+      prototype.registerHybridMethod("loadFileAsync", &HybridQuickSQLiteSpec::loadFileAsync);
     });
   }
 
