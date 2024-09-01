@@ -1,0 +1,14 @@
+{
+  "cxxNamespace": [
+    "com::margelo::rnquicksqlite"
+  ],
+  "ios": {
+    "iosModulename": "RNQuickSQLite"
+  },
+  "android": {
+    "androidNamespace": [
+      "com.margelo.rnquicksqlite"
+    ],
+    "androidCxxLibName": "RNQuickSQLite"
+  }
+}
