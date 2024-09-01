@@ -27,6 +27,18 @@ namespace margelo::nitro::rnquicksqlite {
       prototype.registerHybridSetter("detach", &HybridQuickSQLiteSpec::setDetach);
       prototype.registerHybridGetter("transaction", &HybridQuickSQLiteSpec::getTransaction);
       prototype.registerHybridSetter("transaction", &HybridQuickSQLiteSpec::setTransaction);
+      prototype.registerHybridGetter("execute", &HybridQuickSQLiteSpec::getExecute);
+      prototype.registerHybridSetter("execute", &HybridQuickSQLiteSpec::setExecute);
+      prototype.registerHybridGetter("executeAsync", &HybridQuickSQLiteSpec::getExecuteAsync);
+      prototype.registerHybridSetter("executeAsync", &HybridQuickSQLiteSpec::setExecuteAsync);
+      prototype.registerHybridGetter("executeBatch", &HybridQuickSQLiteSpec::getExecuteBatch);
+      prototype.registerHybridSetter("executeBatch", &HybridQuickSQLiteSpec::setExecuteBatch);
+      prototype.registerHybridGetter("executeBatchAsync", &HybridQuickSQLiteSpec::getExecuteBatchAsync);
+      prototype.registerHybridSetter("executeBatchAsync", &HybridQuickSQLiteSpec::setExecuteBatchAsync);
+      prototype.registerHybridGetter("loadFile", &HybridQuickSQLiteSpec::getLoadFile);
+      prototype.registerHybridSetter("loadFile", &HybridQuickSQLiteSpec::setLoadFile);
+      prototype.registerHybridGetter("loadFileAsync", &HybridQuickSQLiteSpec::getLoadFileAsync);
+      prototype.registerHybridSetter("loadFileAsync", &HybridQuickSQLiteSpec::setLoadFileAsync);
     });
   }
 

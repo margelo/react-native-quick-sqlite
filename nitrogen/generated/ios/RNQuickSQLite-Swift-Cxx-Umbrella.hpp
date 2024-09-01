@@ -9,14 +9,33 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `BatchQueryResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `ColumnMetadata` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
+// Forward declaration of `FileLoadResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
+// Forward declaration of `QueryResultRow` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResultRow; }
+// Forward declaration of `QueryResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
 // Forward declaration of `Transaction` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
 // Include C++ defined types
+#include "BatchQueryResult.hpp"
+#include "ColumnMetadata.hpp"
+#include "FileLoadResult.hpp"
+#include "QueryResult.hpp"
+#include "QueryResultRow.hpp"
 #include "Transaction.hpp"
 #include <functional>
 #include <future>
+#include <optional>
 #include <string>
+#include <tuple>
+#include <variant>
+#include <vector>
 
 // C++ helpers for Swift
 #include "RNQuickSQLite-Swift-Cxx-Bridge.hpp"

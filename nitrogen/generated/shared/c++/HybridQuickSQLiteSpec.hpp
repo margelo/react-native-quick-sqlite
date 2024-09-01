@@ -16,11 +16,23 @@
 
 // Forward declaration of `Transaction` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct Transaction; }
+// Forward declaration of `QueryResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
+// Forward declaration of `BatchQueryResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `FileLoadResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 
 #include <functional>
 #include <string>
 #include <future>
 #include "Transaction.hpp"
+#include "QueryResult.hpp"
+#include <vector>
+#include "BatchQueryResult.hpp"
+#include <variant>
+#include <tuple>
+#include "FileLoadResult.hpp"
 
 namespace margelo::nitro::rnquicksqlite {
 
@@ -58,6 +70,18 @@ namespace margelo::nitro::rnquicksqlite {
       virtual void setDetach(const std::function<void(const std::string& /* mainDbName */, const std::string& /* alias */)>& detach) = 0;
       virtual std::function<std::future<std::future<void>>(const std::string& /* dbName */, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& /* fn */)> getTransaction() = 0;
       virtual void setTransaction(const std::function<std::future<std::future<void>>(const std::string& /* dbName */, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& /* fn */)>& transaction) = 0;
+      virtual std::function<std::future<QueryResult>(const std::string& /* dbName */, const std::string& /* query */, const std::vector<std::string>& /* params */)> getExecute() = 0;
+      virtual void setExecute(const std::function<std::future<QueryResult>(const std::string& /* dbName */, const std::string& /* query */, const std::vector<std::string>& /* params */)>& execute) = 0;
+      virtual std::function<std::future<std::future<QueryResult>>(const std::string& /* dbName */, const std::string& /* query */, const std::vector<std::string>& /* params */)> getExecuteAsync() = 0;
+      virtual void setExecuteAsync(const std::function<std::future<std::future<QueryResult>>(const std::string& /* dbName */, const std::string& /* query */, const std::vector<std::string>& /* params */)>& executeAsync) = 0;
+      virtual std::function<std::future<BatchQueryResult>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::string>, std::vector<std::vector<std::string>>>>>>& /* commands */)> getExecuteBatch() = 0;
+      virtual void setExecuteBatch(const std::function<std::future<BatchQueryResult>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::string>, std::vector<std::vector<std::string>>>>>>& /* commands */)>& executeBatch) = 0;
+      virtual std::function<std::future<std::future<BatchQueryResult>>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::string>, std::vector<std::vector<std::string>>>>>>& /* commands */)> getExecuteBatchAsync() = 0;
+      virtual void setExecuteBatchAsync(const std::function<std::future<std::future<BatchQueryResult>>(const std::string& /* dbName */, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::string>, std::vector<std::vector<std::string>>>>>>& /* commands */)>& executeBatchAsync) = 0;
+      virtual std::function<std::future<FileLoadResult>(const std::string& /* dbName */, const std::string& /* location */)> getLoadFile() = 0;
+      virtual void setLoadFile(const std::function<std::future<FileLoadResult>(const std::string& /* dbName */, const std::string& /* location */)>& loadFile) = 0;
+      virtual std::function<std::future<std::future<FileLoadResult>>(const std::string& /* dbName */, const std::string& /* location */)> getLoadFileAsync() = 0;
+      virtual void setLoadFileAsync(const std::function<std::future<std::future<FileLoadResult>>(const std::string& /* dbName */, const std::string& /* location */)>& loadFileAsync) = 0;
 
     public:
       // Methods
