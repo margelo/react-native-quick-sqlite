@@ -46,6 +46,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "nitro-codegen": "^0.6.0",
     "react": "18.2.0",
     "react-native": "0.71.0",
     "react-native-builder-bob": "^0.18.2",
@@ -53,7 +54,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-nitro-modules": "*"
   },
   "prettier": {
     "quoteProps": "consistent",
