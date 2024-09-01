@@ -1,12 +1,11 @@
 import { HybridObject } from 'react-native-nitro-modules';
 import {
+  QueryResult,
   BatchQueryResult,
   FileLoadResult,
   SQLBatchTuple,
-  QueryResult,
   Transaction,
   ExecuteParams,
-  QuickValue,
 } from '../types';
 
 export interface QuickSQLite
@@ -25,12 +24,8 @@ export interface QuickSQLite
     dbName: string,
     fn: (tx: Transaction) => Promise<void> | void
   ): Promise<void>;
-  execute<RowData = QuickValue>(
-    dbName: string,
-    query: string,
-    params?: ExecuteParams
-  ): QueryResult;
-  executeAsync<RowData = QuickValue>(
+  execute(dbName: string, query: string, params?: ExecuteParams): QueryResult;
+  executeAsync(
     dbName: string,
     query: string,
     params?: ExecuteParams

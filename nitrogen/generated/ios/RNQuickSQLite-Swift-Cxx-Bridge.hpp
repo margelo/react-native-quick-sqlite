@@ -17,6 +17,8 @@ namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
+// Forward declaration of `HybridSelectQueryResultSpec` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
 // Forward declaration of `QueryResultRows` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct QueryResultRows; }
 // Forward declaration of `QueryResult` to properly resolve imports.
@@ -30,6 +32,7 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include "BatchQueryResult.hpp"
 #include "ColumnMetadata.hpp"
 #include "FileLoadResult.hpp"
+#include "HybridSelectQueryResultSpec.hpp"
 #include "QueryResult.hpp"
 #include "QueryResultRows.hpp"
 #include "QuickValue.hpp"
@@ -51,6 +54,24 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
  */
 namespace margelo::nitro::rnquicksqlite::bridge::swift {
 
+  /**
+   * Specialized version of `std::vector<ColumnMetadata>`.
+   */
+  using std__vector_ColumnMetadata_ = std::vector<ColumnMetadata>;
+  inline std::vector<ColumnMetadata> create_std__vector_ColumnMetadata_(size_t size) {
+    std::vector<ColumnMetadata> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  /**
+   * Specialized version of `std::optional<std::vector<ColumnMetadata>>`.
+   */
+  using std__optional_std__vector_ColumnMetadata__ = std::optional<std::vector<ColumnMetadata>>;
+  inline std::optional<std::vector<ColumnMetadata>> create_std__optional_std__vector_ColumnMetadata__(const std::vector<ColumnMetadata>& value) {
+    return std::optional<std::vector<ColumnMetadata>>(value);
+  }
+  
   /**
    * Specialized version of `std::optional<std::string>`.
    */
@@ -76,62 +97,11 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::vector<QuickValue>`.
+   * Specialized version of `std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>`.
    */
-  using std__vector_QuickValue_ = std::vector<QuickValue>;
-  inline std::vector<QuickValue> create_std__vector_QuickValue_(size_t size) {
-    std::vector<QuickValue> vector;
-    vector.reserve(size);
-    return vector;
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<QuickValue>(double / * idx * /)>`.
-   */
-  using Func_std__future_QuickValue__double = std::function<std::future<QuickValue>(double /* idx */)>;
-  inline Func_std__future_QuickValue__double create_Func_std__future_QuickValue__double(void* closureHolder, PromiseHolder<QuickValue>(*call)(void* /* closureHolder */, double), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](double idx) -> std::future<QuickValue> {
-      auto result = call(sharedClosureHolder.get(), idx);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_QuickValue__double> share_Func_std__future_QuickValue__double(const Func_std__future_QuickValue__double& value) {
-    return std::make_shared<Func_std__future_QuickValue__double>(value);
-  }
-  
-  /**
-   * Specialized version of `PromiseHolder<QuickValue>`.
-   */
-  using PromiseHolder_QuickValue_ = PromiseHolder<QuickValue>;
-  inline PromiseHolder<QuickValue> create_PromiseHolder_QuickValue_() {
-    return PromiseHolder<QuickValue>();
-  }
-  
-  /**
-   * Specialized version of `std::optional<QueryResultRows>`.
-   */
-  using std__optional_QueryResultRows_ = std::optional<QueryResultRows>;
-  inline std::optional<QueryResultRows> create_std__optional_QueryResultRows_(const QueryResultRows& value) {
-    return std::optional<QueryResultRows>(value);
-  }
-  
-  /**
-   * Specialized version of `std::vector<ColumnMetadata>`.
-   */
-  using std__vector_ColumnMetadata_ = std::vector<ColumnMetadata>;
-  inline std::vector<ColumnMetadata> create_std__vector_ColumnMetadata_(size_t size) {
-    std::vector<ColumnMetadata> vector;
-    vector.reserve(size);
-    return vector;
-  }
-  
-  /**
-   * Specialized version of `std::optional<std::vector<ColumnMetadata>>`.
-   */
-  using std__optional_std__vector_ColumnMetadata__ = std::optional<std::vector<ColumnMetadata>>;
-  inline std::optional<std::vector<ColumnMetadata>> create_std__optional_std__vector_ColumnMetadata__(const std::vector<ColumnMetadata>& value) {
-    return std::optional<std::vector<ColumnMetadata>>(value);
+  using std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__ = std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>;
+  inline std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>> create_std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__(const std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>& value) {
+    return std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>(value);
   }
   
   /**
@@ -355,6 +325,47 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   using PromiseHolder_FileLoadResult_ = PromiseHolder<FileLoadResult>;
   inline PromiseHolder<FileLoadResult> create_PromiseHolder_FileLoadResult_() {
     return PromiseHolder<FileLoadResult>();
+  }
+  
+  /**
+   * Specialized version of `std::vector<QuickValue>`.
+   */
+  using std__vector_QuickValue_ = std::vector<QuickValue>;
+  inline std::vector<QuickValue> create_std__vector_QuickValue_(size_t size) {
+    std::vector<QuickValue> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  /**
+   * Specialized version of `std::function<std::future<QuickValue>(double / * idx * /)>`.
+   */
+  using Func_std__future_QuickValue__double = std::function<std::future<QuickValue>(double /* idx */)>;
+  inline Func_std__future_QuickValue__double create_Func_std__future_QuickValue__double(void* closureHolder, PromiseHolder<QuickValue>(*call)(void* /* closureHolder */, double), void(*destroy)(void*)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return [sharedClosureHolder, call](double idx) -> std::future<QuickValue> {
+      auto result = call(sharedClosureHolder.get(), idx);
+      return result.getFuture();
+    };
+  }
+  inline std::shared_ptr<Func_std__future_QuickValue__double> share_Func_std__future_QuickValue__double(const Func_std__future_QuickValue__double& value) {
+    return std::make_shared<Func_std__future_QuickValue__double>(value);
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<QuickValue>`.
+   */
+  using PromiseHolder_QuickValue_ = PromiseHolder<QuickValue>;
+  inline PromiseHolder<QuickValue> create_PromiseHolder_QuickValue_() {
+    return PromiseHolder<QuickValue>();
+  }
+  
+  /**
+   * Specialized version of `std::optional<QueryResultRows>`.
+   */
+  using std__optional_QueryResultRows_ = std::optional<QueryResultRows>;
+  inline std::optional<QueryResultRows> create_std__optional_QueryResultRows_(const QueryResultRows& value) {
+    return std::optional<QueryResultRows>(value);
   }
 
 } // namespace margelo::nitro::rnquicksqlite::bridge::swift
