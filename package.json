@@ -48,7 +48,7 @@
   "devDependencies": {
     "nitro-codegen": "^0.6.0",
     "react": "18.2.0",
-    "react-native": "0.71.0",
+    "react-native": "0.71.11",
     "react-native-builder-bob": "^0.18.2",
     "typescript": "^4.8.4"
   },
