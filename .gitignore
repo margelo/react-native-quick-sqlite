@@ -75,3 +75,7 @@ lib/
 # Gradle
 android/gradle/
 android/gradle*
+
+# Yalc
+.yalc
+yalc.lock
