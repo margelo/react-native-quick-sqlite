@@ -7,7 +7,7 @@ import {
   Transaction,
 } from 'src/types';
 
-export interface RNQuickSQLite
+export interface QuickSQLite
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
   open: (dbName: string, location?: string) => void;
   close: (dbName: string) => void;
