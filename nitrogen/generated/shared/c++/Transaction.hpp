@@ -21,12 +21,15 @@
 
 // Forward declaration of `QueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
+// Forward declaration of `ArrayBuffer` to properly resolve imports.
+namespace NitroModules { class ArrayBuffer; }
 
 #include <functional>
 #include <future>
 #include "QueryResult.hpp"
 #include <string>
-#include <vector>
+#include <variant>
+#include <NitroModules/ArrayBuffer.hpp>
 
 namespace margelo::nitro::rnquicksqlite {
 
@@ -36,12 +39,12 @@ namespace margelo::nitro::rnquicksqlite {
   struct Transaction {
   public:
     std::function<std::future<QueryResult>()> commit     SWIFT_PRIVATE;
-    std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::string>& /* params */)> execute     SWIFT_PRIVATE;
-    std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::string>& /* params */)> executeAsync     SWIFT_PRIVATE;
+    std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)> execute     SWIFT_PRIVATE;
+    std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)> executeAsync     SWIFT_PRIVATE;
     std::function<std::future<QueryResult>()> rollback     SWIFT_PRIVATE;
 
   public:
-    explicit Transaction(std::function<std::future<QueryResult>()> commit, std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::string>& /* params */)> execute, std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::string>& /* params */)> executeAsync, std::function<std::future<QueryResult>()> rollback): commit(commit), execute(execute), executeAsync(executeAsync), rollback(rollback) {}
+    explicit Transaction(std::function<std::future<QueryResult>()> commit, std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)> execute, std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)> executeAsync, std::function<std::future<QueryResult>()> rollback): commit(commit), execute(execute), executeAsync(executeAsync), rollback(rollback) {}
   };
 
 } // namespace margelo::nitro::rnquicksqlite
@@ -57,16 +60,16 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return Transaction(
         JSIConverter<std::function<std::future<QueryResult>()>>::fromJSI(runtime, obj.getProperty(runtime, "commit")),
-        JSIConverter<std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::string>& /* params */)>>::fromJSI(runtime, obj.getProperty(runtime, "execute")),
-        JSIConverter<std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::string>& /* params */)>>::fromJSI(runtime, obj.getProperty(runtime, "executeAsync")),
+        JSIConverter<std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>>::fromJSI(runtime, obj.getProperty(runtime, "execute")),
+        JSIConverter<std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>>::fromJSI(runtime, obj.getProperty(runtime, "executeAsync")),
         JSIConverter<std::function<std::future<QueryResult>()>>::fromJSI(runtime, obj.getProperty(runtime, "rollback"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const Transaction& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "commit", JSIConverter<std::function<std::future<QueryResult>()>>::toJSI(runtime, arg.commit));
-      obj.setProperty(runtime, "execute", JSIConverter<std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::string>& /* params */)>>::toJSI(runtime, arg.execute));
-      obj.setProperty(runtime, "executeAsync", JSIConverter<std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::string>& /* params */)>>::toJSI(runtime, arg.executeAsync));
+      obj.setProperty(runtime, "execute", JSIConverter<std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>>::toJSI(runtime, arg.execute));
+      obj.setProperty(runtime, "executeAsync", JSIConverter<std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>>::toJSI(runtime, arg.executeAsync));
       obj.setProperty(runtime, "rollback", JSIConverter<std::function<std::future<QueryResult>()>>::toJSI(runtime, arg.rollback));
       return obj;
     }
@@ -76,8 +79,8 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::function<std::future<QueryResult>()>>::canConvert(runtime, obj.getProperty(runtime, "commit"))) return false;
-      if (!JSIConverter<std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::string>& /* params */)>>::canConvert(runtime, obj.getProperty(runtime, "execute"))) return false;
-      if (!JSIConverter<std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::string>& /* params */)>>::canConvert(runtime, obj.getProperty(runtime, "executeAsync"))) return false;
+      if (!JSIConverter<std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>>::canConvert(runtime, obj.getProperty(runtime, "execute"))) return false;
+      if (!JSIConverter<std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>>::canConvert(runtime, obj.getProperty(runtime, "executeAsync"))) return false;
       if (!JSIConverter<std::function<std::future<QueryResult>()>>::canConvert(runtime, obj.getProperty(runtime, "rollback"))) return false;
       return true;
     }

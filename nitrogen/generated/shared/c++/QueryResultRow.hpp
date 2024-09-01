@@ -22,7 +22,6 @@
 
 
 #include <vector>
-#include <string>
 #include <functional>
 #include <future>
 
@@ -33,12 +32,12 @@ namespace margelo::nitro::rnquicksqlite {
    */
   struct QueryResultRow {
   public:
-    std::vector<std::string> _array     SWIFT_PRIVATE;
+    std::vector<std::nullptr_t> _array     SWIFT_PRIVATE;
     double length     SWIFT_PRIVATE;
-    std::function<std::future<std::string>(double /* idx */)> item     SWIFT_PRIVATE;
+    std::function<std::future<std::nullptr_t>(double /* idx */)> item     SWIFT_PRIVATE;
 
   public:
-    explicit QueryResultRow(std::vector<std::string> _array, double length, std::function<std::future<std::string>(double /* idx */)> item): _array(_array), length(length), item(item) {}
+    explicit QueryResultRow(std::vector<std::nullptr_t> _array, double length, std::function<std::future<std::nullptr_t>(double /* idx */)> item): _array(_array), length(length), item(item) {}
   };
 
 } // namespace margelo::nitro::rnquicksqlite
@@ -53,16 +52,16 @@ namespace margelo::nitro {
     static inline QueryResultRow fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return QueryResultRow(
-        JSIConverter<std::vector<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "_array")),
+        JSIConverter<std::vector<std::nullptr_t>>::fromJSI(runtime, obj.getProperty(runtime, "_array")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "length")),
-        JSIConverter<std::function<std::future<std::string>(double /* idx */)>>::fromJSI(runtime, obj.getProperty(runtime, "item"))
+        JSIConverter<std::function<std::future<std::nullptr_t>(double /* idx */)>>::fromJSI(runtime, obj.getProperty(runtime, "item"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const QueryResultRow& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "_array", JSIConverter<std::vector<std::string>>::toJSI(runtime, arg._array));
+      obj.setProperty(runtime, "_array", JSIConverter<std::vector<std::nullptr_t>>::toJSI(runtime, arg._array));
       obj.setProperty(runtime, "length", JSIConverter<double>::toJSI(runtime, arg.length));
-      obj.setProperty(runtime, "item", JSIConverter<std::function<std::future<std::string>(double /* idx */)>>::toJSI(runtime, arg.item));
+      obj.setProperty(runtime, "item", JSIConverter<std::function<std::future<std::nullptr_t>(double /* idx */)>>::toJSI(runtime, arg.item));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -70,9 +69,9 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::vector<std::string>>::canConvert(runtime, obj.getProperty(runtime, "_array"))) return false;
+      if (!JSIConverter<std::vector<std::nullptr_t>>::canConvert(runtime, obj.getProperty(runtime, "_array"))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "length"))) return false;
-      if (!JSIConverter<std::function<std::future<std::string>(double /* idx */)>>::canConvert(runtime, obj.getProperty(runtime, "item"))) return false;
+      if (!JSIConverter<std::function<std::future<std::nullptr_t>(double /* idx */)>>::canConvert(runtime, obj.getProperty(runtime, "item"))) return false;
       return true;
     }
   };

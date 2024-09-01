@@ -9,6 +9,8 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `ArrayBuffer` to properly resolve imports.
+namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 // Forward declaration of `ColumnMetadata` to properly resolve imports.
@@ -29,6 +31,7 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include "QueryResult.hpp"
 #include "QueryResultRow.hpp"
 #include "Transaction.hpp"
+#include <NitroModules/ArrayBuffer.hpp>
 #include <functional>
 #include <future>
 #include <optional>
