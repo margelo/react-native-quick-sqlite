@@ -138,11 +138,11 @@ export interface QuickSQLiteConnection {
   execute<RowData = QuickValue>(
     query: string,
     params?: ExecuteParams
-  ): QueryResult<RowData>;
+  ): QueryResult;
   executeAsync<RowData = QuickValue>(
     query: string,
     params?: ExecuteParams
-  ): Promise<QueryResult<RowData>>;
+  ): Promise<QueryResult>;
   executeBatch(commands: SQLBatchTuple[]): BatchQueryResult;
   executeBatchAsync(commands: SQLBatchTuple[]): Promise<BatchQueryResult>;
   loadFile(location: string): FileLoadResult;
