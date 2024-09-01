@@ -1,5 +1,5 @@
 import { NitroModules } from 'react-native-nitro-modules';
-import { QuickSQLite } from 'src/specs/QuickSQLite.nitro';
+import { QuickSQLite as QuickSQLiteSpec } from 'src/specs/QuickSQLite.nitro';
 import {
   ExecuteParams,
   PendingTransaction,
@@ -10,7 +10,7 @@ import {
 } from 'src/types';
 
 const QuickSQLite =
-  NitroModules.createHybridObject<QuickSQLite>('RNQuickSQLite');
+  NitroModules.createHybridObject<QuickSQLiteSpec>('RNQuickSQLite');
 
 const locks: Record<
   string,
