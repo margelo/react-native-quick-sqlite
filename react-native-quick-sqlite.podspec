@@ -16,7 +16,9 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = {
     :GCC_PREPROCESSOR_DEFINITIONS => "HAVE_FULLFSYNC=1",
     :WARNING_CFLAGS => "-Wno-shorten-64-to-32 -Wno-comma -Wno-unreachable-code -Wno-conditional-uninitialized -Wno-deprecated-declarations",
-    :USE_HEADERMAP => "No"
+    :USE_HEADERMAP => "No",
+    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++20',
+    'CLANG_CXX_LIBRARY' => 'libc++'
   }
 
   s.header_mappings_dir = "cpp"
