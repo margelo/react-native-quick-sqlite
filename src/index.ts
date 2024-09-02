@@ -20,18 +20,18 @@ const locks: Record<
 // Enhance some host functions
 
 // Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
-const enhanceQueryResult = (result: QueryResult): void => {
-  // Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
-  if (result.rows == null) {
-    result.rows = {
-      _array: [],
-      length: 0,
-      item: (idx: number) => result.rows._array[idx],
-    };
-  } else {
-    result.rows.item = (idx: number) => result.rows._array[idx];
-  }
-};
+// const enhanceQueryResult = (result: QueryResult): void => {
+//   // Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
+//   if (result.rows == null) {
+//     result.rows = {
+//       _array: [],
+//       length: 0,
+//       item: (idx: number) => result.rows._array[idx],
+//     };
+//   } else {
+//     result.rows.item = (idx: number) => result.rows._array[idx];
+//   }
+// };
 
 const _open = QuickSQLite.open;
 QuickSQLite.open = (dbName: string, location?: string) => {
@@ -56,7 +56,7 @@ QuickSQLite.execute = (
   params?: ExecuteParams
 ): QueryResult => {
   const result = _execute(dbName, query, params);
-  enhanceQueryResult(result);
+  // enhanceQueryResult(result);
   return result;
 };
 
@@ -67,7 +67,7 @@ QuickSQLite.executeAsync = async (
   params?: ExecuteParams
 ): Promise<QueryResult> => {
   const res = await _executeAsync(dbName, query, params);
-  enhanceQueryResult(res);
+  // enhanceQueryResult(res);
   return res;
 };
 
@@ -195,75 +195,75 @@ const startNextTransaction = (dbName: string) => {
  * DO NOT USE THIS! THIS IS MEANT FOR TYPEORM
  * If you are looking for a convenience wrapper use `connect`
  */
-export const typeORMDriver = {
-  openDatabase: (
-    options: {
-      name: string;
-      location?: string;
-    },
-    ok: (db: any) => void,
-    fail: (msg: string) => void
-  ): any => {
-    try {
-      QuickSQLite.open(options.name, options.location);
+// export const typeORMDriver = {
+//   openDatabase: (
+//     options: {
+//       name: string;
+//       location?: string;
+//     },
+//     ok: (db: any) => void,
+//     fail: (msg: string) => void
+//   ): any => {
+//     try {
+//       QuickSQLite.open(options.name, options.location);
 
-      const connection = {
-        executeSql: async (
-          sql: string,
-          params: ExecuteParams | undefined,
-          ok: (res: QueryResult) => void,
-          fail: (msg: string) => void
-        ) => {
-          try {
-            let response = await QuickSQLite.executeAsync(
-              options.name,
-              sql,
-              params
-            );
-            enhanceQueryResult(response);
-            ok(response);
-          } catch (e) {
-            fail(e);
-          }
-        },
-        transaction: (
-          fn: (tx: Transaction) => Promise<void>
-        ): Promise<void> => {
-          return QuickSQLite.transaction(options.name, fn);
-        },
-        close: (ok: any, fail: any) => {
-          try {
-            QuickSQLite.close(options.name);
-            ok();
-          } catch (e) {
-            fail(e);
-          }
-        },
-        attach: (
-          dbNameToAttach: string,
-          alias: string,
-          location: string | undefined,
-          callback: () => void
-        ) => {
-          QuickSQLite.attach(options.name, dbNameToAttach, alias, location);
+//       const connection = {
+//         executeSql: async (
+//           sql: string,
+//           params: ExecuteParams | undefined,
+//           ok: (res: QueryResult) => void,
+//           fail: (msg: string) => void
+//         ) => {
+//           try {
+//             let response = await QuickSQLite.executeAsync(
+//               options.name,
+//               sql,
+//               params
+//             );
+//             enhanceQueryResult(response);
+//             ok(response);
+//           } catch (e) {
+//             fail(e);
+//           }
+//         },
+//         transaction: (
+//           fn: (tx: Transaction) => Promise<void>
+//         ): Promise<void> => {
+//           return QuickSQLite.transaction(options.name, fn);
+//         },
+//         close: (ok: any, fail: any) => {
+//           try {
+//             QuickSQLite.close(options.name);
+//             ok();
+//           } catch (e) {
+//             fail(e);
+//           }
+//         },
+//         attach: (
+//           dbNameToAttach: string,
+//           alias: string,
+//           location: string | undefined,
+//           callback: () => void
+//         ) => {
+//           QuickSQLite.attach(options.name, dbNameToAttach, alias, location);
 
-          callback();
-        },
-        detach: (alias, callback: () => void) => {
-          QuickSQLite.detach(options.name, alias);
+//           callback();
+//         },
+//         detach: (alias, callback: () => void) => {
+//           QuickSQLite.detach(options.name, alias);
 
-          callback();
-        },
-      };
+//           callback();
+//         },
+//       };
 
-      ok(connection);
+//       ok(connection);
 
-      return connection;
-    } catch (e) {
-      fail(e);
-    }
-  },
-};
+//       return connection;
+//     } catch (e) {
+//       fail(e);
+//     }
+//   },
+// };
 
 export const open = (options: {
   name: string;
