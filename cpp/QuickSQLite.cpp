@@ -6,7 +6,7 @@ void QuickSQLite::open(std::string dbName, std::optional<std::string> location) 
     std::string tempDocPath = std::string(docPathStr);
     if (location) {
       tempDocPath = tempDocPath + "/" + *location;
-    }
+    }esli
 
     SQLiteOPResult result = sqliteOpenDb(dbName, tempDocPath);
 
