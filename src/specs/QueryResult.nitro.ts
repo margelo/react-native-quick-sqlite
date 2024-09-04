@@ -1,16 +1,16 @@
-import { HybridObject } from 'react-native-nitro-modules';
+import { HybridObject } from 'react-native-nitro-modules'
 
 export interface SelectQueryResult
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
   /**
    * Query metadata, avaliable only for select query results
    */
-  metadata?: ColumnMetadata[];
+  metadata?: ColumnMetadata[]
 
-  getString(): string;
-  getNumber(): number;
-  getBoolean(): boolean;
-  getArrayBuffer(): ArrayBuffer;
+  getString(): string
+  getNumber(): number
+  getBoolean(): boolean
+  getArrayBuffer(): ArrayBuffer
 }
 
 type ColumnType =
@@ -20,7 +20,7 @@ type ColumnType =
   | 'INT64'
   | 'DOUBLE'
   | 'BOOLEAN'
-  | 'ARRAY_BUFFER';
+  | 'ARRAY_BUFFER'
 // | 'null'
 // | 'string'
 // | 'number'
@@ -33,10 +33,10 @@ type ColumnType =
  */
 export interface ColumnMetadata {
   /** The name used for this column for this resultset */
-  columnName: string;
+  columnName: string
   /** The declared column type for this column, when fetched directly from a table or a View resulting from a table column. "UNKNOWN" for dynamic values, like function returned ones. */
-  columnDeclaredType: ColumnType;
+  columnDeclaredType: ColumnType
   /**
    * The index for this column for this resultset*/
-  columnIndex: number;
+  columnIndex: number
 }
