@@ -9,9 +9,11 @@
 #include "macros.h"
 #include <iostream>
 #include <exception>
-#include <NitroModules/HybridObject.hpp>
+#include "HybridQuickSQLiteSpec.hpp"
 
-class QuickSQLite: public margelo::nitro::HybridObject {
+namespace margelo::nitro::rnquicksqlite {
+
+class QuickSQLite: public HybridQuickSQLiteSpec {
 private:
     string docPathStr;
 
@@ -26,3 +28,5 @@ public:
 private:
   static constexpr auto TAG = "QuickSQLite";
 };
+
+}
