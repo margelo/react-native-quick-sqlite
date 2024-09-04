@@ -24,6 +24,9 @@ Pod::Spec.new do |s|
   s.header_mappings_dir = "cpp"
   s.source_files = "ios/**/*.{h,hpp,m,mm}", "cpp/**/*.{h,cpp,c}"
 
+  load 'nitrogen/generated/ios/RNQuickSQLite+autolinking.rb'
+  add_nitrogen_files(s)
+
   if defined?(install_modules_dependencies())
     install_modules_dependencies(s)
   else
