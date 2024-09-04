@@ -1,4 +1,4 @@
-import { SelectQueryResult } from './specs/QueryResult.nitro';
+import { SelectQueryResult } from './specs/QueryResult.nitro'
 
 /**
  * Object returned by SQL Query executions {
@@ -11,32 +11,32 @@ import { SelectQueryResult } from './specs/QueryResult.nitro';
  * @interface QueryResult
  */
 export interface QueryResult {
-  readonly queryType: QueryType;
-  insertId?: number;
-  rowsAffected: number;
+  readonly queryType: QueryType
+  insertId?: number
+  rowsAffected: number
 
-  selectQueryResult?: SelectQueryResult;
+  selectQueryResult?: SelectQueryResult
 }
 
-export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER';
+export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
-export type ExecuteParams = number | boolean | bigint | string | ArrayBuffer;
+export type ExecuteParams = number | boolean | bigint | string | ArrayBuffer
 
 export type ExecuteQuery = (
   query: string,
   params?: ExecuteParams
-) => QueryResult;
+) => QueryResult
 
 export type ExecuteAsyncQuery = (
   query: string,
   params?: ExecuteParams
-) => Promise<QueryResult>;
+) => Promise<QueryResult>
 
 export interface Transaction {
-  commit(): QueryResult;
-  rollback(): QueryResult;
-  execute: ExecuteQuery;
-  executeAsync: ExecuteAsyncQuery;
+  commit(): QueryResult
+  rollback(): QueryResult
+  execute: ExecuteQuery
+  executeAsync: ExecuteAsyncQuery
 }
 
 export interface PendingTransaction {
@@ -49,7 +49,7 @@ export interface PendingTransaction {
    *
    * It should also automatically commit or rollback the transaction if needed
    */
-  start: () => void;
+  start: () => void
 }
 
 /**
@@ -60,7 +60,7 @@ export interface PendingTransaction {
  */
 export type SQLBatchTuple =
   | [string]
-  | [string, Array<undefined> | Array<Array<undefined>>];
+  | [string, Array<undefined> | Array<Array<undefined>>]
 
 /**
  * status: 0 or undefined for correct execution, 1 for error
@@ -68,7 +68,7 @@ export type SQLBatchTuple =
  * rowsAffected: Number of affected rows if status == 0
  */
 export interface BatchQueryResult {
-  rowsAffected?: number;
+  rowsAffected?: number
 }
 
 /**
@@ -76,19 +76,19 @@ export interface BatchQueryResult {
  * Similar to BatchQueryResult
  */
 export interface FileLoadResult extends BatchQueryResult {
-  commands?: number;
+  commands?: number
 }
 
 export interface QuickSQLiteConnection {
-  close(): void;
-  delete(): void;
-  attach(dbNameToAttach: string, alias: string, location?: string): void;
-  detach(alias: string): void;
-  transaction(fn: (tx: Transaction) => Promise<void> | void): Promise<void>;
-  execute: ExecuteQuery;
-  executeAsync: ExecuteAsyncQuery;
-  executeBatch(commands: SQLBatchTuple[]): BatchQueryResult;
-  executeBatchAsync(commands: SQLBatchTuple[]): Promise<BatchQueryResult>;
-  loadFile(location: string): FileLoadResult;
-  loadFileAsync(location: string): Promise<FileLoadResult>;
+  close(): void
+  delete(): void
+  attach(dbNameToAttach: string, alias: string, location?: string): void
+  detach(alias: string): void
+  transaction(fn: (tx: Transaction) => Promise<void> | void): Promise<void>
+  execute: ExecuteQuery
+  executeAsync: ExecuteAsyncQuery
+  executeBatch(commands: SQLBatchTuple[]): BatchQueryResult
+  executeBatchAsync(commands: SQLBatchTuple[]): Promise<BatchQueryResult>
+  loadFile(location: string): FileLoadResult
+  loadFileAsync(location: string): Promise<FileLoadResult>
 }
