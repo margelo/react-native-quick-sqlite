@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, Text} from 'react-native';
-import 'reflect-metadata';
-import {registerBaseTests, runTests} from './tests/index';
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView, ScrollView, Text } from 'react-native'
+import 'reflect-metadata'
+import { registerBaseTests, runTests } from './tests/index'
 // import {registerTypeORMTests} from './tests/typeorm.spec';
 
 export default function App() {
-  const [results, setResults] = useState<any>([]);
+  const [results, setResults] = useState<any>([])
 
   useEffect(() => {
-    setResults([]);
+    setResults([])
     runTests(
-      registerBaseTests,
+      registerBaseTests
       // registerTypeORMTests
-    ).then(setResults);
-  }, []);
+    ).then(setResults)
+  }, [])
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-900">
@@ -27,7 +27,7 @@ export default function App() {
               <Text key={i} className="mt-3 font-bold text-white">
                 {r.description}
               </Text>
-            );
+            )
           }
 
           if (r.type === 'incorrect') {
@@ -35,16 +35,16 @@ export default function App() {
               <Text key={i} className="mt-1 text-white">
                 🔴 {r.description}: {r.errorMsg}
               </Text>
-            );
+            )
           }
 
           return (
             <Text key={i} className="mt-1 text-white">
               🟢 {r.description}
             </Text>
-          );
+          )
         })}
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }

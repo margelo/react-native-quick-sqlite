@@ -1,7 +1,7 @@
-import 'mocha';
-import type * as MochaTypes from 'mocha';
+import Mocha from 'mocha'
+import type * as MochaTypes from 'mocha'
 // import type { RowItemType } from '../navigators/children/TestingScreen/RowItemType';
-import { clearTests, rootSuite } from './MochaRNAdapter';
+import { clearTests, rootSuite } from './MochaRNAdapter'
 
 export async function runTests(...registrators: Array<() => void>) {
   // testRegistrators: Array<() => void> = []
@@ -15,22 +15,22 @@ export async function runTests(...registrators: Array<() => void>) {
       EVENT_TEST_PASS,
       EVENT_SUITE_BEGIN,
       EVENT_SUITE_END,
-    } = Mocha.Runner.constants;
+    } = Mocha.Runner.constants
 
-    clearTests();
-    const results = [];
-    var runner = new Mocha.Runner(rootSuite) as MochaTypes.Runner;
+    clearTests()
+    const results = []
+    var runner = new Mocha.Runner(rootSuite) as MochaTypes.Runner
 
     runner
       .once(EVENT_RUN_BEGIN, () => {})
       .on(EVENT_SUITE_BEGIN, (suite: MochaTypes.Suite) => {
-        const name = suite.title;
+        const name = suite.title
         if (name !== '') {
           results.push({
             description: name,
             key: Math.random().toString(),
             type: 'grouping',
-          });
+          })
         }
       })
       .on(EVENT_TEST_PASS, (test: MochaTypes.Runnable) => {
@@ -38,7 +38,7 @@ export async function runTests(...registrators: Array<() => void>) {
           description: test.title,
           key: Math.random().toString(),
           type: 'correct',
-        });
+        })
         // console.log(`${indent()}pass: ${test.fullTitle()}`);
       })
       .on(EVENT_TEST_FAIL, (test: MochaTypes.Runnable, err: Error) => {
@@ -47,25 +47,25 @@ export async function runTests(...registrators: Array<() => void>) {
           key: Math.random().toString(),
           type: 'incorrect',
           errorMsg: err.message,
-        });
+        })
         // console.log(
         // `${indent()}fail: ${test.fullTitle()} - error: ${err.message}`
         // );
       })
       .once(EVENT_RUN_END, () => {
-        resolve(results);
-      });
+        resolve(results)
+      })
 
     registrators.forEach((register) => {
-      register();
-    });
-    runner.run();
-  });
+      register()
+    })
+    runner.run()
+  })
 
   // return () => {
   //   console.log('aborting');
   //   runner.abort();
   // };
 
-  return promise;
+  return promise
 }
