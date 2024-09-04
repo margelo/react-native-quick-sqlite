@@ -23,7 +23,7 @@ target 'QuickSQLiteExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'react-native-quick-sqlite', :path => '../..'
+  pod 'RNQuickSQLite', :path => '../..'
 
   target 'QuickSQLiteExampleTests' do
     inherit! :complete
