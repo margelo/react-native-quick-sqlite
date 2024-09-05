@@ -17,7 +17,7 @@ namespace margelo::nitro::rnquicksqlite {
     registerHybrids(this, [](Prototype& prototype) {
       prototype.registerHybridMethod("open", &HybridQuickSQLiteSpec::open);
       prototype.registerHybridMethod("close", &HybridQuickSQLiteSpec::close);
-      prototype.registerHybridMethod("delete", &HybridQuickSQLiteSpec::delete);
+      prototype.registerHybridMethod("drop", &HybridQuickSQLiteSpec::drop);
       prototype.registerHybridMethod("attach", &HybridQuickSQLiteSpec::attach);
       prototype.registerHybridMethod("detach", &HybridQuickSQLiteSpec::detach);
       prototype.registerHybridMethod("transaction", &HybridQuickSQLiteSpec::transaction);
