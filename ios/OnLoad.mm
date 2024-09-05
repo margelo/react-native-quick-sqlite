@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "RNQuickSQLite-Swift-Cxx-Umbrella.hpp"
 #import "OnLoad.hpp"
-#import "QuickSQLite.hpp"
 
 @interface OnLoad : NSObject
 @end
@@ -19,26 +18,26 @@ using namespace margelo::nitro::rnquicksqlite;
     NSString *documentPath;
 
     if (appGroupID != nil) {
-    // Get the app groups container storage url
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *storeUrl = [fileManager containerURLForSecurityApplicationGroupIdentifier:appGroupID];
+        // Get the app groups container storage url
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *storeUrl = [fileManager containerURLForSecurityApplicationGroupIdentifier:appGroupID];
 
-    if (storeUrl == nil) {
-        NSLog(@"Invalid AppGroup ID provided (%@). Check the value of \"AppGroup\" in your Info.plist file", appGroupID);
-        @throw [NSException exceptionWithName:@"SQLiteInitializationException"
-                                           reason:@"Error while initializing SQLite database (AppGroup)"
-                                         userInfo:nil];
-    }
-    NSLog(@"Configured with AppGroup ID: %@", appGroupID);
+        if (storeUrl == nil) {
+            NSLog(@"Invalid AppGroup ID provided (%@). Check the value of \"AppGroup\" in your Info.plist file", appGroupID);
+            @throw [NSException exceptionWithName:@"SQLiteInitializationException"
+                                               reason:@"Error while initializing SQLite database (AppGroup)"
+                                             userInfo:nil];
+        }
+        NSLog(@"Configured with AppGroup ID: %@", appGroupID);
 
-    documentPath = [storeUrl path];
+        documentPath = [storeUrl path];
     } else {
-    // Get iOS app's document directory (to safely store database .sqlite3 file)
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
-    documentPath = [paths objectAtIndex:0];
+        // Get iOS app's document directory (to safely store database .sqlite3 file)
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
+        documentPath = [paths objectAtIndex:0];
     }
 
-    QuickSQLite::setDocPath([documentPath UTF8String]);
+    docPathStr = [documentPath UTF8String];
 }
 
 @end

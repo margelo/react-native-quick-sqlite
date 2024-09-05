@@ -3,6 +3,8 @@
 #include "HybridSelectQueryResultSpec.hpp"
 #include "sqliteBridge.h"
 
+std::string docPathStr;
+
 void clearState();
 
 void registerHybridObjectConstructors();
