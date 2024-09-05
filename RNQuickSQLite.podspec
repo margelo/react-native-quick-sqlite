@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "10.0" }
+  s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/margelo/react-native-quick-sqlite.git", :tag => "#{s.version}" }
 
   s.pod_target_xcconfig = {
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
     'CLANG_CXX_LIBRARY' => 'libc++'
   }
 
-  s.header_mappings_dir = "cpp"
+  # s.header_mappings_dir = "cpp"
   s.source_files = "ios/**/*.{h,hpp,m,mm}", "cpp/**/*.{h,cpp,c}"
 
   load 'nitrogen/generated/ios/RNQuickSQLite+autolinking.rb'
