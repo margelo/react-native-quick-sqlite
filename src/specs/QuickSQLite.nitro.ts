@@ -12,7 +12,7 @@ export interface QuickSQLite
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
   open(dbName: string, location?: string): void
   close(dbName: string): void
-  delete(dbName: string, location?: string): void
+  drop(dbName: string, location?: string): void
   attach(
     mainDbName: string,
     dbNameToAttach: string,

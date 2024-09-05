@@ -12,7 +12,7 @@ import {
 export * from './types'
 
 const QuickSQLite =
-  NitroModules.createHybridObject<QuickSQLiteSpec>('RNQuickSQLite')
+  NitroModules.createHybridObject<QuickSQLiteSpec>('QuickSQLite')
 
 const locks: Record<
   string,
@@ -275,7 +275,7 @@ export const open = (options: {
 
   return {
     close: () => QuickSQLite.close(options.name),
-    delete: () => QuickSQLite.delete(options.name, options.location),
+    delete: () => QuickSQLite.drop(options.name, options.location),
     attach: (dbNameToAttach: string, alias: string, location?: string) =>
       QuickSQLite.attach(options.name, dbNameToAttach, alias, location),
     detach: (alias: string) => QuickSQLite.detach(options.name, alias),
