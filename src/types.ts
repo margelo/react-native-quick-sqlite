@@ -20,16 +20,16 @@ export interface QueryResult {
 
 export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
-export type ExecuteParams = (number | boolean | bigint | string | ArrayBuffer)[]
+export type ExecuteParam = number | boolean | bigint | string | ArrayBuffer
 
 export type ExecuteQuery = (
   query: string,
-  params?: ExecuteParams
+  params?: ExecuteParam[]
 ) => QueryResult
 
 export type ExecuteAsyncQuery = (
   query: string,
-  params?: ExecuteParams
+  params?: ExecuteParam[]
 ) => Promise<QueryResult>
 
 export interface Transaction {
@@ -52,15 +52,21 @@ export interface PendingTransaction {
   start: () => void
 }
 
+export interface SingleQueryTupleFallback {
+  first: string
+}
+export interface BulkQueryTupleFallback {
+  first: string
+  second: Array<undefined> | Array<Array<undefined>>
+}
+
 /**
  * Allows the execution of bulk of sql commands
  * inside a transaction
  * If a single query must be executed many times with different arguments, its preferred
  * to declare it a single time, and use an array of array parameters.
  */
-export type SQLBatchTuple =
-  | [string]
-  | [string, Array<undefined> | Array<Array<undefined>>]
+export type SQLBatchTuple = SingleQueryTupleFallback | BulkQueryTupleFallback
 
 /**
  * status: 0 or undefined for correct execution, 1 for error

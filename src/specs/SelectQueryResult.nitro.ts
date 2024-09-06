@@ -21,6 +21,7 @@ type ColumnType =
   | 'DOUBLE'
   | 'BOOLEAN'
   | 'ARRAY_BUFFER'
+  | 'UNKNOWN'
 // | 'null'
 // | 'string'
 // | 'number'

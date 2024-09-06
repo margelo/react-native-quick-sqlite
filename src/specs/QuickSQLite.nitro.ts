@@ -5,7 +5,7 @@ import {
   FileLoadResult,
   SQLBatchTuple,
   Transaction,
-  ExecuteParams,
+  ExecuteParam,
 } from '../types'
 
 export interface QuickSQLite
@@ -24,11 +24,11 @@ export interface QuickSQLite
     dbName: string,
     fn: (tx: Transaction) => Promise<void> | void
   ): Promise<void>
-  execute(dbName: string, query: string, params?: ExecuteParams): QueryResult
+  execute(dbName: string, query: string, params?: ExecuteParam[]): QueryResult
   executeAsync(
     dbName: string,
     query: string,
-    params?: ExecuteParams
+    params?: ExecuteParam[]
   ): Promise<QueryResult>
   executeBatch(dbName: string, commands: SQLBatchTuple[]): BatchQueryResult
   executeBatchAsync(
