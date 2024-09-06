@@ -212,7 +212,7 @@ export const typeORMDriver = {
       const connection = {
         executeSql: async (
           sql: string,
-          params: ExecuteParams | undefined,
+          params: ExecuteParam[] | undefined,
           ok: (res: QueryResult) => void,
           fail: (msg: string) => void
         ) => {
