@@ -9,15 +9,37 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `ArrayBuffer` to properly resolve imports.
+namespace NitroModules { class ArrayBuffer; }
+// Forward declaration of `BatchQueryResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 // Forward declaration of `ColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
+// Forward declaration of `FileLoadResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
+// Forward declaration of `HybridSelectQueryResultSpec` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
+// Forward declaration of `QueryResult` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
+// Forward declaration of `Transaction` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
 // Include C++ defined types
+#include "BatchQueryResult.hpp"
 #include "ColumnMetadata.hpp"
+#include "FileLoadResult.hpp"
+#include "HybridSelectQueryResultSpec.hpp"
+#include "QueryResult.hpp"
+#include "Transaction.hpp"
+#include <NitroModules/ArrayBuffer.hpp>
 #include <NitroModules/PromiseHolder.hpp>
+#include <functional>
 #include <future>
+#include <memory>
 #include <optional>
 #include <string>
+#include <tuple>
+#include <variant>
 #include <vector>
 
 /**
@@ -48,6 +70,237 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   using std__optional_double_ = std::optional<double>;
   inline std::optional<double> create_std__optional_double_(const double& value) {
     return std::optional<double>(value);
+  }
+  
+  /**
+   * Specialized version of `std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>`.
+   */
+  using std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__ = std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>;
+  inline std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>> create_std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__(const std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>& value) {
+    return std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>(value);
+  }
+  
+  /**
+   * Specialized version of `std::function<std::future<QueryResult>()>`.
+   */
+  using Func_std__future_QueryResult_ = std::function<std::future<QueryResult>()>;
+  inline Func_std__future_QueryResult_ create_Func_std__future_QueryResult_(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */), void(*destroy)(void*)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return [sharedClosureHolder, call]() -> std::future<QueryResult> {
+      auto result = call(sharedClosureHolder.get());
+      return result.getFuture();
+    };
+  }
+  inline std::shared_ptr<Func_std__future_QueryResult_> share_Func_std__future_QueryResult_(const Func_std__future_QueryResult_& value) {
+    return std::make_shared<Func_std__future_QueryResult_>(value);
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<QueryResult>`.
+   */
+  using PromiseHolder_QueryResult_ = PromiseHolder<QueryResult>;
+  inline PromiseHolder<QueryResult> create_PromiseHolder_QueryResult_() {
+    return PromiseHolder<QueryResult>();
+  }
+  
+  /**
+   * Specialized version of `std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>`.
+   */
+  using std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
+  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const std::string& value) {
+    return value;
+  }
+  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(double value) {
+    return value;
+  }
+  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(int64_t value) {
+    return value;
+  }
+  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(bool value) {
+    return value;
+  }
+  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const std::shared_ptr<ArrayBuffer>& value) {
+    return value;
+  }
+  inline std::string get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___0(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
+    return std::get<0>(variant);
+  }
+  inline double get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___1(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
+    return std::get<1>(variant);
+  }
+  inline int64_t get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___2(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
+    return std::get<2>(variant);
+  }
+  inline bool get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___3(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
+    return std::get<3>(variant);
+  }
+  inline std::shared_ptr<ArrayBuffer> get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___4(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
+    return std::get<4>(variant);
+  }
+  
+  /**
+   * Specialized version of `std::function<std::future<QueryResult>(const std::string& / * query * /, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& / * params * /)>`.
+   */
+  using Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>;
+  inline Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */, std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>), void(*destroy)(void*)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return [sharedClosureHolder, call](const std::string& query, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& params) -> std::future<QueryResult> {
+      auto result = call(sharedClosureHolder.get(), query, params);
+      return result.getFuture();
+    };
+  }
+  inline std::shared_ptr<Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__> share_Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& value) {
+    return std::make_shared<Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__>(value);
+  }
+  
+  /**
+   * Specialized version of `std::function<std::future<std::future<QueryResult>>(const std::string& / * query * /, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& / * params * /)>`.
+   */
+  using Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>;
+  inline Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(void* closureHolder, PromiseHolder<std::future<QueryResult>>(*call)(void* /* closureHolder */, std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>), void(*destroy)(void*)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return [sharedClosureHolder, call](const std::string& query, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& params) -> std::future<std::future<QueryResult>> {
+      auto result = call(sharedClosureHolder.get(), query, params);
+      return result.getFuture();
+    };
+  }
+  inline std::shared_ptr<Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__> share_Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& value) {
+    return std::make_shared<Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__>(value);
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<std::future<QueryResult>>`.
+   */
+  using PromiseHolder_std__future_QueryResult__ = PromiseHolder<std::future<QueryResult>>;
+  inline PromiseHolder<std::future<QueryResult>> create_PromiseHolder_std__future_QueryResult__() {
+    return PromiseHolder<std::future<QueryResult>>();
+  }
+  
+  /**
+   * Specialized version of `std::function<std::future<std::future<void>>(const Transaction& / * tx * /)>`.
+   */
+  using Func_std__future_std__future_void___Transaction = std::function<std::future<std::future<void>>(const Transaction& /* tx */)>;
+  inline Func_std__future_std__future_void___Transaction create_Func_std__future_std__future_void___Transaction(void* closureHolder, PromiseHolder<std::future<void>>(*call)(void* /* closureHolder */, Transaction), void(*destroy)(void*)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return [sharedClosureHolder, call](const Transaction& tx) -> std::future<std::future<void>> {
+      auto result = call(sharedClosureHolder.get(), tx);
+      return result.getFuture();
+    };
+  }
+  inline std::shared_ptr<Func_std__future_std__future_void___Transaction> share_Func_std__future_std__future_void___Transaction(const Func_std__future_std__future_void___Transaction& value) {
+    return std::make_shared<Func_std__future_std__future_void___Transaction>(value);
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<std::future<void>>`.
+   */
+  using PromiseHolder_std__future_void__ = PromiseHolder<std::future<void>>;
+  inline PromiseHolder<std::future<void>> create_PromiseHolder_std__future_void__() {
+    return PromiseHolder<std::future<void>>();
+  }
+  
+  /**
+   * Specialized version of `std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
+   */
+  using std__optional_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
+  inline std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__optional_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& value) {
+    return std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>(value);
+  }
+  
+  /**
+   * Specialized version of `std::tuple<std::string>`.
+   */
+  using std__tuple_std__string_ = std::tuple<std::string>;
+  inline std::tuple<std::string> create_std__tuple_std__string_(const std::string& arg0) {
+    return std::tuple<std::string> { arg0 };
+  }
+  
+  /**
+   * Specialized version of `std::vector<std::nullptr_t>`.
+   */
+  using std__vector_std__nullptr_t_ = std::vector<std::nullptr_t>;
+  inline std::vector<std::nullptr_t> create_std__vector_std__nullptr_t_(size_t size) {
+    std::vector<std::nullptr_t> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  /**
+   * Specialized version of `std::vector<std::vector<std::nullptr_t>>`.
+   */
+  using std__vector_std__vector_std__nullptr_t__ = std::vector<std::vector<std::nullptr_t>>;
+  inline std::vector<std::vector<std::nullptr_t>> create_std__vector_std__vector_std__nullptr_t__(size_t size) {
+    std::vector<std::vector<std::nullptr_t>> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  /**
+   * Specialized version of `std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>`.
+   */
+  using std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t___ = std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>;
+  inline std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>> create_std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t___(const std::vector<std::nullptr_t>& value) {
+    return value;
+  }
+  inline std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>> create_std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t___(const std::vector<std::vector<std::nullptr_t>>& value) {
+    return value;
+  }
+  inline std::vector<std::nullptr_t> get_std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t____0(const std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>& variant) {
+    return std::get<0>(variant);
+  }
+  inline std::vector<std::vector<std::nullptr_t>> get_std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t____1(const std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>& variant) {
+    return std::get<1>(variant);
+  }
+  
+  /**
+   * Specialized version of `std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>`.
+   */
+  using std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t____ = std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>;
+  inline std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>> create_std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t____(const std::string& arg0, const std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>& arg1) {
+    return std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>> { arg0, arg1 };
+  }
+  
+  /**
+   * Specialized version of `std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>`.
+   */
+  using std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t_____ = std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>;
+  inline std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>> create_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t_____(const std::tuple<std::string>& value) {
+    return value;
+  }
+  inline std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>> create_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t_____(const std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>& value) {
+    return value;
+  }
+  inline std::tuple<std::string> get_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______0(const std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>& variant) {
+    return std::get<0>(variant);
+  }
+  inline std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>> get_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______1(const std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>& variant) {
+    return std::get<1>(variant);
+  }
+  
+  /**
+   * Specialized version of `std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>`.
+   */
+  using std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______ = std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>;
+  inline std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>> create_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______(size_t size) {
+    std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<BatchQueryResult>`.
+   */
+  using PromiseHolder_BatchQueryResult_ = PromiseHolder<BatchQueryResult>;
+  inline PromiseHolder<BatchQueryResult> create_PromiseHolder_BatchQueryResult_() {
+    return PromiseHolder<BatchQueryResult>();
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<FileLoadResult>`.
+   */
+  using PromiseHolder_FileLoadResult_ = PromiseHolder<FileLoadResult>;
+  inline PromiseHolder<FileLoadResult> create_PromiseHolder_FileLoadResult_() {
+    return PromiseHolder<FileLoadResult>();
   }
   
   /**
