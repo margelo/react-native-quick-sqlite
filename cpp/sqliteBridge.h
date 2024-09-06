@@ -1,30 +1,27 @@
-/*
- * sequel.h
- *
- * Created by Oscar Franco on 2021/03/07
- * Copyright (c) 2021 Oscar Franco
- *
- * This code is licensed under the MIT license
- */
-
-#include "JSIHelper.h"
 #include <vector>
+#include "JSIHelper.h"
+#include "ColumnMetadata.hpp"
+#include "Types.hpp"
 
-using namespace std;
 using namespace facebook;
+using namespace margelo::nitro::rnquicksqlite;
 
-SQLiteOPResult sqliteOpenDb(string const dbName, string const docPath);
+namespace margelo::rnquicksqlite {
 
-SQLiteOPResult sqliteCloseDb(string const dbName);
+SQLiteOPResult sqliteOpenDb(const std::string& dbName, const std::string& docPath);
 
-SQLiteOPResult sqliteRemoveDb(string const dbName, string const docPath);
+SQLiteOPResult sqliteCloseDb(const std::string& dbName);
 
-SQLiteOPResult sqliteAttachDb(string const mainDBName, string const docPath, string const databaseToAttach, string const alias);
+SQLiteOPResult sqliteRemoveDb(const std::string& dbName, const std::string& docPath);
 
-SQLiteOPResult sqliteDetachDb(string const mainDBName, string const alias);
+SQLiteOPResult sqliteAttachDb(const std::string& mainDBName, const std::string& docPath, const std::string& databaseToAttach, const std::string& alias);
 
-SQLiteOPResult sqliteExecute(string const dbName, string const &query, vector<QuickValue> *values, vector<map<string, QuickValue>> *result, vector<QuickColumnMetadata> *metadata);
+SQLiteOPResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias);
 
-SequelLiteralUpdateResult sqliteExecuteLiteral(string const dbName, string const &query);
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, std::optional<std::vector<ExecuteParam>>& params, std::vector<std::map<std::string, SQLiteValue>> *result, std::vector<ColumnMetadata> *metadata);
+
+SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query);
 
 void sqliteCloseAll();
+
+}

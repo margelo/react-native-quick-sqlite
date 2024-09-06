@@ -8,10 +8,13 @@
 #include <string>
 #include "macros.h"
 #include <iostream>
-#include "HybridQuickSQLiteSpec.hpp"
 #include "OnLoad.hpp"
+#include "QueryType.hpp"
+#include "HybridQuickSQLiteSpec.hpp"
+#include "Types.hpp"
 
 using namespace margelo::nitro;
+using namespace margelo::rnquicksqlite;
 
 namespace margelo::nitro::rnquicksqlite {
 
@@ -20,9 +23,9 @@ void HybridQuickSQLiteSpec::open(const std::string& dbName, const std::optional<
     if (location) {
         tempDocPath = tempDocPath + "/" + *location;
     }
-    
+
     SQLiteOPResult result = sqliteOpenDb(dbName, tempDocPath);
-    
+
     if (result.type == SQLiteError)
     {
         throw std::runtime_error(result.errorMessage.c_str());
@@ -39,7 +42,7 @@ void HybridQuickSQLiteSpec::close(const std::string& dbName) {
 };
 
 void HybridQuickSQLiteSpec::drop(const std::string& dbName, const std::optional<std::string>& location) {
-    string tempDocPath = string(docPathStr);
+    std::string tempDocPath = std::string(docPathStr);
     if (location)
     {
         tempDocPath = tempDocPath + "/" + *location;
@@ -55,7 +58,7 @@ void HybridQuickSQLiteSpec::drop(const std::string& dbName, const std::optional<
 };
 
 void HybridQuickSQLiteSpec::attach(const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias, const std::optional<std::string>& location) {
-    string tempDocPath = string(docPathStr);
+    std::string tempDocPath = std::string(docPathStr);
     if (location)
     {
         tempDocPath = tempDocPath + "/" + *location;
@@ -79,52 +82,48 @@ void HybridQuickSQLiteSpec::detach(const std::string& mainDbName, const std::str
 };
 
 std::future<void> transaction(const std::string& dbName, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& fn) {
+    return std::async(std::launch::async, []() {
 
+    });
 };
 
-QueryResult HybridQuickSQLiteSpec::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) {
-    if (params) {
-        
-    }
-    
-    vector<map<string, QuickValue>> results;
-    vector<QuickColumnMetadata> metadata;
+QueryResult HybridQuickSQLiteSpec::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params) {
+    std::vector<std::map<std::string, SQLiteValue>> results;
+    std::vector<ColumnMetadata> metadata;
 
     // Converting results into a JSI Response
     try {
-        auto status = sqliteExecute(dbName, query, &params, &results, &metadata);
+        auto status = sqliteExecute(dbName, query, params, &results, &metadata);
 
         if(status.type == SQLiteError) {
           throw std::runtime_error(status.errorMessage.c_str());
         }
 
-        auto jsiResult = createSequelQueryExecutionResult(rt, status, &results, &metadata);
-        return jsiResult;
+        QueryResult result(QueryType::SELECT, std::nullopt, 0, std::nullopt);
+        return result;
     } catch(std::exception &e) {
         throw std::runtime_error(e.what());
     }
 };
 
-std::future<QueryResult> HybridQuickSQLiteSpec::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) {
-    
+std::future<QueryResult> HybridQuickSQLiteSpec::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params) {
+
 };
 
-BatchQueryResult HybridQuickSQLiteSpec::executeBatch(const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) {
-    
+BatchQueryResult executeBatch(const std::string& dbName, const std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>& commands) {
+
 };
 
-std::future<BatchQueryResult> HybridQuickSQLiteSpec::executeBatchAsync(const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) {
-    
+std::future<BatchQueryResult> executeBatchAsync(const std::string& dbName, const std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>& commands) {
+
 };
 
 FileLoadResult HybridQuickSQLiteSpec::loadFile(const std::string& dbName, const std::string& location) {
-    const auto importResult = importSQLFile(dbName, sqlFileName);
+    const auto importResult = importSQLFile(dbName, location);
     if (importResult.type == SQLiteOk)
     {
-      //auto res = jsi::Object(rt);
-      //res.setProperty(rt, "rowsAffected", jsi::Value(importResult.affectedRows));
-      //res.setProperty(rt, "commands", jsi::Value(importResult.commands));
-      return std::move(importResult);
+        auto result = new FileLoadResult(importResult.commands, importResult.affectedRows);
+        return *result;
     }
     else
     {
@@ -133,7 +132,7 @@ FileLoadResult HybridQuickSQLiteSpec::loadFile(const std::string& dbName, const 
 };
 
 std::future<FileLoadResult> HybridQuickSQLiteSpec::loadFileAsync(const std::string& dbName, const std::string& location) {
-    
+
 };
 
 }
