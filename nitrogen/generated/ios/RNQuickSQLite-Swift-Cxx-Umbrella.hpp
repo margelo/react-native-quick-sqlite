@@ -13,6 +13,8 @@
 namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `BulkQueryTupleFallback` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct BulkQueryTupleFallback; }
 // Forward declaration of `ColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `ColumnType` to properly resolve imports.
@@ -25,17 +27,21 @@ namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
 // Forward declaration of `QueryType` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
+// Forward declaration of `SingleQueryTupleFallback` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct SingleQueryTupleFallback; }
 // Forward declaration of `Transaction` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
 // Include C++ defined types
 #include "BatchQueryResult.hpp"
+#include "BulkQueryTupleFallback.hpp"
 #include "ColumnMetadata.hpp"
 #include "ColumnType.hpp"
 #include "FileLoadResult.hpp"
 #include "HybridSelectQueryResultSpec.hpp"
 #include "QueryResult.hpp"
 #include "QueryType.hpp"
+#include "SingleQueryTupleFallback.hpp"
 #include "Transaction.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <functional>
@@ -43,7 +49,6 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include <memory>
 #include <optional>
 #include <string>
-#include <tuple>
 #include <variant>
 #include <vector>
 

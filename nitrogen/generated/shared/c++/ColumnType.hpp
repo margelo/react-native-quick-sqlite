@@ -37,6 +37,7 @@ namespace margelo::nitro::rnquicksqlite {
     DOUBLE      SWIFT_NAME(double) = 4,
     BOOLEAN      SWIFT_NAME(boolean) = 5,
     ARRAY_BUFFER      SWIFT_NAME(arrayBuffer) = 6,
+    UNKNOWN      SWIFT_NAME(unknown) = 7,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::rnquicksqlite
@@ -58,6 +59,7 @@ namespace margelo::nitro {
         case hashString("DOUBLE"): return ColumnType::DOUBLE;
         case hashString("BOOLEAN"): return ColumnType::BOOLEAN;
         case hashString("ARRAY_BUFFER"): return ColumnType::ARRAY_BUFFER;
+        case hashString("UNKNOWN"): return ColumnType::UNKNOWN;
         default: [[unlikely]]
           throw std::runtime_error("Cannot convert \"" + unionValue + "\" to enum ColumnType - invalid value!");
       }
@@ -71,6 +73,7 @@ namespace margelo::nitro {
         case ColumnType::DOUBLE: return JSIConverter<std::string>::toJSI(runtime, "DOUBLE");
         case ColumnType::BOOLEAN: return JSIConverter<std::string>::toJSI(runtime, "BOOLEAN");
         case ColumnType::ARRAY_BUFFER: return JSIConverter<std::string>::toJSI(runtime, "ARRAY_BUFFER");
+        case ColumnType::UNKNOWN: return JSIConverter<std::string>::toJSI(runtime, "UNKNOWN");
         default: [[unlikely]]
           throw std::runtime_error("Cannot convert ColumnType to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");
@@ -89,6 +92,7 @@ namespace margelo::nitro {
         case hashString("DOUBLE"):
         case hashString("BOOLEAN"):
         case hashString("ARRAY_BUFFER"):
+        case hashString("UNKNOWN"):
           return true;
         default:
           return false;

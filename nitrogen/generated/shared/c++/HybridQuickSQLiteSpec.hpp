@@ -22,6 +22,10 @@ namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
 namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `SingleQueryTupleFallback` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct SingleQueryTupleFallback; }
+// Forward declaration of `BulkQueryTupleFallback` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct BulkQueryTupleFallback; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 
@@ -35,7 +39,8 @@ namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 #include <variant>
 #include <NitroModules/ArrayBuffer.hpp>
 #include "BatchQueryResult.hpp"
-#include <tuple>
+#include "SingleQueryTupleFallback.hpp"
+#include "BulkQueryTupleFallback.hpp"
 #include "FileLoadResult.hpp"
 
 namespace margelo::nitro::rnquicksqlite {
@@ -74,8 +79,8 @@ namespace margelo::nitro::rnquicksqlite {
       virtual std::future<void> transaction(const std::string& dbName, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& fn) = 0;
       virtual QueryResult execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
       virtual std::future<QueryResult> executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
-      virtual BatchQueryResult executeBatch(const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) = 0;
-      virtual std::future<BatchQueryResult> executeBatchAsync(const std::string& dbName, const std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>& commands) = 0;
+      virtual BatchQueryResult executeBatch(const std::string& dbName, const std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>& commands) = 0;
+      virtual std::future<BatchQueryResult> executeBatchAsync(const std::string& dbName, const std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>& commands) = 0;
       virtual FileLoadResult loadFile(const std::string& dbName, const std::string& location) = 0;
       virtual std::future<FileLoadResult> loadFileAsync(const std::string& dbName, const std::string& location) = 0;
 

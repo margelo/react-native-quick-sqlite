@@ -13,6 +13,8 @@
 namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `BulkQueryTupleFallback` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct BulkQueryTupleFallback; }
 // Forward declaration of `ColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
@@ -21,15 +23,19 @@ namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
 // Forward declaration of `QueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
+// Forward declaration of `SingleQueryTupleFallback` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct SingleQueryTupleFallback; }
 // Forward declaration of `Transaction` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
 // Include C++ defined types
 #include "BatchQueryResult.hpp"
+#include "BulkQueryTupleFallback.hpp"
 #include "ColumnMetadata.hpp"
 #include "FileLoadResult.hpp"
 #include "HybridSelectQueryResultSpec.hpp"
 #include "QueryResult.hpp"
+#include "SingleQueryTupleFallback.hpp"
 #include "Transaction.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <NitroModules/PromiseHolder.hpp>
@@ -38,7 +44,6 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include <memory>
 #include <optional>
 #include <string>
-#include <tuple>
 #include <variant>
 #include <vector>
 
@@ -218,14 +223,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::tuple<std::string>`.
-   */
-  using std__tuple_std__string_ = std::tuple<std::string>;
-  inline std::tuple<std::string> create_std__tuple_std__string_(const std::string& arg0) {
-    return std::tuple<std::string> { arg0 };
-  }
-  
-  /**
    * Specialized version of `std::vector<std::nullptr_t>`.
    */
   using std__vector_std__nullptr_t_ = std::vector<std::nullptr_t>;
@@ -263,36 +260,28 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>`.
+   * Specialized version of `std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>`.
    */
-  using std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t____ = std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>;
-  inline std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>> create_std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t____(const std::string& arg0, const std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>& arg1) {
-    return std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>> { arg0, arg1 };
-  }
-  
-  /**
-   * Specialized version of `std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>`.
-   */
-  using std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t_____ = std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>;
-  inline std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>> create_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t_____(const std::tuple<std::string>& value) {
+  using std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback_ = std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>;
+  inline std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback> create_std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback_(const SingleQueryTupleFallback& value) {
     return value;
   }
-  inline std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>> create_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t_____(const std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>& value) {
+  inline std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback> create_std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback_(const BulkQueryTupleFallback& value) {
     return value;
   }
-  inline std::tuple<std::string> get_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______0(const std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>& variant) {
+  inline SingleQueryTupleFallback get_std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback__0(const std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>& variant) {
     return std::get<0>(variant);
   }
-  inline std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>> get_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______1(const std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>& variant) {
+  inline BulkQueryTupleFallback get_std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback__1(const std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>& variant) {
     return std::get<1>(variant);
   }
   
   /**
-   * Specialized version of `std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>`.
+   * Specialized version of `std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>`.
    */
-  using std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______ = std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>>;
-  inline std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>> create_std__vector_std__variant_std__tuple_std__string___std__tuple_std__string__std__variant_std__vector_std__nullptr_t___std__vector_std__vector_std__nullptr_t______(size_t size) {
-    std::vector<std::variant<std::tuple<std::string>, std::tuple<std::string, std::variant<std::vector<std::nullptr_t>, std::vector<std::vector<std::nullptr_t>>>>>> vector;
+  using std__vector_std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback__ = std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>;
+  inline std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>> create_std__vector_std__variant_SingleQueryTupleFallback__BulkQueryTupleFallback__(size_t size) {
+    std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>> vector;
     vector.reserve(size);
     return vector;
   }
