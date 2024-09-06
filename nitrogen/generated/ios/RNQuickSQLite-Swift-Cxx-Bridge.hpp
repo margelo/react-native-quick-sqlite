@@ -139,33 +139,43 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::function<std::future<QueryResult>(const std::string& / * query * /, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& / * params * /)>`.
+   * Specialized version of `std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
    */
-  using Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::function<std::future<QueryResult>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>;
-  inline Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */, std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& query, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& params) -> std::future<QueryResult> {
-      auto result = call(sharedClosureHolder.get(), query, params);
-      return result.getFuture();
-    };
-  }
-  inline std::shared_ptr<Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__> share_Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& value) {
-    return std::make_shared<Func_std__future_QueryResult__std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__>(value);
+  using std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
+  inline std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(size_t size) {
+    std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> vector;
+    vector.reserve(size);
+    return vector;
   }
   
   /**
-   * Specialized version of `std::function<std::future<std::future<QueryResult>>(const std::string& / * query * /, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& / * params * /)>`.
+   * Specialized version of `std::function<std::future<QueryResult>(const std::string& / * query * /, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& / * params * /)>`.
    */
-  using Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& /* params */)>;
-  inline Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(void* closureHolder, PromiseHolder<std::future<QueryResult>>(*call)(void* /* closureHolder */, std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>), void(*destroy)(void*)) {
+  using Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>;
+  inline Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ create_Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */, std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>), void(*destroy)(void*)) {
     std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return [sharedClosureHolder, call](const std::string& query, const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& params) -> std::future<std::future<QueryResult>> {
+    return [sharedClosureHolder, call](const std::string& query, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) -> std::future<QueryResult> {
       auto result = call(sharedClosureHolder.get(), query, params);
       return result.getFuture();
     };
   }
-  inline std::shared_ptr<Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__> share_Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& value) {
-    return std::make_shared<Func_std__future_std__future_QueryResult___std__string_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__>(value);
+  inline std::shared_ptr<Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___> share_Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& value) {
+    return std::make_shared<Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___>(value);
+  }
+  
+  /**
+   * Specialized version of `std::function<std::future<std::future<QueryResult>>(const std::string& / * query * /, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& / * params * /)>`.
+   */
+  using Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>;
+  inline Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ create_Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(void* closureHolder, PromiseHolder<std::future<QueryResult>>(*call)(void* /* closureHolder */, std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>), void(*destroy)(void*)) {
+    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
+    return [sharedClosureHolder, call](const std::string& query, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) -> std::future<std::future<QueryResult>> {
+      auto result = call(sharedClosureHolder.get(), query, params);
+      return result.getFuture();
+    };
+  }
+  inline std::shared_ptr<Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___> share_Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& value) {
+    return std::make_shared<Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___>(value);
   }
   
   /**
@@ -200,11 +210,11 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
+   * Specialized version of `std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>`.
    */
-  using std__optional_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
-  inline std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__optional_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& value) {
-    return std::optional<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>(value);
+  using std__optional_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____ = std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>;
+  inline std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> create_std__optional_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____(const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& value) {
+    return std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>(value);
   }
   
   /**

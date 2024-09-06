@@ -1,4 +1,4 @@
-import { SelectQueryResult } from './specs/QueryResult.nitro'
+import { SelectQueryResult } from './specs/SelectQueryResult.nitro'
 
 /**
  * Object returned by SQL Query executions {
@@ -20,7 +20,7 @@ export interface QueryResult {
 
 export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
-export type ExecuteParams = number | boolean | bigint | string | ArrayBuffer
+export type ExecuteParams = (number | boolean | bigint | string | ArrayBuffer)[]
 
 export type ExecuteQuery = (
   query: string,
