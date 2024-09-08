@@ -107,15 +107,53 @@ QueryResult HybridQuickSQLiteSpec::execute(const std::string& dbName, const std:
 };
 
 std::future<QueryResult> HybridQuickSQLiteSpec::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params) {
+    std::promise<QueryResult> promise;
+    auto future = promise.get_future();
 
+    auto task = [this, prom = std::move(promise), dbName, query, params]() mutable {
+        try {
+            auto result = execute(dbName, query, params);
+            prom.set_value(result);
+        } catch (...) {
+            prom.set_exception(std::current_exception());
+        }
+    };
+
+    pool->queueWork(std::move(task));
+
+    return future;
 };
 
-BatchQueryResult executeBatch(const std::string& dbName, const std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>& commands) {
+BatchQueryResult executeBatch(const std::string& dbName, const std::vector<BatchQueryCommand>& batchParams) {
+    const auto commands = batchParamsToCommands(batchParams);
 
+    auto batchResult = sqliteExecuteBatch(dbName, commands);
+    if (batchResult.type == SQLiteOk)
+    {
+        return BatchQueryResult(batchResult.rowsAffected);
+    }
+    else
+    {
+        throw std::runtime_error(batchResult.message);
+    }
 };
 
-std::future<BatchQueryResult> executeBatchAsync(const std::string& dbName, const std::vector<std::variant<SingleQueryTupleFallback, BulkQueryTupleFallback>>& commands) {
+std::future<BatchQueryResult> HybridQuickSQLiteSpec::executeBatchAsync(const std::string& dbName, const std::vector<BatchQueryCommand>& batchParams) {
+    std::promise<BatchQueryResult> promise;
+    auto future = promise.get_future();
 
+    auto task = [this, prom = std::move(promise), dbName, batchParams]() mutable {
+        try {
+            auto result = executeBatch(dbName, batchParams);
+            prom.set_value(result);
+        } catch (...) {
+            prom.set_exception(std::current_exception());
+        }
+    };
+
+    pool->queueWork(std::move(task));
+
+    return future;
 };
 
 FileLoadResult HybridQuickSQLiteSpec::loadFile(const std::string& dbName, const std::string& location) {
@@ -132,7 +170,21 @@ FileLoadResult HybridQuickSQLiteSpec::loadFile(const std::string& dbName, const 
 };
 
 std::future<FileLoadResult> HybridQuickSQLiteSpec::loadFileAsync(const std::string& dbName, const std::string& location) {
+    std::promise<FileLoadResult> promise;
+    auto future = promise.get_future();
 
+    auto task = [this, prom = std::move(promise), dbName, location]() mutable {
+        try {
+            auto result = loadFile(dbName, location);
+            prom.set_value(result);
+        } catch (...) {
+            prom.set_exception(std::current_exception());
+        }
+    };
+
+    pool->queueWork(std::move(task));
+
+    return future;
 };
 
 }

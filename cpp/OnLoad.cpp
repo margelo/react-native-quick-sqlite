@@ -4,6 +4,8 @@
 
 using namespace margelo::nitro;
 
+using namespace margelo::rnquicksqlite;
+
 void clearState() {
   sqliteCloseAll();
 }

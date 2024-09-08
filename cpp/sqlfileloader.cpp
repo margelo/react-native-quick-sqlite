@@ -7,10 +7,10 @@
 
 namespace margelo::rnquicksqlite {
 
-SequelBatchOperationResult importSQLFile(const string& dbName, const string& fileLocation)
+SequelBatchOperationResult importSQLFile(const std::string& dbName, const std::string& fileLocation)
 {
-    string line;
-    ifstream sqFile(fileLocation);
+    std::string line;
+    std::ifstream sqFile(fileLocation);
     if (sqFile.is_open())
     {
         try

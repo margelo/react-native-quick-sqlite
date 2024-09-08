@@ -1,3 +1,5 @@
+#pragma once
+
 #include "JSIHelper.h"
 
 using namespace facebook;

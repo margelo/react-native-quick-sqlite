@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include "ArrayBuffer.hpp"
 #include "ColumnType.hpp"

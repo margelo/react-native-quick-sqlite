@@ -1,12 +1,4 @@
-//
-//  JSIHelper.hpp
-//  react-native-quick-sqlite
-//
-//  Created by Oscar on 13.03.22.
-//
-
-#ifndef JSIHelper_h
-#define JSIHelper_h
+#pragma once
 
 #include <stdio.h>
 #include <jsi/jsilib.h>
@@ -47,5 +39,3 @@ struct SequelBatchOperationResult
   int affectedRows;
   int commands;
 };
-
-#endif /* JSIHelper_h */

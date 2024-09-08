@@ -1,23 +1,31 @@
 /**
  * SQL Batch execution implementation using default sqliteBridge implementation
 */
+#pragma once
+
 #include "JSIHelper.h"
-#include "sqliteBridge.h"
+#include "Types.hpp"
+#include "BatchQueryCommand.hpp"
 
 using namespace facebook;
+using namespace margelo::nitro;
 
-struct QuickQueryArguments {
+namespace margelo::rnquicksqlite {
+
+struct BatchQuery {
     std::string sql;
     std::shared_ptr<std::vector<ExecuteParam>> params;
 };
 
 /**
- * Local Helper method to translate JSI objects QuickQueryArguments datastructure
+ * Local Helper method to translate JSI objects BatchQuery datastructure
  * MUST be called in the JavaScript Thread
-*/
-void jsiBatchParametersToQuickArguments(jsi::Runtime &rt, jsi::Array const &batchParams, std::vector<QuickQueryArguments> *commands);
+ */
+std::vector<BatchQuery>& batchParamsToCommands(const std::vector<BatchQueryCommand>& batchParams);
 
 /**
  * Execute a batch of commands in a exclusive transaction
-*/
-SequelBatchOperationResult sqliteExecuteBatch(std::string dbName, std::vector<QuickQueryArguments> *commands);
+ */
+SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, std::vector<BatchQuery>& commands);
+
+}

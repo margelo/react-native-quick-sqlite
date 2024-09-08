@@ -201,7 +201,7 @@ SQLiteOPResult sqliteRemoveDb(const std::string& dbName, const std::string& docP
     };
 }
 
-void bindStatement(sqlite3_stmt *statement, std::vector<ExecuteParam>& values)
+void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& values)
 {
     size_t size = values.size();
     if (size <= 0)
@@ -246,7 +246,7 @@ void bindStatement(sqlite3_stmt *statement, std::vector<ExecuteParam>& values)
     }
 }
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, std::optional<std::vector<ExecuteParam>>& params, std::vector<std::map<std::string, SQLiteValue>> *results, std::vector<ColumnMetadata> *metadata)
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params, std::vector<std::map<std::string, SQLiteValue>> *results, std::vector<ColumnMetadata> *metadata)
 {
     if (dbMap.count(dbName) == 0)
     {
