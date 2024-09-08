@@ -2,7 +2,7 @@ import Chance from 'chance'
 import {
   open,
   QuickSQLiteConnection,
-  SQLBatchTuple,
+  BatchQueryCommand,
 } from 'react-native-quick-sqlite'
 import { beforeEach, describe, it } from './MochaRNAdapter'
 import chai from 'chai'
@@ -576,7 +576,7 @@ export function registerBaseTests() {
       const age2 = chance.integer()
       const networth2 = chance.floating()
 
-      const commands: SQLBatchTuple[] = [
+      const commands: BatchQueryCommand[] = [
         [
           'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
           [id1, name1, age1, networth1],
@@ -612,7 +612,7 @@ export function registerBaseTests() {
       const age2 = chance.integer()
       const networth2 = chance.floating()
 
-      const commands: SQLBatchTuple[] = [
+      const commands: BatchQueryCommand[] = [
         [
           'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
           [id1, name1, age1, networth1],

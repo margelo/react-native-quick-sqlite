@@ -52,21 +52,16 @@ export interface PendingTransaction {
   start: () => void
 }
 
-export interface SingleQueryTupleFallback {
-  first: string
-}
-export interface BulkQueryTupleFallback {
-  first: string
-  second: Array<undefined> | Array<Array<undefined>>
-}
-
 /**
  * Allows the execution of bulk of sql commands
  * inside a transaction
  * If a single query must be executed many times with different arguments, its preferred
  * to declare it a single time, and use an array of array parameters.
  */
-export type SQLBatchTuple = SingleQueryTupleFallback | BulkQueryTupleFallback
+export interface BatchQueryCommand {
+  query: string
+  params?: Array<ExecuteParam> | Array<Array<ExecuteParam>>
+}
 
 /**
  * status: 0 or undefined for correct execution, 1 for error
@@ -93,8 +88,8 @@ export interface QuickSQLiteConnection {
   transaction(fn: (tx: Transaction) => Promise<void> | void): Promise<void>
   execute: ExecuteQuery
   executeAsync: ExecuteAsyncQuery
-  executeBatch(commands: SQLBatchTuple[]): BatchQueryResult
-  executeBatchAsync(commands: SQLBatchTuple[]): Promise<BatchQueryResult>
+  executeBatch(commands: BatchQueryCommand[]): BatchQueryResult
+  executeBatchAsync(commands: BatchQueryCommand[]): Promise<BatchQueryResult>
   loadFile(location: string): FileLoadResult
   loadFileAsync(location: string): Promise<FileLoadResult>
 }

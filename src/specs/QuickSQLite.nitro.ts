@@ -3,7 +3,7 @@ import {
   QueryResult,
   BatchQueryResult,
   FileLoadResult,
-  SQLBatchTuple,
+  BatchQueryCommand,
   Transaction,
   ExecuteParam,
 } from '../types'
@@ -30,10 +30,10 @@ export interface QuickSQLite
     query: string,
     params?: ExecuteParam[]
   ): Promise<QueryResult>
-  executeBatch(dbName: string, commands: SQLBatchTuple[]): BatchQueryResult
+  executeBatch(dbName: string, commands: BatchQueryCommand[]): BatchQueryResult
   executeBatchAsync(
     dbName: string,
-    commands: SQLBatchTuple[]
+    commands: BatchQueryCommand[]
   ): Promise<BatchQueryResult>
   loadFile(dbName: string, location: string): FileLoadResult
   loadFileAsync(dbName: string, location: string): Promise<FileLoadResult>

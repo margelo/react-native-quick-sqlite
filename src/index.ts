@@ -5,7 +5,7 @@ import {
   PendingTransaction,
   QueryResult,
   QuickSQLiteConnection,
-  SQLBatchTuple,
+  BatchQueryCommand,
   Transaction,
 } from 'src/types'
 
@@ -288,9 +288,9 @@ export const open = (options: {
       params?: ExecuteParam[]
     ): Promise<QueryResult> =>
       QuickSQLite.executeAsync(options.name, query, params),
-    executeBatch: (commands: SQLBatchTuple[]) =>
+    executeBatch: (commands: BatchQueryCommand[]) =>
       QuickSQLite.executeBatch(options.name, commands),
-    executeBatchAsync: (commands: SQLBatchTuple[]) =>
+    executeBatchAsync: (commands: BatchQueryCommand[]) =>
       QuickSQLite.executeBatchAsync(options.name, commands),
     loadFile: (location: string) =>
       QuickSQLite.loadFile(options.name, location),
