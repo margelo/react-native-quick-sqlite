@@ -124,13 +124,13 @@ std::future<QueryResult> HybridQuickSQLiteSpec::executeAsync(const std::string& 
     return future;
 };
 
-BatchQueryResult executeBatch(const std::string& dbName, const std::vector<BatchQueryCommand>& batchParams) {
+BatchQueryResult HybridQuickSQLiteSpec::executeBatch(const std::string& dbName, const std::vector<BatchQueryCommand>& batchParams) {
     const auto commands = batchParamsToCommands(batchParams);
 
     auto batchResult = sqliteExecuteBatch(dbName, commands);
     if (batchResult.type == SQLiteOk)
     {
-        return BatchQueryResult(batchResult.rowsAffected);
+        return BatchQueryResult(batchResult.affectedRows);
     }
     else
     {

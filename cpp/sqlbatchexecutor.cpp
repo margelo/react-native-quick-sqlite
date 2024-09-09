@@ -15,14 +15,16 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
     {
         if (command.params)
         {
-            using ParamsVec = std::vector<std::vector<ExecuteParam>>;
-            if (std::holds_alternative<ParamsVec>(*command.params)) {
+            using ParamsVec = std::vector<ExecuteParam>;
+            using NestedParamsVec = std::vector<ParamsVec>;
+            
+            if (std::holds_alternative<NestedParamsVec>(*command.params)) {
                 // This arguments is an array of arrays, like a batch update of a single sql command.
-                for (const auto& params : std::get<ParamsVec>(*command.params))
+                for (const auto& params : std::get<NestedParamsVec>(*command.params))
                 {
                     commands.push_back(BatchQuery{
                         command.query,
-                        std::make_shared(std::move(params))
+                        std::make_shared<ParamsVec>(params)
                       });
                 }
             }
@@ -30,7 +32,7 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
             {
              commands.push_back(BatchQuery{
                command.query,
-               std::make_shared(std::move(*command.params))
+               std::make_shared<ParamsVec>(std::move(std::get<ParamsVec>(*command.params)))
              });
             }
         }
@@ -46,9 +48,9 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
     return commands;
 }
 
-SequelBatchOperationResult sqliteExecuteBatch(const std::string dbName&, std::vector<BatchQuery>& commands)
+SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, std::vector<BatchQuery>& commands)
 {
-    size_t commandCount = commands->size();
+    size_t commandCount = commands.size();
     if(commandCount <= 0)
     {
         return SequelBatchOperationResult {
@@ -62,7 +64,7 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string dbName&, std::ve
         int affectedRows = 0;
         sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
         for(int i = 0; i<commandCount; i++) {
-            const auto command = commands->at(i);
+            const auto command = commands.at(i);
 
             // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution
             auto result = sqliteExecute(dbName, command.sql, *command.params.get(), NULL, NULL);

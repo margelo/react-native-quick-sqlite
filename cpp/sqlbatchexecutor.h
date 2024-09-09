@@ -21,11 +21,11 @@ struct BatchQuery {
  * Local Helper method to translate JSI objects BatchQuery datastructure
  * MUST be called in the JavaScript Thread
  */
-std::vector<BatchQuery>& batchParamsToCommands(const std::vector<BatchQueryCommand>& batchParams);
+std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryCommand>& batchParams);
 
 /**
  * Execute a batch of commands in a exclusive transaction
  */
-SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, std::vector<BatchQuery>& commands);
+SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
 
 }
