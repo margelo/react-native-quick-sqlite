@@ -20,7 +20,13 @@ export interface QueryResult {
 
 export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
-export type ExecuteParam = number | boolean | bigint | string | ArrayBuffer
+export type ExecuteParam =
+  | number
+  | boolean
+  | bigint
+  | string
+  | ArrayBuffer
+  | undefined
 
 export type ExecuteQuery = (
   query: string,

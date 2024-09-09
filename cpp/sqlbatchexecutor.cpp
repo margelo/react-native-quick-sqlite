@@ -48,7 +48,7 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
     return commands;
 }
 
-SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, std::vector<BatchQuery>& commands)
+SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands)
 {
     size_t commandCount = commands.size();
     if(commandCount <= 0)
@@ -67,7 +67,7 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, std::ve
             const auto command = commands.at(i);
 
             // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution
-            auto result = sqliteExecute(dbName, command.sql, *command.params.get(), NULL, NULL);
+            auto result = sqliteExecute(dbName, command.sql, *command.params.get(), nullptr, nullptr);
             if(result.type == SQLiteError)
             {
                 sqliteExecuteLiteral(dbName, "ROLLBACK");

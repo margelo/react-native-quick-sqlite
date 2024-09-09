@@ -14,9 +14,9 @@ void registerHybridObjectConstructors() {
   HybridObjectRegistry::registerHybridObjectConstructor("QuickSQLite", []() -> std::shared_ptr<HybridObject> {
       return std::make_shared<HybridQuickSQLiteObject>();
     });
-  HybridObjectRegistry::registerHybridObjectConstructor("SelectQueryResult", []() -> std::shared_ptr<HybridObject> {
-      return std::make_shared<HybridSelectQueryResultObject>();
-    });
+//  HybridObjectRegistry::registerHybridObjectConstructor("SelectQueryResult", []() -> std::shared_ptr<HybridObject> {
+//      return std::make_shared<HybridSelectQueryResultObject>();
+//    });
 }
 
 // OnLoad::OnLoad() {

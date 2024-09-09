@@ -6,4 +6,9 @@
 */
 
 #include "sqliteBridge.h"
-SequelBatchOperationResult importSQLFile(std::string dbName, std::string fileLocation);
+
+namespace margelo::rnquicksqlite {
+
+SequelBatchOperationResult importSQLFile(const std::string& dbName, const std::string& fileLocation);
+
+}

@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <map>
+#include <cmath>
 #include "sqliteBridge.h"
 #include "logs.h"
 #include "ArrayBuffer.hpp"
@@ -213,25 +214,28 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& val
     {
         int sqIndex = ii + 1;
         ExecuteParam value = values.at(ii);
-            if (std::holds_alternative<std::monostate>(value))
+//            if (std::holds_alternative<std::monostate>(value))
+//            {
+//                sqlite3_bind_null(statement, sqIndex);
+//            }
+            if (std::holds_alternative<bool>(value))
             {
-              sqlite3_bind_null(statement, sqIndex);
-            }
-            else if (std::holds_alternative<bool>(value))
-            {
-              sqlite3_bind_int(statement, sqIndex, std::get<bool>(value));
-            }
-            else if (std::holds_alternative<int>(value))
-            {
-              sqlite3_bind_int(statement, sqIndex, std::get<int>(value));
+                sqlite3_bind_int(statement, sqIndex, std::get<bool>(value));
             }
             else if (std::holds_alternative<double>(value))
             {
-              sqlite3_bind_double(statement, sqIndex, std::get<double>(value));
+                const auto doubleValue = std::get<double>(value);
+                const auto isInt = std::floor(doubleValue) == doubleValue;
+                
+                if (isInt) {
+                    sqlite3_bind_int(statement, sqIndex, static_cast<int>(doubleValue));
+                } else {
+                    sqlite3_bind_double(statement, sqIndex, doubleValue);
+                }
             }
             else if (std::holds_alternative<int64_t>(value))
             {
-              sqlite3_bind_int64(statement, sqIndex, std::holds_alternative<int64_t>(value));
+                sqlite3_bind_int64(statement, sqIndex, std::holds_alternative<int64_t>(value));
             }
             else if (std::holds_alternative<std::string>(value))
             {
@@ -246,7 +250,7 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& val
     }
 }
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params, std::vector<std::map<std::string, SQLiteValue>> *results, std::vector<ColumnMetadata> *metadata)
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params, std::shared_ptr<std::vector<std::map<std::string, SQLiteValue>>> results, std::shared_ptr<std::optional<std::vector<ColumnMetadata>>> metadata)
 {
     if (dbMap.count(dbName) == 0)
     {
@@ -263,7 +267,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
     
     int statementStatus = sqlite3_prepare_v2(db, query.c_str(), -1, &statement, NULL);
     
-    if (statementStatus == SQLITE_OK) // statemnet is correct, bind the passed parameters
+    if (statementStatus == SQLITE_OK) // statement is correct, bind the passed parameters
     {
         if (params) {
             bindStatement(statement, *params);
@@ -293,11 +297,6 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
         switch (result)
         {
             case SQLITE_ROW:
-                if(results == NULL)
-                {
-                    break;
-                }
-                
                 i = 0;
                 row = std::map<std::string, SQLiteValue>();
                 count = sqlite3_column_count(statement);
@@ -334,8 +333,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         case SQLITE_TEXT:
                         {
                             const char *column_value = reinterpret_cast<const char *>(sqlite3_column_text(statement, i));
-                            int byteLen = sqlite3_column_bytes(statement, i);
-                            // Specify length too; in case string contains NULL in the middle (which SQLite supports!)
+                            sqlite3_column_bytes(statement, i);
                             row[column_name] = column_value;
                             break;
                         }
@@ -361,8 +359,11 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                 results->push_back(std::move(row));
                 break;
             case SQLITE_DONE:
-                if(metadata != NULL)
-                {
+                if (!*metadata) {
+                    *metadata = std::vector<ColumnMetadata>();
+                }
+                
+                if (*metadata) {
                     i = 0;
                     count = sqlite3_column_count(statement);
                     while (i < count)
@@ -370,14 +371,13 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         column_name = sqlite3_column_name(statement, i);
                         const char *tp = sqlite3_column_decltype(statement, i);
                         column_declared_type = mapSQLiteTypeToColumnType(tp);
-                        auto meta = ColumnMetadata(column_name,column_declared_type, i);
-                        metadata->push_back(meta);
+                        auto columnData = ColumnMetadata(column_name,column_declared_type, i);
+                        (*metadata)->push_back(std::move(columnData));
                         i++;
                     }
+                    isConsuming = false;
                 }
-                isConsuming = false;
                 break;
-                
             default:
                 isFailed = true;
                 isConsuming = false;

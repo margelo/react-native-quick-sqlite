@@ -5,7 +5,7 @@ export interface SelectQueryResult
   /**
    * Query metadata, avaliable only for select query results
    */
-  metadata?: ColumnMetadata[]
+  metadata: ColumnMetadata[]
 
   getString(): string
   getNumber(): number
