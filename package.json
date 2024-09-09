@@ -48,12 +48,20 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "dependencies": {},
+  "dependencies": {
+    "typeorm": "^0.3.20"
+  },
   "devDependencies": {
     "@react-native/eslint-config": "0.75.2",
     "@react-native/typescript-config": "0.75.2",
-    "nitro-codegen": "^0.6.0",
-    "react": "18.2.0",
+    "@types/mocha": "^10.0.7",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "chai": "^5.1.1",
+    "chance": "^1.1.12",
+    "eslint": "8.57.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "mocha": "^10.7.3",
+    "prettier": "^3.3.3",
     "react": "18.3.1",
     "react-native": "0.75.2",
     "react-native-builder-bob": "^0.18.2",
