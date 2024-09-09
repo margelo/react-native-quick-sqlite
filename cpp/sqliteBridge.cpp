@@ -1,4 +1,3 @@
-#include "sqliteBridge.h"
 #include <sstream>
 #include <iostream>
 #include <sqlite3.h>
@@ -6,6 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <map>
+#include "sqliteBridge.h"
 #include "logs.h"
 #include "ArrayBuffer.hpp"
 
@@ -213,36 +213,36 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& val
     {
         int sqIndex = ii + 1;
         ExecuteParam value = values.at(ii);
-        //    if (std::holds_alternative<std::monostate>(value))
-        //    {
-        //      sqlite3_bind_null(statement, sqIndex);
-        //    }
-        //    if (std::holds_alternative<bool>(value))
-        //    {
-        //      sqlite3_bind_int(statement, sqIndex, std::get<bool>(value));
-        //    }
-        //    else if (std::holds_alternative<int>(value))
-        //    {
-        //      sqlite3_bind_int(statement, sqIndex, std::get<int>(value));
-        //    }
-        //    else if (std::holds_alternative<double>(value))
-        //    {
-        //      sqlite3_bind_double(statement, sqIndex, std::get<double>(value));
-        //    }
-        //    else if (std::holds_alternative<int64_t>(value))
-        //    {
-        //      sqlite3_bind_int64(statement, sqIndex, std::holds_alternative<int64_t>(value));
-        //    }
-        //    else if (std::holds_alternative<string>(value))
-        //    {
-        //        const auto stringValue = std::get<string>(value);
-        //        sqlite3_bind_text(statement, sqIndex, stringValue.c_str(), stringValue.length(), SQLITE_TRANSIENT);
-        //    }
-        //    else if (std::holds_alternative<std::shared_ptr<ArrayBuffer>>(value))
-        //    {
-        //        const auto arrayBufferValue = std::get<std::shared_ptr<ArrayBuffer>>(value);
-        //        sqlite3_bind_blob(statement, sqIndex, arrayBufferValue->data(), arrayBufferValue->size(), SQLITE_STATIC);
-        //    }
+            if (std::holds_alternative<std::monostate>(value))
+            {
+              sqlite3_bind_null(statement, sqIndex);
+            }
+            else if (std::holds_alternative<bool>(value))
+            {
+              sqlite3_bind_int(statement, sqIndex, std::get<bool>(value));
+            }
+            else if (std::holds_alternative<int>(value))
+            {
+              sqlite3_bind_int(statement, sqIndex, std::get<int>(value));
+            }
+            else if (std::holds_alternative<double>(value))
+            {
+              sqlite3_bind_double(statement, sqIndex, std::get<double>(value));
+            }
+            else if (std::holds_alternative<int64_t>(value))
+            {
+              sqlite3_bind_int64(statement, sqIndex, std::holds_alternative<int64_t>(value));
+            }
+            else if (std::holds_alternative<std::string>(value))
+            {
+                const auto stringValue = std::get<std::string>(value);
+                sqlite3_bind_text(statement, sqIndex, stringValue.c_str(), stringValue.length(), SQLITE_TRANSIENT);
+            }
+            else if (std::holds_alternative<std::shared_ptr<ArrayBuffer>>(value))
+            {
+                const auto arrayBufferValue = std::get<std::shared_ptr<ArrayBuffer>>(value);
+                sqlite3_bind_blob(statement, sqIndex, arrayBufferValue->data(), arrayBufferValue->size(), SQLITE_STATIC);
+            }
     }
 }
 

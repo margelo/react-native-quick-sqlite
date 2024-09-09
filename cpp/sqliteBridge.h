@@ -1,11 +1,8 @@
 #pragma once
 
-#include <vector>
-#include "JSIHelper.h"
 #include "ColumnMetadata.hpp"
 #include "Types.hpp"
 
-using namespace facebook;
 using namespace margelo::nitro::rnquicksqlite;
 
 namespace margelo::rnquicksqlite {

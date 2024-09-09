@@ -3,7 +3,6 @@
 */
 #pragma once
 
-#include "JSIHelper.h"
 #include "Types.hpp"
 #include "BatchQueryCommand.hpp"
 

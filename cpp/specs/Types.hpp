@@ -6,6 +6,39 @@
 
 namespace margelo::nitro::rnquicksqlite {
 
+/**
+ * Various structs to help with the results of the SQLite operations
+ */
+enum ResultType
+{
+  SQLiteOk,
+  SQLiteError
+};
+
+struct SQLiteOPResult
+{
+  ResultType type;
+  std::string errorMessage;
+  int rowsAffected;
+  double insertId;
+};
+
+struct SequelLiteralUpdateResult
+{
+  ResultType type;
+    std::string message;
+  int affectedRows;
+};
+
+struct SequelBatchOperationResult
+{
+  ResultType type;
+    std::string message;
+  int affectedRows;
+  int commands;
+};
+
+
 using ExecuteParam = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
 using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>, std::monostate>;
 

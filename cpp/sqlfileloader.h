@@ -5,6 +5,5 @@
  *
 */
 
-#include "JSIHelper.h"
 #include "sqliteBridge.h"
 SequelBatchOperationResult importSQLFile(std::string dbName, std::string fileLocation);

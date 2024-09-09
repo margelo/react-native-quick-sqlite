@@ -1,8 +1,4 @@
-#pragma once
-
 #include "JSIHelper.h"
-
-using namespace facebook;
 
 //void jsiQueryArgumentsToSequelParam(jsi::Runtime &rt, jsi::Value const &params, vector<QuickValue> *target)
 //{
