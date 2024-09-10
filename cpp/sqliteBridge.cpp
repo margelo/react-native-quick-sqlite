@@ -250,7 +250,7 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<SQLiteValue>& valu
     }
 }
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params, std::shared_ptr<std::vector<std::map<std::string, SQLiteValue>>> results, std::shared_ptr<std::optional<std::vector<ColumnMetadata>>> metadata)
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params, std::vector<std::unordered_map<std::string, SQLiteValue>>& results, std::optional<std::vector<ColumnMetadata>>& metadata)
 {
     if (dbMap.count(dbName) == 0)
     {
@@ -288,7 +288,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
     int result, i, count, column_type;
     std::string column_name;
     ColumnType column_declared_type;
-    std::map<std::string, SQLiteValue> row;
+    std::unordered_map<std::string, SQLiteValue> row;
 
     while (isConsuming)
     {
@@ -298,7 +298,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
         {
             case SQLITE_ROW:
                 i = 0;
-                row = std::map<std::string, SQLiteValue>();
+                row = std::unordered_map<std::string, SQLiteValue>();
                 count = sqlite3_column_count(statement);
 
                 while (i < count)
@@ -351,19 +351,19 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         case SQLITE_NULL:
                             // Intentionally left blank to switch to default case
                         default:
-                            row[column_name] = std::monostate();
+//                            row[column_name] = std::monostate();
                             break;
                     }
                     i++;
                 }
-                results->push_back(std::move(row));
+                results.push_back(std::move(row));
                 break;
             case SQLITE_DONE:
-                if (!*metadata) {
-                    *metadata = std::vector<ColumnMetadata>();
+                if (!metadata) {
+                    metadata = std::vector<ColumnMetadata>();
                 }
 
-                if (*metadata) {
+                if (metadata) {
                     i = 0;
                     count = sqlite3_column_count(statement);
                     while (i < count)
@@ -372,7 +372,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         const char *tp = sqlite3_column_decltype(statement, i);
                         column_declared_type = mapSQLiteTypeToColumnType(tp);
                         auto columnData = ColumnMetadata(column_name,column_declared_type, i);
-                        (*metadata)->push_back(std::move(columnData));
+                        metadata->push_back(std::move(columnData));
                         i++;
                     }
                     isConsuming = false;

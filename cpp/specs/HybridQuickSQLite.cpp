@@ -79,15 +79,9 @@ void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string&
     }
 };
 
-std::future<void> HybridQuickSQLite::transaction(const std::string& dbName, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& fn) {
-    return std::async(std::launch::async, []() {
-
-    });
-};
-
 QueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
-    auto results = std::make_shared<std::vector<std::map<std::string, SQLiteValue>>>();
-    auto metadata = std::make_shared<std::optional<std::vector<ColumnMetadata>>>(std::nullopt);
+    auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
+    auto metadata = std::optional<std::vector<ColumnMetadata>>(std::nullopt);
 
     // Converting results into a JSI Response
     try {
@@ -98,7 +92,7 @@ QueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::str
         }
 
         if (metadata) {
-            const auto selectQueryResult = std::make_shared<HybridSelectQueryResult>(*results, *(*metadata));
+            const auto selectQueryResult = std::make_shared<HybridSelectQueryResult>(std::move(results), std::move(*metadata));
             return QueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
         }
 

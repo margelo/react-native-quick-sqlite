@@ -67,7 +67,9 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const s
             const auto command = commands.at(i);
 
             // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution
-            auto result = sqliteExecute(dbName, command.sql, *command.params.get(), nullptr, nullptr);
+            auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
+            auto metadata = std::optional<std::vector<ColumnMetadata>>(std::nullopt);
+            auto result = sqliteExecute(dbName, command.sql, *command.params.get(), results, metadata);
             if(result.type == SQLiteError)
             {
                 sqliteExecuteLiteral(dbName, "ROLLBACK");

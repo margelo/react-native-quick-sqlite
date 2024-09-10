@@ -1,11 +1,9 @@
 #include "HybridSelectQueryResult.hpp"
 
-using namespace margelo::nitro::rnquicksqlite;
-
 namespace margelo::rnquicksqlite {
 
-HybridSelectQueryResult::HybridSelectQueryResult(const std::vector<std::unordered_map<std::string, SQLiteValue>>& results, const std::vector<ColumnMetadata>& metadata)
-    : HybridSelectQueryResultSpec(), _results(results), _metadata(metadata) {}
+HybridSelectQueryResult::HybridSelectQueryResult(std::vector<std::unordered_map<std::string, SQLiteValue>>&& results, std::vector<ColumnMetadata>&& metadata)
+    : HybridSelectQueryResultSpec(), _results(std::move(results)), _metadata(std::move(metadata)) {}
 
 std::vector<std::unordered_map<std::string, SQLiteValue>> HybridSelectQueryResult::getResults() {
     return this->_results;
@@ -21,22 +19,6 @@ std::vector<ColumnMetadata> HybridSelectQueryResult::getMetadata() {
 
 void HybridSelectQueryResult::setMetadata(const std::vector<ColumnMetadata>& metadata) {
     this->_metadata = metadata;
-}
-
-//std::string HybridSelectQueryResult::getString() {
-//    return "TODO";
-//}
-//
-//double HybridSelectQueryResult::getNumber() {
-//    return -1.0;
-//}
-//
-//bool HybridSelectQueryResult::getBoolean() {
-//    return false;
-//}
-
-std::shared_ptr<ArrayBuffer> HybridSelectQueryResult::getArrayBuffer() {
-    return nullptr;
 }
 
 }

@@ -11,7 +11,7 @@
 		83BC6E712C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E452C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp */; };
 		83BC6E722C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E4F2C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp */; };
 		83BC6E732C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E512C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp */; };
-		83BC6E742C8F78A200B954D2 /* HybridQuickSQLiteObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLiteObject.cpp */; };
+		83BC6E742C8F78A200B954D2 /* HybridQuickSQLite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLite.cpp */; };
 		83BC6E752C8F78A200B954D2 /* HybridSelectQueryResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E5C2C8F78A200B954D2 /* HybridSelectQueryResult.cpp */; };
 		83BC6E762C8F78A200B954D2 /* JSIHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E602C8F78A200B954D2 /* JSIHelper.cpp */; };
 		83BC6E772C8F78A200B954D2 /* OnLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E642C8F78A200B954D2 /* OnLoad.cpp */; };
@@ -56,10 +56,10 @@
 		83BC6E532C8F78A200B954D2 /* QueryResult.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QueryResult.hpp; sourceTree = "<group>"; };
 		83BC6E542C8F78A200B954D2 /* QueryType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QueryType.hpp; sourceTree = "<group>"; };
 		83BC6E552C8F78A200B954D2 /* Transaction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transaction.hpp; sourceTree = "<group>"; };
-		83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLiteObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridQuickSQLiteObject.cpp; sourceTree = "<group>"; };
-		83BC6E5B2C8F78A200B954D2 /* HybridQuickSQLiteObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridQuickSQLiteObject.hpp; sourceTree = "<group>"; };
+		83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridQuickSQLite.cpp; sourceTree = "<group>"; };
+		83BC6E5B2C8F78A200B954D2 /* HybridQuickSQLite.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridQuickSQLite.hpp; sourceTree = "<group>"; };
 		83BC6E5C2C8F78A200B954D2 /* HybridSelectQueryResult.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridSelectQueryResult.cpp; sourceTree = "<group>"; };
-		83BC6E5D2C8F78A200B954D2 /* HybridSelectQueryResultObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridSelectQueryResultObject.hpp; sourceTree = "<group>"; };
+		83BC6E5D2C8F78A200B954D2 /* HybridSelectQueryResult.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridSelectQueryResult.hpp; sourceTree = "<group>"; };
 		83BC6E5E2C8F78A200B954D2 /* Types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Types.hpp; sourceTree = "<group>"; };
 		83BC6E602C8F78A200B954D2 /* JSIHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSIHelper.cpp; sourceTree = "<group>"; };
 		83BC6E612C8F78A200B954D2 /* JSIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSIHelper.h; sourceTree = "<group>"; };
@@ -179,10 +179,10 @@
 		83BC6E5F2C8F78A200B954D2 /* specs */ = {
 			isa = PBXGroup;
 			children = (
-				83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLiteObject.cpp */,
-				83BC6E5B2C8F78A200B954D2 /* HybridQuickSQLiteObject.hpp */,
+				83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLite.cpp */,
+				83BC6E5B2C8F78A200B954D2 /* HybridQuickSQLite.hpp */,
 				83BC6E5C2C8F78A200B954D2 /* HybridSelectQueryResult.cpp */,
-				83BC6E5D2C8F78A200B954D2 /* HybridSelectQueryResultObject.hpp */,
+				83BC6E5D2C8F78A200B954D2 /* HybridSelectQueryResult.hpp */,
 				83BC6E5E2C8F78A200B954D2 /* Types.hpp */,
 			);
 			path = specs;
@@ -283,7 +283,7 @@
 				83BC6E752C8F78A200B954D2 /* HybridSelectQueryResult.cpp in Sources */,
 				83BC6E412C8F788C00B954D2 /* OnLoad.mm in Sources */,
 				83BC6E7A2C8F78A200B954D2 /* sqlite3.c in Sources */,
-				83BC6E742C8F78A200B954D2 /* HybridQuickSQLiteObject.cpp in Sources */,
+				83BC6E742C8F78A200B954D2 /* HybridQuickSQLite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
