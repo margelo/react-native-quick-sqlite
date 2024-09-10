@@ -6,7 +6,7 @@ using namespace margelo::nitro::rnquicksqlite;
 
 namespace margelo::rnquicksqlite {
 
-class HybridQuickSQLiteObject: public HybridQuickSQLiteSpec {
+class HybridQuickSQLite: public HybridQuickSQLiteSpec {
 public:
     // Methods
     void open(const std::string& dbName, const std::optional<std::string>& location) override;
