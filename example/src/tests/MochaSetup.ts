@@ -14,11 +14,15 @@ export async function runTests(...registrators: Array<() => void>) {
       EVENT_TEST_FAIL,
       EVENT_TEST_PASS,
       EVENT_SUITE_BEGIN,
-      EVENT_SUITE_END,
     } = Mocha.Runner.constants
 
     clearTests()
-    const results = []
+    const results: {
+      description: string
+      key: string
+      type: string
+      errorMsg?: string
+    }[] = []
     var runner = new Mocha.Runner(rootSuite) as MochaTypes.Runner
 
     runner
