@@ -17,7 +17,7 @@ SQLiteOPResult sqliteAttachDb(const std::string& mainDBName, const std::string& 
 
 SQLiteOPResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias);
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params, std::shared_ptr<std::vector<std::map<std::string, SQLiteValue>>> result, std::shared_ptr<std::optional<std::vector<ColumnMetadata>>> metadata);
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params, std::shared_ptr<std::vector<std::map<std::string, SQLiteValue>>> result, std::shared_ptr<std::optional<std::vector<ColumnMetadata>>> metadata);
 
 SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query);
 

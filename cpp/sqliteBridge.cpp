@@ -57,10 +57,10 @@ int mkdir(const char *path)
         // create current level
         if (!folder_exists(current_level) && _mkdir(current_level.c_str()) != 0)
             return -1;
-        
+
         current_level += "/"; // don't forget to append a slash
     }
-    
+
     return 0;
 }
 
@@ -79,13 +79,13 @@ std::string get_db_path(const std::string& dbName, const std::string& docPath)
 SQLiteOPResult sqliteOpenDb(const std::string& dbName, const std::string& docPath)
 {
     std::string dbPath = get_db_path(dbName, docPath);
-    
+
     int sqlOpenFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX;
-    
+
     sqlite3 *db;
     int exit = 0;
     exit = sqlite3_open_v2(dbPath.c_str(), &db, sqlOpenFlags, nullptr);
-    
+
     if (exit != SQLITE_OK)
     {
         return SQLiteOPResult{
@@ -97,7 +97,7 @@ SQLiteOPResult sqliteOpenDb(const std::string& dbName, const std::string& docPat
     {
         dbMap[dbName] = db;
     }
-    
+
     return SQLiteOPResult{
         .type = SQLiteOk,
         .rowsAffected = 0
@@ -106,7 +106,7 @@ SQLiteOPResult sqliteOpenDb(const std::string& dbName, const std::string& docPat
 
 SQLiteOPResult sqliteCloseDb(const std::string& dbName)
 {
-    
+
     if (dbMap.count(dbName) == 0)
     {
         return SQLiteOPResult{
@@ -114,13 +114,13 @@ SQLiteOPResult sqliteCloseDb(const std::string& dbName)
             .errorMessage = dbName + " is not open",
         };
     }
-    
+
     sqlite3 *db = dbMap[dbName];
-    
+
     sqlite3_close_v2(db);
-    
+
     dbMap.erase(dbName);
-    
+
     return SQLiteOPResult{
         .type = SQLiteOk,
     };
@@ -184,9 +184,9 @@ SQLiteOPResult sqliteRemoveDb(const std::string& dbName, const std::string& docP
             return closeResult;
         }
     }
-    
+
     std::string dbPath = get_db_path(dbName, docPath);
-    
+
     if (!file_exists(dbPath))
     {
         return SQLiteOPResult{
@@ -194,26 +194,26 @@ SQLiteOPResult sqliteRemoveDb(const std::string& dbName, const std::string& docP
             .errorMessage = "[react-native-quick-sqlite]: Database file not found" + dbPath
         };
     }
-    
+
     remove(dbPath.c_str());
-    
+
     return SQLiteOPResult{
         .type = SQLiteOk,
     };
 }
 
-void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& values)
+void bindStatement(sqlite3_stmt *statement, const std::vector<SQLiteValue>& values)
 {
     size_t size = values.size();
     if (size <= 0)
     {
         return;
     }
-    
+
     for (int ii = 0; ii < size; ii++)
     {
         int sqIndex = ii + 1;
-        ExecuteParam value = values.at(ii);
+        SQLiteValue value = values.at(ii);
 //            if (std::holds_alternative<std::monostate>(value))
 //            {
 //                sqlite3_bind_null(statement, sqIndex);
@@ -226,7 +226,7 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& val
             {
                 const auto doubleValue = std::get<double>(value);
                 const auto isInt = std::floor(doubleValue) == doubleValue;
-                
+
                 if (isInt) {
                     sqlite3_bind_int(statement, sqIndex, static_cast<int>(doubleValue));
                 } else {
@@ -250,7 +250,7 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<ExecuteParam>& val
     }
 }
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params, std::shared_ptr<std::vector<std::map<std::string, SQLiteValue>>> results, std::shared_ptr<std::optional<std::vector<ColumnMetadata>>> metadata)
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params, std::shared_ptr<std::vector<std::map<std::string, SQLiteValue>>> results, std::shared_ptr<std::optional<std::vector<ColumnMetadata>>> metadata)
 {
     if (dbMap.count(dbName) == 0)
     {
@@ -260,13 +260,13 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
             .rowsAffected = 0
         };
     }
-    
+
     sqlite3 *db = dbMap[dbName];
-    
+
     sqlite3_stmt *statement;
-    
+
     int statementStatus = sqlite3_prepare_v2(db, query.c_str(), -1, &statement, NULL);
-    
+
     if (statementStatus == SQLITE_OK) // statement is correct, bind the passed parameters
     {
         if (params) {
@@ -281,34 +281,34 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
             .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + std::string(message),
             .rowsAffected = 0};
     }
-    
+
     bool isConsuming = true;
     bool isFailed = false;
-    
+
     int result, i, count, column_type;
     std::string column_name;
     ColumnType column_declared_type;
     std::map<std::string, SQLiteValue> row;
-    
+
     while (isConsuming)
     {
         result = sqlite3_step(statement);
-        
+
         switch (result)
         {
             case SQLITE_ROW:
                 i = 0;
                 row = std::map<std::string, SQLiteValue>();
                 count = sqlite3_column_count(statement);
-                
+
                 while (i < count)
                 {
                     column_type = sqlite3_column_type(statement, i);
                     column_name = sqlite3_column_name(statement, i);
-                    
+
                     switch (column_type)
                     {
-                            
+
                         case SQLITE_INTEGER:
                         {
                             /**
@@ -322,14 +322,14 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                             row[column_name] = column_value;
                             break;
                         }
-                            
+
                         case SQLITE_FLOAT:
                         {
                             double column_value = sqlite3_column_double(statement, i);
                             row[column_name] = column_value;
                             break;
                         }
-                            
+
                         case SQLITE_TEXT:
                         {
                             const char *column_value = reinterpret_cast<const char *>(sqlite3_column_text(statement, i));
@@ -337,7 +337,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                             row[column_name] = column_value;
                             break;
                         }
-                            
+
                         case SQLITE_BLOB:
                         {
                             int blob_size = sqlite3_column_bytes(statement, i);
@@ -347,7 +347,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                             row[column_name] = ArrayBuffer::makeBuffer(data, blob_size, [&data]() -> void { delete[] data; });
                             break;
                         }
-                            
+
                         case SQLITE_NULL:
                             // Intentionally left blank to switch to default case
                         default:
@@ -362,7 +362,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                 if (!*metadata) {
                     *metadata = std::vector<ColumnMetadata>();
                 }
-                
+
                 if (*metadata) {
                     i = 0;
                     count = sqlite3_column_count(statement);
@@ -383,9 +383,9 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                 isConsuming = false;
         }
     }
-    
+
     sqlite3_finalize(statement);
-    
+
     if (isFailed)
     {
         const char *message = sqlite3_errmsg(db);
@@ -396,7 +396,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
             .insertId = 0
         };
     }
-    
+
     int changedRowCount = sqlite3_changes(db);
     long long latestInsertRowId = sqlite3_last_insert_rowid(db);
     return SQLiteOPResult{
@@ -416,15 +416,15 @@ SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const 
             0
         };
     }
-    
+
     sqlite3 *db = dbMap[dbName];
-    
+
     // SQLite statements need to be compiled before executed
     sqlite3_stmt *statement;
-    
+
     // Compile and move result into statement memory spot
     int statementStatus = sqlite3_prepare_v2(db, query.c_str(), -1, &statement, NULL);
-    
+
     if (statementStatus != SQLITE_OK) // statemnet is correct, bind the passed parameters
     {
         const char *message = sqlite3_errmsg(db);
@@ -433,35 +433,35 @@ SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const 
             "[react-native-quick-sqlite] SQL execution error: " + std::string(message),
             0};
     }
-    
+
     bool isConsuming = true;
     bool isFailed = false;
-    
+
     int result, i, count, column_type;
     std::string column_name;
-    
+
     while (isConsuming)
     {
         result = sqlite3_step(statement);
-        
+
         switch (result)
         {
             case SQLITE_ROW:
                 isConsuming = true;
                 break;
-                
+
             case SQLITE_DONE:
                 isConsuming = false;
                 break;
-                
+
             default:
                 isFailed = true;
                 isConsuming = false;
         }
     }
-    
+
     sqlite3_finalize(statement);
-    
+
     if (isFailed)
     {
         const char *message = sqlite3_errmsg(db);
@@ -470,7 +470,7 @@ SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const 
             "[react-native-quick-sqlite] SQL execution error: " + std::string(message),
             0};
     }
-    
+
     int changedRowCount = sqlite3_changes(db);
     return {
         SQLiteOk,

@@ -38,8 +38,6 @@ struct SequelBatchOperationResult
   int commands;
 };
 
-
-using ExecuteParam = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
 using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>, std::monostate>;
 
 // constexpr function that maps SQLiteColumnType to string literals

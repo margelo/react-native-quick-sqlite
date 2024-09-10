@@ -85,7 +85,7 @@ std::future<void> HybridQuickSQLiteObject::transaction(const std::string& dbName
     });
 };
 
-QueryResult HybridQuickSQLiteObject::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params) {
+QueryResult HybridQuickSQLiteObject::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
     auto results = std::make_shared<std::vector<std::map<std::string, SQLiteValue>>>();
     auto metadata = std::make_shared<std::optional<std::vector<ColumnMetadata>>>(std::nullopt);
 
@@ -108,7 +108,7 @@ QueryResult HybridQuickSQLiteObject::execute(const std::string& dbName, const st
     }
 };
 
-std::future<QueryResult> HybridQuickSQLiteObject::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<ExecuteParam>>& params) {
+std::future<QueryResult> HybridQuickSQLiteObject::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
     auto promise = std::make_shared<std::promise<QueryResult>>();
     auto future = promise->get_future();
 

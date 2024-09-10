@@ -10,14 +10,14 @@ namespace margelo::rnquicksqlite {
 std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryCommand>& batchParams)
 {
     auto commands = std::vector<BatchQuery>();
-    
+
     for (auto& command : batchParams)
     {
         if (command.params)
         {
-            using ParamsVec = std::vector<ExecuteParam>;
+            using ParamsVec = std::vector<SQLiteValue>;
             using NestedParamsVec = std::vector<ParamsVec>;
-            
+
             if (std::holds_alternative<NestedParamsVec>(*command.params)) {
                 // This arguments is an array of arrays, like a batch update of a single sql command.
                 for (const auto& params : std::get<NestedParamsVec>(*command.params))
