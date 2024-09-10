@@ -414,14 +414,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::optional<std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>`.
-   */
-  using std__optional_std__unordered_map_std__string__std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____ = std::optional<std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>;
-  inline std::optional<std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>> create_std__optional_std__unordered_map_std__string__std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(const std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& value) {
-    return std::optional<std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>(value);
-  }
-  
-  /**
    * Specialized version of `std::vector<ColumnMetadata>`.
    */
   using std__vector_ColumnMetadata_ = std::vector<ColumnMetadata>;
@@ -429,14 +421,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
     std::vector<ColumnMetadata> vector;
     vector.reserve(size);
     return vector;
-  }
-  
-  /**
-   * Specialized version of `std::optional<std::vector<ColumnMetadata>>`.
-   */
-  using std__optional_std__vector_ColumnMetadata__ = std::optional<std::vector<ColumnMetadata>>;
-  inline std::optional<std::vector<ColumnMetadata>> create_std__optional_std__vector_ColumnMetadata__(const std::vector<ColumnMetadata>& value) {
-    return std::optional<std::vector<ColumnMetadata>>(value);
   }
 
 } // namespace margelo::nitro::rnquicksqlite::bridge::swift

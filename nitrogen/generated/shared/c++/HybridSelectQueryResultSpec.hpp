@@ -14,16 +14,17 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `ColumnMetadata` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `ArrayBuffer` to properly resolve imports.
 namespace NitroModules { class ArrayBuffer; }
+// Forward declaration of `ColumnMetadata` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 
-#include <optional>
-#include <vector>
-#include "ColumnMetadata.hpp"
+#include <unordered_map>
 #include <string>
+#include <vector>
+#include <variant>
 #include <NitroModules/ArrayBuffer.hpp>
+#include "ColumnMetadata.hpp"
 
 namespace margelo::nitro::rnquicksqlite {
 
@@ -49,15 +50,14 @@ namespace margelo::nitro::rnquicksqlite {
 
     public:
       // Properties
-      virtual std::optional<std::vector<ColumnMetadata>> getMetadata() = 0;
-      virtual void setMetadata(const std::optional<std::vector<ColumnMetadata>>& metadata) = 0;
+      virtual std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> getResults() = 0;
+      virtual void setResults(const std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& results) = 0;
+      virtual std::vector<ColumnMetadata> getMetadata() = 0;
+      virtual void setMetadata(const std::vector<ColumnMetadata>& metadata) = 0;
 
     public:
       // Methods
-      virtual std::string getString() = 0;
-      virtual double getNumber() = 0;
-      virtual bool getBoolean() = 0;
-      virtual std::shared_ptr<ArrayBuffer> getArrayBuffer() = 0;
+      
 
     protected:
       // Hybrid Setup

@@ -15,12 +15,10 @@ namespace margelo::nitro::rnquicksqlite {
     HybridObject::loadHybridMethods();
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
+      prototype.registerHybridGetter("results", &HybridSelectQueryResultSpec::getResults);
+      prototype.registerHybridSetter("results", &HybridSelectQueryResultSpec::setResults);
       prototype.registerHybridGetter("metadata", &HybridSelectQueryResultSpec::getMetadata);
       prototype.registerHybridSetter("metadata", &HybridSelectQueryResultSpec::setMetadata);
-      prototype.registerHybridMethod("getString", &HybridSelectQueryResultSpec::getString);
-      prototype.registerHybridMethod("getNumber", &HybridSelectQueryResultSpec::getNumber);
-      prototype.registerHybridMethod("getBoolean", &HybridSelectQueryResultSpec::getBoolean);
-      prototype.registerHybridMethod("getArrayBuffer", &HybridSelectQueryResultSpec::getArrayBuffer);
     });
   }
 

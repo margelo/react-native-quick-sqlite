@@ -27,10 +27,6 @@ target_sources(
   # Shared Nitrogen C++ sources
   ../nitrogen/generated/shared/c++/HybridQuickSQLiteSpec.cpp
   ../nitrogen/generated/shared/c++/HybridSelectQueryResultSpec.cpp
-  ../nitrogen/generated/shared/c++/HybridQuickSQLiteSpec.cpp
-  ../nitrogen/generated/shared/c++/HybridSelectQueryResultSpec.cpp
-  ../nitrogen/generated/shared/c++/HybridQuickSQLiteSpec.cpp
-  ../nitrogen/generated/shared/c++/HybridSelectQueryResultSpec.cpp
   # Android-specific Nitrogen C++ sources
   
 )
