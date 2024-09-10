@@ -14,8 +14,6 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `Transaction` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 // Forward declaration of `QueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
 // Forward declaration of `ArrayBuffer` to properly resolve imports.
@@ -29,13 +27,11 @@ namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 
 #include <string>
 #include <optional>
-#include <future>
-#include <functional>
-#include "Transaction.hpp"
 #include "QueryResult.hpp"
 #include <vector>
 #include <variant>
 #include <NitroModules/ArrayBuffer.hpp>
+#include <future>
 #include "BatchQueryResult.hpp"
 #include "BatchQueryCommand.hpp"
 #include "FileLoadResult.hpp"
@@ -73,7 +69,6 @@ namespace margelo::nitro::rnquicksqlite {
       virtual void drop(const std::string& dbName, const std::optional<std::string>& location) = 0;
       virtual void attach(const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias, const std::optional<std::string>& location) = 0;
       virtual void detach(const std::string& mainDbName, const std::string& alias) = 0;
-      virtual std::future<void> transaction(const std::string& dbName, const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& fn) = 0;
       virtual QueryResult execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
       virtual std::future<QueryResult> executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
       virtual BatchQueryResult executeBatch(const std::string& dbName, const std::vector<BatchQueryCommand>& commands) = 0;

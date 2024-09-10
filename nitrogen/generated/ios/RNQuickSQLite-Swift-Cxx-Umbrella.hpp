@@ -27,8 +27,6 @@ namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
 // Forward declaration of `QueryType` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
-// Forward declaration of `Transaction` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
 // Include C++ defined types
 #include "BatchQueryCommand.hpp"
@@ -39,9 +37,7 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #include "HybridSelectQueryResultSpec.hpp"
 #include "QueryResult.hpp"
 #include "QueryType.hpp"
-#include "Transaction.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
-#include <functional>
 #include <future>
 #include <memory>
 #include <optional>

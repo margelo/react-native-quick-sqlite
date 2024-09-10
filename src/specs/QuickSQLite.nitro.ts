@@ -4,7 +4,6 @@ import {
   BatchQueryResult,
   FileLoadResult,
   BatchQueryCommand,
-  Transaction,
   SQLiteValue,
 } from '../types'
 
@@ -20,10 +19,6 @@ export interface QuickSQLite
     location?: string
   ): void
   detach(mainDbName: string, alias: string): void
-  transaction(
-    dbName: string,
-    fn: (tx: Transaction) => Promise<void> | void
-  ): Promise<void>
   execute(dbName: string, query: string, params?: SQLiteValue[]): QueryResult
   executeAsync(
     dbName: string,

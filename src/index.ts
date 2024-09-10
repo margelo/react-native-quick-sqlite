@@ -73,9 +73,9 @@ QuickSQLite.executeAsync = async (
   return res
 }
 
-QuickSQLite.transaction = async (
+const transaction = async (
   dbName: string,
-  fn: (tx: Transaction) => Promise<void>
+  fn: (tx: Transaction) => Promise<void> | void
 ): Promise<void> => {
   if (!locks[dbName]) {
     throw Error(`Quick SQLite Error: No lock found on db: ${dbName}`)
@@ -231,7 +231,7 @@ export const typeORMDriver = {
         transaction: (
           fn: (tx: Transaction) => Promise<void>
         ): Promise<void> => {
-          return QuickSQLite.transaction(options.name, fn)
+          return transaction(options.name, fn)
         },
         close: (ok: any, fail: any) => {
           try {
@@ -280,7 +280,7 @@ export const open = (options: {
       QuickSQLite.attach(options.name, dbNameToAttach, alias, location),
     detach: (alias: string) => QuickSQLite.detach(options.name, alias),
     transaction: (fn: (tx: Transaction) => Promise<void> | void) =>
-      QuickSQLite.transaction(options.name, fn),
+      transaction(options.name, fn),
     execute: (query: string, params?: SQLiteValue[]): QueryResult =>
       QuickSQLite.execute(options.name, query, params),
     executeAsync: (

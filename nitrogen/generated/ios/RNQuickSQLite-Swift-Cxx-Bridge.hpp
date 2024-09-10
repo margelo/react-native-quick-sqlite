@@ -31,8 +31,6 @@ namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
 namespace margelo::nitro::rnquicksqlite { struct QueryResult; }
 // Forward declaration of `QueryType` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
-// Forward declaration of `Transaction` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 
 // Include C++ defined types
 #if __has_include("BatchQueryCommand.hpp")
@@ -62,9 +60,6 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #if __has_include("QueryType.hpp")
  #include "QueryType.hpp"
 #endif
-#if __has_include("Transaction.hpp")
- #include "Transaction.hpp"
-#endif
 #if __has_include(<NitroModules/ArrayBuffer.hpp>)
  #include <NitroModules/ArrayBuffer.hpp>
 #endif
@@ -73,9 +68,6 @@ namespace margelo::nitro::rnquicksqlite { struct Transaction; }
 #endif
 #if __has_include(<NitroModules/PromiseHolder.hpp>)
  #include <NitroModules/PromiseHolder.hpp>
-#endif
-#if __has_include(<functional>)
- #include <functional>
 #endif
 #if __has_include(<future>)
  #include <future>
@@ -114,14 +106,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `PromiseHolder<void>`.
-   */
-  using PromiseHolder_void_ = PromiseHolder<void>;
-  inline PromiseHolder<void> create_PromiseHolder_void_() {
-    return PromiseHolder<void>();
-  }
-  
-  /**
    * Specialized version of `std::optional<double>`.
    */
   using std__optional_double_ = std::optional<double>;
@@ -135,44 +119,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   using std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__ = std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>;
   inline std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>> create_std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__(const std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>& value) {
     return std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>(value);
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<QueryResult>()>`.
-   */
-  using Func_std__future_QueryResult_ = std::function<std::future<QueryResult>()>;
-  /**
-   * Wrapper class for a `std::function<std::future<QueryResult>()>`, this can be used from Swift.
-   */
-  class Func_std__future_QueryResult__Wrapper {
-  public:
-    explicit Func_std__future_QueryResult__Wrapper(const std::function<std::future<QueryResult>()>& func): function(func) {}
-    explicit Func_std__future_QueryResult__Wrapper(std::function<std::future<QueryResult>()>&& func): function(std::move(func)) {}
-  
-    PromiseHolder<QueryResult> call() const {
-      auto result = function();
-      return []() -> PromiseHolder<QueryResult> { throw std::runtime_error("Promise<..> cannot be converted to Swift yet!"); }();
-    }
-  
-    std::function<std::future<QueryResult>()> function;
-  };
-  inline Func_std__future_QueryResult_ create_Func_std__future_QueryResult_(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_std__future_QueryResult_([sharedClosureHolder, call]() -> std::future<QueryResult> {
-      auto result = call(sharedClosureHolder.get());
-      return result.getFuture();
-    });
-  }
-  inline std::shared_ptr<Func_std__future_QueryResult__Wrapper> share_Func_std__future_QueryResult_(const Func_std__future_QueryResult_& value) {
-    return std::make_shared<Func_std__future_QueryResult__Wrapper>(value);
-  }
-  
-  /**
-   * Specialized version of `PromiseHolder<QueryResult>`.
-   */
-  using PromiseHolder_QueryResult_ = PromiseHolder<QueryResult>;
-  inline PromiseHolder<QueryResult> create_PromiseHolder_QueryResult_() {
-    return PromiseHolder<QueryResult>();
   }
   
   /**
@@ -221,117 +167,19 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::function<std::future<QueryResult>(const std::string&, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>&)>`.
-   */
-  using Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>;
-  /**
-   * Wrapper class for a `std::function<std::future<QueryResult>(const std::string& / * query * /, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& / * params * /)>`, this can be used from Swift.
-   */
-  class Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper {
-  public:
-    explicit Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper(const std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>& func): function(func) {}
-    explicit Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper(std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>&& func): function(std::move(func)) {}
-  
-    PromiseHolder<QueryResult> call(std::string query, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> params) const {
-      auto result = function(query, params);
-      return []() -> PromiseHolder<QueryResult> { throw std::runtime_error("Promise<..> cannot be converted to Swift yet!"); }();
-    }
-  
-    std::function<std::future<QueryResult>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)> function;
-  };
-  inline Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ create_Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(void* closureHolder, PromiseHolder<QueryResult>(*call)(void* /* closureHolder */, std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___([sharedClosureHolder, call](const std::string& query, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) -> std::future<QueryResult> {
-      auto result = call(sharedClosureHolder.get(), query, params);
-      return result.getFuture();
-    });
-  }
-  inline std::shared_ptr<Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper> share_Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& value) {
-    return std::make_shared<Func_std__future_QueryResult__std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper>(value);
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<std::future<QueryResult>>(const std::string&, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>&)>`.
-   */
-  using Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>;
-  /**
-   * Wrapper class for a `std::function<std::future<std::future<QueryResult>>(const std::string& / * query * /, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& / * params * /)>`, this can be used from Swift.
-   */
-  class Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper {
-  public:
-    explicit Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper(const std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>& func): function(func) {}
-    explicit Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper(std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)>&& func): function(std::move(func)) {}
-  
-    PromiseHolder<std::future<QueryResult>> call(std::string query, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> params) const {
-      auto result = function(query, params);
-      return []() -> PromiseHolder<std::future<QueryResult>> { throw std::runtime_error("Promise<..> cannot be converted to Swift yet!"); }();
-    }
-  
-    std::function<std::future<std::future<QueryResult>>(const std::string& /* query */, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& /* params */)> function;
-  };
-  inline Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ create_Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(void* closureHolder, PromiseHolder<std::future<QueryResult>>(*call)(void* /* closureHolder */, std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___([sharedClosureHolder, call](const std::string& query, const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& params) -> std::future<std::future<QueryResult>> {
-      auto result = call(sharedClosureHolder.get(), query, params);
-      return result.getFuture();
-    });
-  }
-  inline std::shared_ptr<Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper> share_Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(const Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& value) {
-    return std::make_shared<Func_std__future_std__future_QueryResult___std__string_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____Wrapper>(value);
-  }
-  
-  /**
-   * Specialized version of `PromiseHolder<std::future<QueryResult>>`.
-   */
-  using PromiseHolder_std__future_QueryResult__ = PromiseHolder<std::future<QueryResult>>;
-  inline PromiseHolder<std::future<QueryResult>> create_PromiseHolder_std__future_QueryResult__() {
-    return PromiseHolder<std::future<QueryResult>>();
-  }
-  
-  /**
-   * Specialized version of `std::function<std::future<std::future<void>>(const Transaction&)>`.
-   */
-  using Func_std__future_std__future_void___Transaction = std::function<std::future<std::future<void>>(const Transaction& /* tx */)>;
-  /**
-   * Wrapper class for a `std::function<std::future<std::future<void>>(const Transaction& / * tx * /)>`, this can be used from Swift.
-   */
-  class Func_std__future_std__future_void___Transaction_Wrapper {
-  public:
-    explicit Func_std__future_std__future_void___Transaction_Wrapper(const std::function<std::future<std::future<void>>(const Transaction& /* tx */)>& func): function(func) {}
-    explicit Func_std__future_std__future_void___Transaction_Wrapper(std::function<std::future<std::future<void>>(const Transaction& /* tx */)>&& func): function(std::move(func)) {}
-  
-    PromiseHolder<std::future<void>> call(Transaction tx) const {
-      auto result = function(tx);
-      return []() -> PromiseHolder<std::future<void>> { throw std::runtime_error("Promise<..> cannot be converted to Swift yet!"); }();
-    }
-  
-    std::function<std::future<std::future<void>>(const Transaction& /* tx */)> function;
-  };
-  inline Func_std__future_std__future_void___Transaction create_Func_std__future_std__future_void___Transaction(void* closureHolder, PromiseHolder<std::future<void>>(*call)(void* /* closureHolder */, Transaction), void(*destroy)(void*)) {
-    std::shared_ptr<void> sharedClosureHolder(closureHolder, destroy);
-    return Func_std__future_std__future_void___Transaction([sharedClosureHolder, call](const Transaction& tx) -> std::future<std::future<void>> {
-      auto result = call(sharedClosureHolder.get(), tx);
-      return result.getFuture();
-    });
-  }
-  inline std::shared_ptr<Func_std__future_std__future_void___Transaction_Wrapper> share_Func_std__future_std__future_void___Transaction(const Func_std__future_std__future_void___Transaction& value) {
-    return std::make_shared<Func_std__future_std__future_void___Transaction_Wrapper>(value);
-  }
-  
-  /**
-   * Specialized version of `PromiseHolder<std::future<void>>`.
-   */
-  using PromiseHolder_std__future_void__ = PromiseHolder<std::future<void>>;
-  inline PromiseHolder<std::future<void>> create_PromiseHolder_std__future_void__() {
-    return PromiseHolder<std::future<void>>();
-  }
-  
-  /**
    * Specialized version of `std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>`.
    */
   using std__optional_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____ = std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>;
   inline std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> create_std__optional_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____(const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& value) {
     return std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>(value);
+  }
+  
+  /**
+   * Specialized version of `PromiseHolder<QueryResult>`.
+   */
+  using PromiseHolder_QueryResult_ = PromiseHolder<QueryResult>;
+  inline PromiseHolder<QueryResult> create_PromiseHolder_QueryResult_() {
+    return PromiseHolder<QueryResult>();
   }
   
   /**
