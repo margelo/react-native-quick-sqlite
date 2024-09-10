@@ -20,7 +20,7 @@ export interface QueryResult {
 
 export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
-export type ExecuteParam =
+export type SQLiteValue =
   | number
   | boolean
   | bigint
@@ -30,12 +30,12 @@ export type ExecuteParam =
 
 export type ExecuteQuery = (
   query: string,
-  params?: ExecuteParam[]
+  params?: SQLiteValue[]
 ) => QueryResult
 
 export type ExecuteAsyncQuery = (
   query: string,
-  params?: ExecuteParam[]
+  params?: SQLiteValue[]
 ) => Promise<QueryResult>
 
 export interface Transaction {
@@ -66,7 +66,7 @@ export interface PendingTransaction {
  */
 export interface BatchQueryCommand {
   query: string
-  params?: Array<ExecuteParam> | Array<Array<ExecuteParam>>
+  params?: Array<SQLiteValue> | Array<Array<SQLiteValue>>
 }
 
 /**
