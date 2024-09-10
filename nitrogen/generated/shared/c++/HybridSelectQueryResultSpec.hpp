@@ -19,9 +19,9 @@ namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `ColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 
+#include <vector>
 #include <unordered_map>
 #include <string>
-#include <vector>
 #include <variant>
 #include <NitroModules/ArrayBuffer.hpp>
 #include "ColumnMetadata.hpp"
@@ -50,8 +50,8 @@ namespace margelo::nitro::rnquicksqlite {
 
     public:
       // Properties
-      virtual std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> getResults() = 0;
-      virtual void setResults(const std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& results) = 0;
+      virtual std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> getResults() = 0;
+      virtual void setResults(const std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& results) = 0;
       virtual std::vector<ColumnMetadata> getMetadata() = 0;
       virtual void setMetadata(const std::vector<ColumnMetadata>& metadata) = 0;
 

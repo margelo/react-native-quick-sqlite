@@ -3,16 +3,11 @@ import { SQLiteValue } from '../types'
 
 export interface SelectQueryResult
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
-  results?: Record<string, SQLiteValue[]>
+  results: Record<string, SQLiteValue>[]
   /**
    * Query metadata, avaliable only for select query results
    */
   metadata: ColumnMetadata[]
-
-  getString(): string
-  getNumber(): number
-  getBoolean(): boolean
-  getArrayBuffer(): ArrayBuffer
 }
 
 type ColumnType =

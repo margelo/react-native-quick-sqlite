@@ -396,21 +396,31 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>`.
+   * Specialized version of `std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
    */
-  using std__unordered_map_std__string__std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____ = std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>;
-  inline std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> create_std__unordered_map_std__string__std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____(size_t size) {
-    std::unordered_map<std::string, std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> map;
+  using std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
+  inline std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(size_t size) {
+    std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> map;
     map.reserve(size);
     return map;
   }
-  inline std::vector<std::string> get_std__unordered_map_std__string__std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____keys(const std__unordered_map_std__string__std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____& map) {
+  inline std::vector<std::string> get_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____keys(const std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& map) {
     std::vector<std::string> keys;
     keys.reserve(map.size());
     for (const auto& entry : map) {
       keys.push_back(entry.first);
     }
     return keys;
+  }
+  
+  /**
+   * Specialized version of `std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>`.
+   */
+  using std__vector_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____ = std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>;
+  inline std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> create_std__vector_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____(size_t size) {
+    std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> vector;
+    vector.reserve(size);
+    return vector;
   }
   
   /**
