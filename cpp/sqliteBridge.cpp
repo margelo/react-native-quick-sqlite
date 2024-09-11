@@ -7,7 +7,6 @@
 #include <map>
 #include <cmath>
 #include "sqliteBridge.h"
-#include "HybridColumnMetadata.hpp"
 #include "logs.h"
 #include "ArrayBuffer.hpp"
 

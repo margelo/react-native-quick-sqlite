@@ -4,7 +4,6 @@
 #include "ArrayBuffer.hpp"
 #include "ColumnType.hpp"
 #include "ColumnMetadata.hpp"
-#include "HybridColumnMetadata.hpp"
 
 using namespace margelo::nitro;
 using namespace margelo::nitro::rnquicksqlite;

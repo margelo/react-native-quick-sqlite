@@ -8,11 +8,7 @@
 
 #pragma once
 
-#if __has_include(<NitroModules/NitroHash.hpp>)
-#include <NitroModules/NitroHash.hpp>
-#else
-#error NitroModules cannot be found! Are you sure you installed NitroModules properly?
-#endif
+#include <cmath>
 #if __has_include(<NitroModules/JSIConverter.hpp>)
 #include <NitroModules/JSIConverter.hpp>
 #else
@@ -27,7 +23,7 @@
 namespace margelo::nitro::rnquicksqlite {
 
   /**
-   * An enum which can be represented as a JavaScript union (QueryType).
+   * An enum which can be represented as a JavaScript enum (QueryType).
    */
   enum class QueryType {
     SELECT      SWIFT_NAME(select) = 0,
@@ -43,48 +39,29 @@ namespace margelo::nitro {
 
   using namespace margelo::nitro::rnquicksqlite;
 
-  // C++ QueryType <> JS QueryType (union)
+  // C++ QueryType <> JS QueryType (enum)
   template <>
   struct JSIConverter<QueryType> {
     static inline QueryType fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
-      std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
-      switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("SELECT"): return QueryType::SELECT;
-        case hashString("INSERT"): return QueryType::INSERT;
-        case hashString("UPDATE"): return QueryType::UPDATE;
-        case hashString("DELETE"): return QueryType::DELETE;
-        case hashString("OTHER"): return QueryType::OTHER;
-        default: [[unlikely]]
-          throw std::runtime_error("Cannot convert \"" + unionValue + "\" to enum QueryType - invalid value!");
-      }
+      int enumValue = JSIConverter<int>::fromJSI(runtime, arg);
+      return static_cast<QueryType>(enumValue);
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, QueryType arg) {
-      switch (arg) {
-        case QueryType::SELECT: return JSIConverter<std::string>::toJSI(runtime, "SELECT");
-        case QueryType::INSERT: return JSIConverter<std::string>::toJSI(runtime, "INSERT");
-        case QueryType::UPDATE: return JSIConverter<std::string>::toJSI(runtime, "UPDATE");
-        case QueryType::DELETE: return JSIConverter<std::string>::toJSI(runtime, "DELETE");
-        case QueryType::OTHER: return JSIConverter<std::string>::toJSI(runtime, "OTHER");
-        default: [[unlikely]]
-          throw std::runtime_error("Cannot convert QueryType to JS - invalid value: "
-                                    + std::to_string(static_cast<int>(arg)) + "!");
-      }
+      int enumValue = static_cast<int>(arg);
+      return JSIConverter<int>::toJSI(runtime, enumValue);
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
-      if (!value.isString()) {
+      if (!value.isNumber()) {
         return false;
       }
-      std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, value);
-      switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("SELECT"):
-        case hashString("INSERT"):
-        case hashString("UPDATE"):
-        case hashString("DELETE"):
-        case hashString("OTHER"):
-          return true;
-        default:
-          return false;
+      double integer;
+      double fraction = modf(value.getNumber(), &integer);
+      if (fraction != 0.0) {
+        // It is some kind of floating point number - our enums are ints.
+        return false;
       }
+      // Check if we are within the bounds of the enum.
+      return integer >= 0 && integer <= 4;
     }
   };
 
