@@ -26,6 +26,7 @@
     "typescript": "tsc --noEmit",
     "prepare": "bob build",
     "example": "yarn --cwd example",
+    "format-cpp": "./scripts/clang-format.sh",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "lint-ci": "eslint \"**/*.{js,ts,tsx}\" -f @jamesacarr/github-actions",
     "pods": "cd example/ios && bundle exec pod install",
