@@ -3,6 +3,7 @@
 #include <string>
 #include "ArrayBuffer.hpp"
 #include "ColumnType.hpp"
+#include "ColumnMetadata.hpp"
 #include "HybridColumnMetadata.hpp"
 
 using namespace margelo::nitro;
@@ -46,7 +47,7 @@ struct SequelBatchOperationResult
 using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
 using SQLiteParams = std::vector<SQLiteValue>;
 using TableResults = std::vector<std::unordered_map<std::string, SQLiteValue>>;
-using TableMetadata = std::unordered_map<std::string, std::shared_ptr<HybridColumnMetadataSpec>>;
+using TableMetadata = std::unordered_map<std::string, ColumnMetadata>;
 
 // constexpr function that maps SQLiteColumnType to string literals
 constexpr ColumnType mapSQLiteTypeToColumnType(std::string type) {

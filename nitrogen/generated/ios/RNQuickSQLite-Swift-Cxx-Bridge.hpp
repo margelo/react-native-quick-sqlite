@@ -17,12 +17,12 @@ namespace NitroModules { class ArrayBuffer; }
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryCommand; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `ColumnMetadata` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
+// Forward declaration of `ColumnType` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { enum class ColumnType; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
-// Forward declaration of `HybridColumnMetadataSpecSwift` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { class HybridColumnMetadataSpecSwift; }
-// Forward declaration of `HybridColumnMetadataSpec` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { class HybridColumnMetadataSpec; }
 // Forward declaration of `HybridSelectQueryResultSpecSwift` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpecSwift; }
 // Forward declaration of `HybridSelectQueryResultSpec` to properly resolve imports.
@@ -39,14 +39,14 @@ namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
 #if __has_include("BatchQueryResult.hpp")
  #include "BatchQueryResult.hpp"
 #endif
+#if __has_include("ColumnMetadata.hpp")
+ #include "ColumnMetadata.hpp"
+#endif
+#if __has_include("ColumnType.hpp")
+ #include "ColumnType.hpp"
+#endif
 #if __has_include("FileLoadResult.hpp")
  #include "FileLoadResult.hpp"
-#endif
-#if __has_include("HybridColumnMetadataSpec.hpp")
- #include "HybridColumnMetadataSpec.hpp"
-#endif
-#if __has_include("HybridColumnMetadataSpecSwift.hpp")
- #include "HybridColumnMetadataSpecSwift.hpp"
 #endif
 #if __has_include("HybridSelectQueryResultSpec.hpp")
  #include "HybridSelectQueryResultSpec.hpp"
@@ -272,15 +272,15 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>>`.
+   * Specialized version of `std::unordered_map<std::string, ColumnMetadata>`.
    */
-  using std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec__ = std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>>;
-  inline std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>> create_std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec__(size_t size) {
-    std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>> map;
+  using std__unordered_map_std__string__ColumnMetadata_ = std::unordered_map<std::string, ColumnMetadata>;
+  inline std::unordered_map<std::string, ColumnMetadata> create_std__unordered_map_std__string__ColumnMetadata_(size_t size) {
+    std::unordered_map<std::string, ColumnMetadata> map;
     map.reserve(size);
     return map;
   }
-  inline std::vector<std::string> get_std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec___keys(const std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec__& map) {
+  inline std::vector<std::string> get_std__unordered_map_std__string__ColumnMetadata__keys(const std__unordered_map_std__string__ColumnMetadata_& map) {
     std::vector<std::string> keys;
     keys.reserve(map.size());
     for (const auto& entry : map) {

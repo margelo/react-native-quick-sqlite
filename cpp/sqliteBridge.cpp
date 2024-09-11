@@ -361,7 +361,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         column_name = sqlite3_column_name(statement, i);
                         const char *tp = sqlite3_column_decltype(statement, i);
                         column_declared_type = mapSQLiteTypeToColumnType(tp);
-                        auto columnMeta = std::make_shared<HybridColumnMetadata>(std::move(column_name), std::move(column_declared_type), i);
+                        auto columnMeta = ColumnMetadata(std::move(column_name), std::move(column_declared_type), i);
                         metadata->insert({column_name, columnMeta});
                         i++;
                     }

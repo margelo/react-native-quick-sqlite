@@ -16,16 +16,15 @@
 
 // Forward declaration of `ArrayBuffer` to properly resolve imports.
 namespace NitroModules { class ArrayBuffer; }
-// Forward declaration of `HybridColumnMetadataSpec` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { class HybridColumnMetadataSpec; }
+// Forward declaration of `ColumnMetadata` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 
 #include <vector>
 #include <unordered_map>
 #include <string>
 #include <variant>
 #include <NitroModules/ArrayBuffer.hpp>
-#include <memory>
-#include "HybridColumnMetadataSpec.hpp"
+#include "ColumnMetadata.hpp"
 
 namespace margelo::nitro::rnquicksqlite {
 
@@ -53,8 +52,8 @@ namespace margelo::nitro::rnquicksqlite {
       // Properties
       virtual std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> getResults() = 0;
       virtual void setResults(const std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& results) = 0;
-      virtual std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>> getMetadata() = 0;
-      virtual void setMetadata(const std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>>& metadata) = 0;
+      virtual std::unordered_map<std::string, ColumnMetadata> getMetadata() = 0;
+      virtual void setMetadata(const std::unordered_map<std::string, ColumnMetadata>& metadata) = 0;
 
     public:
       // Methods
