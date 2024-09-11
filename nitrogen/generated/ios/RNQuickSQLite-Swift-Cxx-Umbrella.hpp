@@ -15,25 +15,28 @@ namespace NitroModules { class ArrayBuffer; }
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryCommand; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
+// Forward declaration of `ColumnType` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { enum class ColumnType; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
+// Forward declaration of `HybridColumnMetadataSpec` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridColumnMetadataSpec; }
 // Forward declaration of `HybridSelectQueryResultSpec` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
 // Forward declaration of `NativeQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct NativeQueryResult; }
 // Forward declaration of `QueryType` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
-// Forward declaration of `TableMetadata` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct TableMetadata; }
 
 // Include C++ defined types
 #include "BatchQueryCommand.hpp"
 #include "BatchQueryResult.hpp"
+#include "ColumnType.hpp"
 #include "FileLoadResult.hpp"
+#include "HybridColumnMetadataSpec.hpp"
 #include "HybridSelectQueryResultSpec.hpp"
 #include "NativeQueryResult.hpp"
 #include "QueryType.hpp"
-#include "TableMetadata.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <future>
 #include <memory>
@@ -53,6 +56,8 @@ namespace margelo::nitro::rnquicksqlite { struct TableMetadata; }
 #include <NitroModules/PromiseHolder.hpp>
 
 // Forward declarations of Swift defined types
+// Forward declaration of `HybridColumnMetadataSpecCxx` to properly resolve imports.
+namespace RNQuickSQLite { class HybridColumnMetadataSpecCxx; }
 // Forward declaration of `HybridSelectQueryResultSpecCxx` to properly resolve imports.
 namespace RNQuickSQLite { class HybridSelectQueryResultSpecCxx; }
 

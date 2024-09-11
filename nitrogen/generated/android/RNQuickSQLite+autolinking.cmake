@@ -25,6 +25,7 @@ target_sources(
   # CMake project name (Android C++ library name)
   RNQuickSQLite PRIVATE
   # Shared Nitrogen C++ sources
+  ../nitrogen/generated/shared/c++/HybridColumnMetadataSpec.cpp
   ../nitrogen/generated/shared/c++/HybridQuickSQLiteSpec.cpp
   ../nitrogen/generated/shared/c++/HybridSelectQueryResultSpec.cpp
   # Android-specific Nitrogen C++ sources

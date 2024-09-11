@@ -8,6 +8,7 @@ import {
   Transaction,
   SQLiteItem,
   NativeQueryResult,
+  ColumnType,
 } from './types'
 
 export * from './types'
@@ -46,25 +47,25 @@ const buildJsQueryResult = <Data extends SQLiteItem = never>(
 
       for (let key in row) {
         switch (metadata[key].type) {
-          case 'BOOLEAN':
+          case ColumnType.BOOLEAN:
             item[key] = row[key] as boolean
             break
-          case 'NUMBER':
+          case ColumnType.NUMBER:
             item[key] = row[key] as number
             break
-          case 'INT64':
+          case ColumnType.INT64:
             item[key] = row[key] as bigint
             break
-          case 'TEXT':
+          case ColumnType.TEXT:
             item[key] = row[key] as string
             break
-          case 'ARRAY_BUFFER':
+          case ColumnType.ARRAY_BUFFER:
             item[key] = row[key] as ArrayBuffer
             break
-          case 'NULL':
+          case ColumnType.NULL:
             item[key] = null
             break
-          case 'UNKNOWN':
+          case ColumnType.UNKNOWN:
           default:
             item[key] = row[key] as unknown
         }

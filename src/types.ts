@@ -1,3 +1,4 @@
+import { ColumnMetadata } from './specs/ColumnMetadata.nitro'
 import { SelectQueryResult } from './specs/SelectQueryResult.nitro'
 
 /**
@@ -44,30 +45,14 @@ export interface QueryResult<Data extends SQLiteItem = never> {
 
 export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
-type ColumnType =
-  | 'BOOLEAN'
-  | 'NUMBER'
-  | 'INT64'
-  | 'TEXT'
-  | 'ARRAY_BUFFER'
-  | 'NULL'
-  | 'UNKNOWN'
-
-export type ColumnMetadata = {
-  /** The declared column type for this column, when fetched directly from a table or a View resulting from a table column. "UNKNOWN" for dynamic values, like function returned ones. */
-  type: ColumnType
-  /**
-   * The index for this column for this result set*/
-  index: number
-}
-
-/**
- * Column metadata
- * Describes some information about columns fetched by the query
- * The index is the name used for this column for this resultset
- */
-export interface TableMetadata {
-  [key: string]: ColumnMetadata
+export enum ColumnType {
+  BOOLEAN,
+  NUMBER,
+  INT64,
+  TEXT,
+  ARRAY_BUFFER,
+  NULL,
+  UNKNOWN,
 }
 
 /**

@@ -1,11 +1,15 @@
 import { HybridObject } from 'react-native-nitro-modules'
-import { SQLiteValue, TableMetadata } from '../types'
+import { SQLiteValue } from '../types'
+import { ColumnMetadata } from './ColumnMetadata.nitro'
 
 export interface SelectQueryResult
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
+  /** Select query results */
   results: Record<string, SQLiteValue>[]
   /**
-   * Query metadata, avaliable only for select query results
+   * Table metadata
+   * Describes some information about the table and it's columns fetched by the query
+   * The index is the name of the column
    */
-  metadata: TableMetadata
+  metadata: Record<string, ColumnMetadata>
 }

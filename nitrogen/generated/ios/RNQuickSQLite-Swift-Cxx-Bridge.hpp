@@ -19,6 +19,10 @@ namespace margelo::nitro::rnquicksqlite { struct BatchQueryCommand; }
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
+// Forward declaration of `HybridColumnMetadataSpecSwift` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridColumnMetadataSpecSwift; }
+// Forward declaration of `HybridColumnMetadataSpec` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridColumnMetadataSpec; }
 // Forward declaration of `HybridSelectQueryResultSpecSwift` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpecSwift; }
 // Forward declaration of `HybridSelectQueryResultSpec` to properly resolve imports.
@@ -37,6 +41,12 @@ namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
 #endif
 #if __has_include("FileLoadResult.hpp")
  #include "FileLoadResult.hpp"
+#endif
+#if __has_include("HybridColumnMetadataSpec.hpp")
+ #include "HybridColumnMetadataSpec.hpp"
+#endif
+#if __has_include("HybridColumnMetadataSpecSwift.hpp")
+ #include "HybridColumnMetadataSpecSwift.hpp"
 #endif
 #if __has_include("HybridSelectQueryResultSpec.hpp")
  #include "HybridSelectQueryResultSpec.hpp"
@@ -259,6 +269,24 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
     std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> vector;
     vector.reserve(size);
     return vector;
+  }
+  
+  /**
+   * Specialized version of `std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>>`.
+   */
+  using std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec__ = std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>>;
+  inline std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>> create_std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec__(size_t size) {
+    std::unordered_map<std::string, std::shared_ptr<margelo::nitro::rnquicksqlite::HybridColumnMetadataSpec>> map;
+    map.reserve(size);
+    return map;
+  }
+  inline std::vector<std::string> get_std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec___keys(const std__unordered_map_std__string__std__shared_ptr_margelo__nitro__rnquicksqlite__HybridColumnMetadataSpec__& map) {
+    std::vector<std::string> keys;
+    keys.reserve(map.size());
+    for (const auto& entry : map) {
+      keys.push_back(entry.first);
+    }
+    return keys;
   }
 
 } // namespace margelo::nitro::rnquicksqlite::bridge::swift
