@@ -43,16 +43,18 @@ using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared
 
 // constexpr function that maps SQLiteColumnType to string literals
 constexpr ColumnType mapSQLiteTypeToColumnType(std::string type) {
-    if (type == "INTEGER") {
-        return ColumnType::INTEGER;
-    } else if (type == "BOOLEAN") {
+    if (type == "BOOLEAN") {
         return ColumnType::BOOLEAN;
-    } else if (type == "TEXT") {
+    } else if (type == "REAL" || type == "NUMERIC") {
+        return ColumnType::NUMBER;
+    } else if (type == "INTEGER") {
+        return ColumnType::INT64;
+    } else if (type == "TEXT" || type == "VARCHAR(N)" || type == "CHAR(N)") {
         return ColumnType::TEXT;
     } else if (type == "BLOB") {
         return ColumnType::ARRAY_BUFFER;
-    } else if (type == "REAL") {
-        return ColumnType::DOUBLE;
+    } else if (type == "NULL") {
+        return ColumnType::NULL;
     } else {
         return ColumnType::UNKNOWN;
     }

@@ -311,25 +311,16 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
 
                         case SQLITE_INTEGER:
                         {
-                            /**
-                             * It's not possible to send a int64_t in a jsi::Value because JS cannot represent the whole number range.
-                             * Instead, we're sending a double, which can represent all integers up to 53 bits long, which is more
-                             * than what was there before (a 32-bit int).
-                             *
-                             * See https://github.com/margelo/react-native-quick-sqlite/issues/16 for more context.
-                             */
-                            double column_value = sqlite3_column_double(statement, i);
+                            int64_t column_value = sqlite3_column_int64(statement, i);
                             row[column_name] = column_value;
                             break;
                         }
-
                         case SQLITE_FLOAT:
                         {
                             double column_value = sqlite3_column_double(statement, i);
                             row[column_name] = column_value;
                             break;
                         }
-
                         case SQLITE_TEXT:
                         {
                             const char *column_value = reinterpret_cast<const char *>(sqlite3_column_text(statement, i));
@@ -337,7 +328,6 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                             row[column_name] = column_value;
                             break;
                         }
-
                         case SQLITE_BLOB:
                         {
                             int blob_size = sqlite3_column_bytes(statement, i);
@@ -347,7 +337,6 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                             row[column_name] = ArrayBuffer::makeBuffer(data, blob_size, [&data]() -> void { delete[] data; });
                             break;
                         }
-
                         case SQLITE_NULL:
                             // Intentionally left blank to switch to default case
                         default:
@@ -371,7 +360,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         column_name = sqlite3_column_name(statement, i);
                         const char *tp = sqlite3_column_decltype(statement, i);
                         column_declared_type = mapSQLiteTypeToColumnType(tp);
-                        auto columnData = ColumnMetadata(column_name,column_declared_type, i);
+                        auto columnData = ColumnMetadata(column_name, column_declared_type, i);
                         metadata->push_back(std::move(columnData));
                         i++;
                     }

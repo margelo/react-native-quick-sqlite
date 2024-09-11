@@ -1,6 +1,6 @@
 import { HybridObject } from 'react-native-nitro-modules'
 import {
-  QueryResult,
+  NativeQueryResult as QueryResult,
   BatchQueryResult,
   FileLoadResult,
   BatchQueryCommand,

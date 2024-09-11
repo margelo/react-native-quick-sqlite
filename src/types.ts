@@ -10,16 +10,69 @@ import { SelectQueryResult } from './specs/SelectQueryResult.nitro'
  *
  * @interface QueryResult
  */
-export interface QueryResult {
+export interface NativeQueryResult {
   readonly queryType: QueryType
-  insertId?: number
-  rowsAffected: number
+  readonly insertId?: number
+  readonly rowsAffected: number
 
-  selectQueryResult?: SelectQueryResult
+  readonly selectQueryResult?: SelectQueryResult
+}
+
+export type SQLiteItem = Record<string, SQLiteValue>
+
+export interface QueryResult<Data extends SQLiteItem = never> {
+  readonly queryType: QueryType
+  readonly insertId?: number
+  readonly rowsAffected: number
+
+  rows?: {
+    /** Raw array with all dataset */
+    data: Data[]
+    /** The lengh of the dataset */
+    length: number
+    /** A convenience function to acess the index based the row object
+     * @param idx the row index
+     * @returns the row structure identified by column names
+     */
+    item: (idx: number) => Data
+  }
+  /**
+   * Query metadata, avaliable only for select query results
+   */
+  metadata?: ColumnMetadata[]
 }
 
 export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
 
+type ColumnType =
+  | 'BOOLEAN'
+  | 'NUMBER'
+  | 'INT64'
+  | 'TEXT'
+  | 'ARRAY_BUFFER'
+  | 'NULL'
+  | 'UNKNOWN'
+
+export type ColumnMetadata = {
+  /** The declared column type for this column, when fetched directly from a table or a View resulting from a table column. "UNKNOWN" for dynamic values, like function returned ones. */
+  type: ColumnType
+  /**
+   * The index for this column for this result set*/
+  index: number
+}
+
+/**
+ * Column metadata
+ * Describes some information about columns fetched by the query
+ * The index is the name used for this column for this resultset
+ */
+export interface TableMetadata {
+  [key: string]: ColumnMetadata
+}
+
+/**
+ * Represents a value that can be stored in a SQLite database
+ */
 export type SQLiteValue =
   | number
   | boolean
@@ -28,15 +81,15 @@ export type SQLiteValue =
   | ArrayBuffer
   | undefined
 
-export type ExecuteQuery = (
+export type ExecuteQuery = <Data extends SQLiteItem = never>(
   query: string,
   params?: SQLiteValue[]
-) => QueryResult
+) => QueryResult<Data>
 
-export type ExecuteAsyncQuery = (
+export type ExecuteAsyncQuery = <Data extends SQLiteItem = never>(
   query: string,
   params?: SQLiteValue[]
-) => Promise<QueryResult>
+) => Promise<QueryResult<Data>>
 
 export interface Transaction {
   commit(): QueryResult

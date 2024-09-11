@@ -79,7 +79,7 @@ void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string&
     }
 };
 
-QueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
+NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
     auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
     auto metadata = std::optional<std::vector<ColumnMetadata>>(std::nullopt);
 
@@ -96,14 +96,14 @@ QueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::str
             return QueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
         }
 
-        return QueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, std::nullopt);
+        return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, std::nullopt);
     } catch(std::exception &e) {
         throw std::runtime_error(e.what());
     }
 };
 
-std::future<QueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
-    auto promise = std::make_shared<std::promise<QueryResult>>();
+std::future<NativeQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
+    auto promise = std::make_shared<std::promise<NativeQueryResult>>();
     auto future = promise->get_future();
 
     auto task = [this, promise, dbName, query, params]() {
