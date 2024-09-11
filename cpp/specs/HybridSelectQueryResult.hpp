@@ -10,7 +10,9 @@ namespace margelo::rnquicksqlite {
 
 class HybridSelectQueryResult: public HybridSelectQueryResultSpec {
 public:
-    HybridSelectQueryResult(TableResults&& results, TableMetadata&& metadata);
+    HybridSelectQueryResult() : HybridObject(TAG) {}
+    HybridSelectQueryResult(TableResults&& results, TableMetadata&& metadata)
+    : HybridObject(TAG), _results(std::move(results)), _metadata(std::move(metadata)) {}
 
 public:
     // Properties

@@ -16,8 +16,6 @@
 
 namespace margelo::rnquicksqlite {
 
-void HybridQuickSQLite::HybridQuickSQLite() : HybridQuickSQLiteSpec() {}
-
 void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std::string>& location) {
     std::string tempDocPath = std::string(docPathStr);
     if (location) {

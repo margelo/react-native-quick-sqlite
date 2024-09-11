@@ -2,11 +2,6 @@
 
 namespace margelo::rnquicksqlite {
 
-HybridSelectQueryResult::HybridSelectQueryResult() : HybridSelectQueryResultSpec() {}
-
-HybridSelectQueryResult::HybridSelectQueryResult(TableResults&& results, TableMetadata&& metadata)
-    : HybridSelectQueryResultSpec(), _results(std::move(results)), _metadata(std::move(metadata)) {}
-
 TableResults HybridSelectQueryResult::getResults() {
     return this->_results;
 };

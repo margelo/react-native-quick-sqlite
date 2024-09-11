@@ -8,6 +8,9 @@ namespace margelo::rnquicksqlite {
 
 class HybridQuickSQLite: public HybridQuickSQLiteSpec {
 public:
+    HybridQuickSQLite() : HybridObject(TAG) {}
+
+public:
     // Methods
     void open(const std::string& dbName, const std::optional<std::string>& location) override;
     void close(const std::string& dbName) override;
