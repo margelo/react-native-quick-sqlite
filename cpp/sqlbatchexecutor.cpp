@@ -68,7 +68,7 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const s
 
             // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution
             auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
-            auto metadata = std::optional<std::vector<ColumnMetadata>>(std::nullopt);
+            auto metadata = std::optional<std::vector<TableMetadata>>(std::nullopt);
             auto result = sqliteExecute(dbName, command.sql, *command.params.get(), results, metadata);
             if(result.type == SQLiteError)
             {

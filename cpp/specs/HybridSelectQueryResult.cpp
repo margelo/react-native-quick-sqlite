@@ -2,7 +2,7 @@
 
 namespace margelo::rnquicksqlite {
 
-HybridSelectQueryResult::HybridSelectQueryResult(std::vector<std::unordered_map<std::string, SQLiteValue>>&& results, std::vector<ColumnMetadata>&& metadata)
+HybridSelectQueryResult::HybridSelectQueryResult(std::vector<std::unordered_map<std::string, SQLiteValue>>&& results, std::vector<TableMetadata>&& metadata)
     : HybridSelectQueryResultSpec(), _results(std::move(results)), _metadata(std::move(metadata)) {}
 
 std::vector<std::unordered_map<std::string, SQLiteValue>> HybridSelectQueryResult::getResults() {
@@ -13,11 +13,11 @@ void HybridSelectQueryResult::setResults(const std::vector<std::unordered_map<st
     this->_results = results;
 };
 
-std::vector<ColumnMetadata> HybridSelectQueryResult::getMetadata() {
+std::vector<TableMetadata> HybridSelectQueryResult::getMetadata() {
     return this->_metadata;
 }
 
-void HybridSelectQueryResult::setMetadata(const std::vector<ColumnMetadata>& metadata) {
+void HybridSelectQueryResult::setMetadata(const std::vector<TableMetadata>& metadata) {
     this->_metadata = metadata;
 }
 

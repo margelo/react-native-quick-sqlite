@@ -81,7 +81,7 @@ void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string&
 
 NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
     auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
-    auto metadata = std::optional<std::vector<ColumnMetadata>>(std::nullopt);
+    auto metadata = std::optional<std::vector<TableMetadata>>(std::nullopt);
 
     // Converting results into a JSI Response
     try {
