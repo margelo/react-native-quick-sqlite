@@ -18,4 +18,5 @@ void registerHybridObjectConstructors();
 //     OnLoad()
 // };
 
-// static OnLoad onLoad;
+// #pragma optimize("", off)
+// static volatile OnLoad onLoad;
