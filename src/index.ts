@@ -79,9 +79,9 @@ const buildJsQueryResult = <Data extends SQLiteItem = never>(
       length: data.length,
       item: (idx: number) => result.rows.data[idx],
     }
-
-    return result
   }
+
+  return result
 }
 
 const _execute = QuickSQLite.execute
