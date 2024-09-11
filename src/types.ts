@@ -1,5 +1,33 @@
-import { ColumnMetadata } from './specs/ColumnMetadata.nitro'
 import { SelectQueryResult } from './specs/SelectQueryResult.nitro'
+
+export enum QueryType {
+  SELECT,
+  INSERT,
+  UPDATE,
+  DELETE,
+  OTHER,
+}
+
+export enum ColumnType {
+  BOOLEAN,
+  NUMBER,
+  INT64,
+  TEXT,
+  ARRAY_BUFFER,
+  NULL_VALUE,
+  UNKNOWN,
+}
+
+/**
+ * Represents a value that can be stored in a SQLite database
+ */
+export type SQLiteValue =
+  | number
+  | boolean
+  | bigint
+  | string
+  | ArrayBuffer
+  | undefined
 
 /**
  * Object returned by SQL Query executions {
@@ -37,34 +65,7 @@ export interface QueryResult<Data extends SQLiteItem = never> {
      */
     item: (idx: number) => Data
   }
-  /**
-   * Query metadata, avaliable only for select query results
-   */
-  metadata?: ColumnMetadata[]
 }
-
-export type QueryType = 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | 'OTHER'
-
-export enum ColumnType {
-  BOOLEAN,
-  NUMBER,
-  INT64,
-  TEXT,
-  ARRAY_BUFFER,
-  NULL_VALUE,
-  UNKNOWN,
-}
-
-/**
- * Represents a value that can be stored in a SQLite database
- */
-export type SQLiteValue =
-  | number
-  | boolean
-  | bigint
-  | string
-  | ArrayBuffer
-  | undefined
 
 export type ExecuteQuery = <Data extends SQLiteItem = never>(
   query: string,
