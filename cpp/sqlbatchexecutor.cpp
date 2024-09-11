@@ -15,7 +15,7 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
     {
         if (command.params)
         {
-            using ParamsVec = std::vector<SQLiteValue>;
+            using ParamsVec = SQLiteParams;
             using NestedParamsVec = std::vector<ParamsVec>;
 
             if (std::holds_alternative<NestedParamsVec>(*command.params)) {
@@ -67,8 +67,8 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const s
             const auto command = commands.at(i);
 
             // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution
-            auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
-            auto metadata = std::optional<std::vector<TableMetadata>>(std::nullopt);
+            auto results = TableResults();
+            auto metadata = std::optional<TableMetadata>(std::nullopt);
             auto result = sqliteExecute(dbName, command.sql, *command.params.get(), results, metadata);
             if(result.type == SQLiteError)
             {

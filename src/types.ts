@@ -51,7 +51,7 @@ export enum ColumnType {
   INT64,
   TEXT,
   ARRAY_BUFFER,
-  NULL,
+  NULL_VALUE,
   UNKNOWN,
 }
 

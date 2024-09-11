@@ -31,7 +31,7 @@ namespace margelo::nitro::rnquicksqlite {
     INT64      SWIFT_NAME(int64) = 2,
     TEXT      SWIFT_NAME(text) = 3,
     ARRAY_BUFFER      SWIFT_NAME(arrayBuffer) = 4,
-    NULL      SWIFT_NAME(null) = 5,
+    NULL_VALUE      SWIFT_NAME(nullValue) = 5,
     UNKNOWN      SWIFT_NAME(unknown) = 6,
   } CLOSED_ENUM;
 

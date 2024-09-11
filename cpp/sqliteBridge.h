@@ -1,9 +1,6 @@
 #pragma once
 
-#include "TableMetadata.hpp"
 #include "Types.hpp"
-
-using namespace margelo::nitro::rnquicksqlite;
 
 namespace margelo::rnquicksqlite {
 
@@ -17,7 +14,7 @@ SQLiteOPResult sqliteAttachDb(const std::string& mainDBName, const std::string& 
 
 SQLiteOPResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias);
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params, std::vector<std::unordered_map<std::string, SQLiteValue>>& results, std::optional<std::vector<TableMetadata>>& metadata);
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params, TableResults& results, std::optional<TableMetadata>& metadata);
 
 SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query);
 

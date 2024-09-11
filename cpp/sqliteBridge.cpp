@@ -7,6 +7,7 @@
 #include <map>
 #include <cmath>
 #include "sqliteBridge.h"
+#include "HybridColumnMetadata.hpp"
 #include "logs.h"
 #include "ArrayBuffer.hpp"
 
@@ -202,7 +203,7 @@ SQLiteOPResult sqliteRemoveDb(const std::string& dbName, const std::string& docP
     };
 }
 
-void bindStatement(sqlite3_stmt *statement, const std::vector<SQLiteValue>& values)
+void bindStatement(sqlite3_stmt *statement, const SQLiteParams& values)
 {
     size_t size = values.size();
     if (size <= 0)
@@ -250,7 +251,7 @@ void bindStatement(sqlite3_stmt *statement, const std::vector<SQLiteValue>& valu
     }
 }
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params, std::vector<std::unordered_map<std::string, SQLiteValue>>& results, std::optional<std::vector<TableMetadata>>& metadata)
+SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params, TableResults& results, std::optional<TableMetadata>& metadata)
 {
     if (dbMap.count(dbName) == 0)
     {
@@ -349,7 +350,7 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                 break;
             case SQLITE_DONE:
                 if (!metadata) {
-                    metadata = std::vector<TableMetadata>();
+                    metadata = TableMetadata();
                 }
 
                 if (metadata) {
@@ -360,8 +361,8 @@ SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query
                         column_name = sqlite3_column_name(statement, i);
                         const char *tp = sqlite3_column_decltype(statement, i);
                         column_declared_type = mapSQLiteTypeToColumnType(tp);
-                        auto columnMeta = ColumnMetadata(column_name, column_declared_type, i);
-                        metadata->push_back(std::move(columnMeta));
+                        auto columnMeta = std::make_shared<HybridColumnMetadata>(std::move(column_name), std::move(column_declared_type), i);
+                        metadata->insert({column_name, columnMeta});
                         i++;
                     }
                     isConsuming = false;

@@ -79,9 +79,9 @@ void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string&
     }
 };
 
-NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
-    auto results = std::vector<std::unordered_map<std::string, SQLiteValue>>();
-    auto metadata = std::optional<std::vector<TableMetadata>>(std::nullopt);
+NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params) {
+    auto results = TableResults();
+    auto metadata = std::optional<TableMetadata>(std::nullopt);
 
     // Converting results into a JSI Response
     try {
@@ -93,7 +93,7 @@ NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const st
 
         if (metadata) {
             const auto selectQueryResult = std::make_shared<HybridSelectQueryResult>(std::move(results), std::move(*metadata));
-            return QueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
+            return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
         }
 
         return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, std::nullopt);
@@ -102,7 +102,7 @@ NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const st
     }
 };
 
-std::future<NativeQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<SQLiteValue>>& params) {
+std::future<NativeQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params) {
     auto promise = std::make_shared<std::promise<NativeQueryResult>>();
     auto future = promise->get_future();
 

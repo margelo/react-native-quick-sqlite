@@ -62,7 +62,7 @@ const buildJsQueryResult = <Data extends SQLiteItem = never>(
           case ColumnType.ARRAY_BUFFER:
             item[key] = row[key] as ArrayBuffer
             break
-          case ColumnType.NULL:
+          case ColumnType.NULL_VALUE:
             item[key] = null
             break
           case ColumnType.UNKNOWN:

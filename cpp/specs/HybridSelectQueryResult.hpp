@@ -10,18 +10,18 @@ namespace margelo::rnquicksqlite {
 
 class HybridSelectQueryResult: public HybridSelectQueryResultSpec {
 public:
-    HybridSelectQueryResult(std::vector<std::unordered_map<std::string, SQLiteValue>>&& results, std::vector<TableMetadata>&& metadata);
+    HybridSelectQueryResult(TableResults&& results, TableMetadata&& metadata);
 
 public:
     // Properties
-    std::vector<std::unordered_map<std::string, SQLiteValue>> getResults() override;
-    void setResults(const std::vector<std::unordered_map<std::string, SQLiteValue>>& results) override;
-    std::vector<TableMetadata> getMetadata() override;
-    void setMetadata(const std::vector<TableMetadata>& metadata) override;
+    TableResults getResults() override;
+    void setResults(const TableResults& results) override;
+    TableMetadata getMetadata() override;
+    void setMetadata(const TableMetadata& metadata) override;
 
 private:
-    std::vector<std::unordered_map<std::string, SQLiteValue>> _results;
-    std::vector<TableMetadata> _metadata;
+    TableResults _results;
+    TableMetadata _metadata;
 };
 
 }
