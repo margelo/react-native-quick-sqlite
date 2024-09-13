@@ -6006,10 +6006,10 @@ react-is@^18.3.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
-react-native-nitro-modules@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.7.0.tgz#cbc1a4262f8e1abd6803b6bf0e8fadcae7f601ab"
-  integrity sha512-bzNIlEuRE5t+c5pxVXUy7JCA5Mtl3MCb5IK3/yJHn+SNJLFdbgdcKqiAQ3OTs/Je6ZpYI69frEl9RcXTKirmPA==
+react-native-nitro-modules@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.8.0.tgz#8bfa945d034fcf93493aa42ec987839c6b786830"
+  integrity sha512-q9CA/E3iFcOo3tl1OYeOMTaiAwAizENDG4aB5CPooA7hoBQFGdjl5DVs9wDTXMfwv7vPgHBHvsfYIC9f/05A5w==
 
 react-native-quick-base64@^2.0.5:
   version "2.0.5"

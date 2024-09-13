@@ -5302,10 +5302,10 @@ neo-async@^2.5.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nitro-codegen@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/nitro-codegen/-/nitro-codegen-0.7.0.tgz#b8a7e1d9c235778a0fac28c5a1fe5c4ebc3b00ba"
-  integrity sha512-Urz9nYiSOzcRHalkFcS5lFkqjlQyyqAdrll5yogbf5Jg3gSerh3I8py3gQ+3ndm/agsr5fw+LE1MwldEeS6HHA==
+nitro-codegen@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/nitro-codegen/-/nitro-codegen-0.8.0.tgz#d9a4b21c4d9210498992c05fac759545479076ae"
+  integrity sha512-yNYM3fHH9MjzaEEtTieOOHLAWdOBT0uRky2AWfgPlsG4rN+x/3067mH4vbao6JDR1zIP6hlEjQ1zmRG04ltGhw==
   dependencies:
     chalk "^5.3.0"
     react-native-nitro-modules "^0.6.0"
