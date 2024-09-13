@@ -243,10 +243,10 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
   int result, i, count, column_type;
   std::string column_name;
   ColumnType column_declared_type;
-  TableResultRow row;
+  SQLiteQueryResultRow row;
   
-  auto results = std::make_unique<TableResults>();
-  auto metadata = std::make_unique<TableMetadata>();
+  auto results = std::make_unique<SQLiteQueryResults>();
+  auto metadata = std::make_unique<SQLiteQueryTableMetadata>();
 
   while (isConsuming) {
     result = sqlite3_step(statement);
@@ -304,7 +304,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
             column_name = sqlite3_column_name(statement, i);
             const char* tp = sqlite3_column_decltype(statement, i);
             column_declared_type = mapSQLiteTypeToColumnType(tp);
-            auto columnMeta = ColumnMetadata(std::move(column_name), std::move(column_declared_type), i);
+            auto columnMeta = SQLiteQueryColumnMetadata(std::move(column_name), std::move(column_declared_type), i);
             metadata->insert({column_name, columnMeta});
             i++;
           }
