@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "RNQuickSQLite-Swift-Cxx-Umbrella.hpp"
-// #import "OnLoad.hpp"
+#import "Globals.hpp"
 
 @interface OnLoad : NSObject
 @end
