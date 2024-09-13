@@ -1,12 +1,24 @@
 import { execute, executeAsync } from '.'
 import { locks, QuickSQLite } from './init'
 import {
-  PendingTransaction,
   QueryResult,
   SQLiteItem,
-  SQLiteValue,
+  SQLiteQueryParams,
   Transaction,
 } from './types'
+
+export interface PendingTransaction {
+  /*
+   * The start function should not throw or return a promise because the
+   * queue just calls it and does not monitor for failures or completions.
+   *
+   * It should catch any errors and call the resolve or reject of the wrapping
+   * promise when complete.
+   *
+   * It should also automatically commit or rollback the transaction if needed
+   */
+  start: () => void
+}
 
 export const transaction = async (
   dbName: string,
@@ -21,7 +33,7 @@ export const transaction = async (
   // Local transaction context object implementation
   const executeOnTransaction = <Data extends SQLiteItem = never>(
     query: string,
-    params?: SQLiteValue[]
+    params?: SQLiteQueryParams
   ): QueryResult<Data> => {
     if (isFinalized) {
       throw Error(
@@ -33,7 +45,7 @@ export const transaction = async (
 
   const executeAsyncOnTransaction = <Data extends SQLiteItem = never>(
     query: string,
-    params?: SQLiteValue[]
+    params?: SQLiteQueryParams
   ): Promise<QueryResult<Data>> => {
     if (isFinalized) {
       throw Error(

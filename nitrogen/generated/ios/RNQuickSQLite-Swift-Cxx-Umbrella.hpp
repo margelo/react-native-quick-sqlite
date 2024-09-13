@@ -21,8 +21,6 @@ namespace margelo::nitro::rnquicksqlite { enum class ColumnType; }
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 // Forward declaration of `HybridNativeQueryResultSpec` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { class HybridNativeQueryResultSpec; }
-// Forward declaration of `QueryType` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
 // Forward declaration of `SQLiteQueryColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct SQLiteQueryColumnMetadata; }
 
@@ -32,7 +30,6 @@ namespace margelo::nitro::rnquicksqlite { struct SQLiteQueryColumnMetadata; }
 #include "ColumnType.hpp"
 #include "FileLoadResult.hpp"
 #include "HybridNativeQueryResultSpec.hpp"
-#include "QueryType.hpp"
 #include "SQLiteQueryColumnMetadata.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <future>

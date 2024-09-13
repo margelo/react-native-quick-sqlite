@@ -1,14 +1,13 @@
 import { transaction } from './transaction'
 import { QuickSQLite, locks } from './init'
 import {
-  SQLiteValue,
   QueryResult,
   QuickSQLiteConnection,
   BatchQueryCommand,
   Transaction,
   SQLiteItem,
   ColumnType,
-  QueryType,
+  SQLiteQueryParams,
 } from './types'
 import { enhanceQueryResult } from './typeORM'
 import { NativeQueryResult } from './specs/NativeQueryResult.nitro'
@@ -32,11 +31,11 @@ export function open(options: {
       transaction(options.name, fn),
     execute: <Data extends SQLiteItem = never>(
       query: string,
-      params?: SQLiteValue[]
+      params?: SQLiteQueryParams
     ): QueryResult<Data> => execute(options.name, query, params),
     executeAsync: <Data extends SQLiteItem = never>(
       query: string,
-      params?: SQLiteValue[]
+      params?: SQLiteQueryParams
     ): Promise<QueryResult<Data>> => executeAsync(options.name, query, params),
     executeBatch: (commands: BatchQueryCommand[]) =>
       QuickSQLite.executeBatch(options.name, commands),
@@ -66,7 +65,7 @@ function close(dbName: string) {
 export function execute<Data extends SQLiteItem = never>(
   dbName: string,
   query: string,
-  params?: SQLiteValue[]
+  params?: SQLiteQueryParams
 ): QueryResult<Data> {
   const nativeResult = QuickSQLite.execute(dbName, query, params)
   const result = buildJsQueryResult<Data>(nativeResult)
@@ -78,7 +77,7 @@ export function execute<Data extends SQLiteItem = never>(
 export async function executeAsync<Data extends SQLiteItem = never>(
   dbName: string,
   query: string,
-  params?: SQLiteValue[]
+  params?: SQLiteQueryParams
 ): Promise<QueryResult<Data>> {
   const nativeResult = await QuickSQLite.executeAsync(dbName, query, params)
   const result = buildJsQueryResult<Data>(nativeResult)
@@ -90,7 +89,6 @@ function buildJsQueryResult<Data extends SQLiteItem = never>(
   nativeResult: NativeQueryResult
 ): QueryResult<Data> {
   let result: QueryResult<Data> = {
-    queryType: nativeResult.queryType,
     insertId: nativeResult.insertId,
     rowsAffected: nativeResult.rowsAffected,
   }
@@ -110,7 +108,7 @@ function buildJsQueryResult<Data extends SQLiteItem = never>(
       ])
     )
 
-    console.log(QueryType[nativeResult.queryType], prettyMetadata)
+    console.log(prettyMetadata)
 
     const data = results.map((row) => {
       let item = {}

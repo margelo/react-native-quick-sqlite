@@ -14,14 +14,11 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `QueryType` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
 // Forward declaration of `ArrayBuffer` to properly resolve imports.
 namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `SQLiteQueryColumnMetadata` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct SQLiteQueryColumnMetadata; }
 
-#include "QueryType.hpp"
 #include <optional>
 #include <vector>
 #include <unordered_map>
@@ -54,9 +51,8 @@ namespace margelo::nitro::rnquicksqlite {
 
     public:
       // Properties
-      virtual QueryType getQueryType() = 0;
-      virtual std::optional<double> getInsertId() = 0;
       virtual double getRowsAffected() = 0;
+      virtual std::optional<double> getInsertId() = 0;
       virtual std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> getResults() = 0;
       virtual std::optional<std::unordered_map<std::string, SQLiteQueryColumnMetadata>> getMetadata() = 0;
 

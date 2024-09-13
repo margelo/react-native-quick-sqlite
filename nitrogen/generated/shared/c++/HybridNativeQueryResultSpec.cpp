@@ -15,9 +15,8 @@ namespace margelo::nitro::rnquicksqlite {
     HybridObject::loadHybridMethods();
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
-      prototype.registerHybridGetter("queryType", &HybridNativeQueryResultSpec::getQueryType);
-      prototype.registerHybridGetter("insertId", &HybridNativeQueryResultSpec::getInsertId);
       prototype.registerHybridGetter("rowsAffected", &HybridNativeQueryResultSpec::getRowsAffected);
+      prototype.registerHybridGetter("insertId", &HybridNativeQueryResultSpec::getInsertId);
       prototype.registerHybridGetter("results", &HybridNativeQueryResultSpec::getResults);
       prototype.registerHybridGetter("metadata", &HybridNativeQueryResultSpec::getMetadata);
     });

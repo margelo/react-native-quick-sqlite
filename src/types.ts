@@ -1,11 +1,3 @@
-export enum QueryType {
-  SELECT,
-  INSERT,
-  UPDATE,
-  DELETE,
-  OTHER,
-}
-
 export enum ColumnType {
   BOOLEAN,
   NUMBER,
@@ -30,7 +22,6 @@ export type SQLiteValue =
 export type SQLiteItem = Record<string, SQLiteValue>
 
 export interface QueryResult<Data extends SQLiteItem = never> {
-  readonly queryType: QueryType
   readonly insertId?: number
   readonly rowsAffected: number
 
@@ -47,14 +38,16 @@ export interface QueryResult<Data extends SQLiteItem = never> {
   }
 }
 
+export type SQLiteQueryParams = SQLiteValue[]
+
 export type ExecuteQuery = <Data extends SQLiteItem = never>(
   query: string,
-  params?: SQLiteValue[]
+  params?: SQLiteQueryParams
 ) => QueryResult<Data>
 
 export type ExecuteAsyncQuery = <Data extends SQLiteItem = never>(
   query: string,
-  params?: SQLiteValue[]
+  params?: SQLiteQueryParams
 ) => Promise<QueryResult<Data>>
 
 export interface Transaction {
@@ -62,19 +55,6 @@ export interface Transaction {
   rollback(): QueryResult
   execute: ExecuteQuery
   executeAsync: ExecuteAsyncQuery
-}
-
-export interface PendingTransaction {
-  /*
-   * The start function should not throw or return a promise because the
-   * queue just calls it and does not monitor for failures or completions.
-   *
-   * It should catch any errors and call the resolve or reject of the wrapping
-   * promise when complete.
-   *
-   * It should also automatically commit or rollback the transaction if needed
-   */
-  start: () => void
 }
 
 /**
@@ -85,7 +65,7 @@ export interface PendingTransaction {
  */
 export interface BatchQueryCommand {
   query: string
-  params?: Array<SQLiteValue> | Array<Array<SQLiteValue>>
+  params?: SQLiteQueryParams | SQLiteQueryParams[]
 }
 
 /**

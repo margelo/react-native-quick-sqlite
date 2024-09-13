@@ -7,7 +7,12 @@
 
 import { transaction } from './transaction'
 import { QuickSQLite } from './init'
-import { QueryResult, SQLiteItem, SQLiteValue, Transaction } from './types'
+import {
+  QueryResult,
+  SQLiteItem,
+  SQLiteQueryParams,
+  Transaction,
+} from './types'
 
 // Enhance some host functions
 
@@ -46,7 +51,7 @@ export const typeORMDriver = {
       const connection = {
         executeSql: async <Data extends SQLiteItem = never>(
           sql: string,
-          params: SQLiteValue[] | undefined,
+          params: SQLiteQueryParams | undefined,
           okExecute: (res: QueryResult<Data>) => void,
           failExecute: (msg: string) => void
         ) => {

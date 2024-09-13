@@ -1,5 +1,5 @@
 import { HybridObject } from 'react-native-nitro-modules'
-import { ColumnType, QueryType, SQLiteValue } from '../types'
+import { ColumnType, SQLiteValue } from '../types'
 
 /**
  * Object returned by SQL Query executions {
@@ -13,12 +13,11 @@ import { ColumnType, QueryType, SQLiteValue } from '../types'
  */
 export interface NativeQueryResult
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
-  readonly queryType: QueryType
-  readonly insertId?: number
   readonly rowsAffected: number
+  readonly insertId?: number
 
   /** Select query results */
-  readonly results: SQLiteQueryResult
+  readonly results: SQLiteQueryResults
   /** Table metadata */
   readonly metadata?: Record<string, SQLiteQueryColumnMetadata>
 }
@@ -28,7 +27,10 @@ export interface NativeQueryResult
  * Describes some information about the table and it's columns fetched by the query
  * The index is the name of the column
  */
-export type SQLiteQueryResult = Record<string, SQLiteValue>[]
+// TODO: Investigate why this doesn't work with nitrogen
+// export type SQLiteQueryResultRow = Record<string, SQLiteValue>
+// export type SQLiteQueryResults = SQLiteQueryResultRow[]
+export type SQLiteQueryResults = Record<string, SQLiteValue>[]
 
 // TODO: Investigate why this doesn't work with nitrogen
 // export type SQLiteQueryTableMetadata = Record<string, SQLiteQueryColumnMetadata>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ColumnMetadata.hpp"
+#include "SQLiteQueryColumnMetadata.hpp"
 #include "ColumnType.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <string>
@@ -13,9 +13,9 @@ namespace margelo::rnquicksqlite {
 // using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>, std::monostate>;
 using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
 using SQLiteParams = std::vector<SQLiteValue>;
-using TableResultRow = std::unordered_map<std::string, SQLiteValue>;
-using TableResults = std::vector<TableResultRow>;
-using TableMetadata = std::unordered_map<std::string, ColumnMetadata>;
+using SQLiteQueryResultRow = std::unordered_map<std::string, SQLiteValue>;
+using SQLiteQueryResults = std::vector<SQLiteQueryResultRow>;
+using SQLiteQueryTableMetadata = std::unordered_map<std::string, SQLiteQueryColumnMetadata>;
 
 /**
  * Various structs to help with the results of the SQLite operations
@@ -28,8 +28,8 @@ struct SQLiteOperationResult {
   int rowsAffected;
   double insertId;
   
-  std::unique_ptr<TableResults> results;
-  std::unique_ptr<TableMetadata> metadata;
+  std::unique_ptr<SQLiteQueryResults> results;
+  std::unique_ptr<SQLiteQueryTableMetadata> metadata;
 };
 
 
@@ -39,8 +39,8 @@ struct SQLiteExecuteQueryResult {
   int rowsAffected;
   double insertId;
   
-  std::unique_ptr<TableResults> results;
-  std::unique_ptr<TableMetadata> metadata;
+  std::unique_ptr<SQLiteQueryResults> results;
+  std::unique_ptr<SQLiteQueryTableMetadata> metadata;
 };
 
 struct SQLiteLiteralUpdateResult {
