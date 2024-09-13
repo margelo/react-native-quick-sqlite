@@ -4,21 +4,20 @@
 
 namespace margelo::rnquicksqlite {
 
-SQLiteOPResult sqliteOpenDb(const std::string& dbName, const std::string& docPath);
+SQLiteOperationResult sqliteOpenDb(const std::string& dbName, const std::string& docPath);
 
-SQLiteOPResult sqliteCloseDb(const std::string& dbName);
+SQLiteOperationResult sqliteCloseDb(const std::string& dbName);
 
-SQLiteOPResult sqliteRemoveDb(const std::string& dbName, const std::string& docPath);
+SQLiteOperationResult sqliteRemoveDb(const std::string& dbName, const std::string& docPath);
 
-SQLiteOPResult sqliteAttachDb(const std::string& mainDBName, const std::string& docPath, const std::string& databaseToAttach,
+SQLiteOperationResult sqliteAttachDb(const std::string& mainDBName, const std::string& docPath, const std::string& databaseToAttach,
                               const std::string& alias);
 
-SQLiteOPResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias);
+SQLiteOperationResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias);
 
-SQLiteOPResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params,
-                             TableResults& results, std::optional<TableMetadata>& metadata);
+SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params);
 
-SequelLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query);
+SQLiteLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query);
 
 void sqliteCloseAll();
 

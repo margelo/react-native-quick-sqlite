@@ -7,7 +7,7 @@
 
 namespace margelo::rnquicksqlite {
 
-SequelBatchOperationResult importSQLFile(const std::string& dbName, const std::string& fileLocation) {
+SQLiteBatchOperationResult importSQLFile(const std::string& dbName, const std::string& fileLocation) {
   std::string line;
   std::ifstream sqFile(fileLocation);
   if (sqFile.is_open()) {
@@ -17,7 +17,7 @@ SequelBatchOperationResult importSQLFile(const std::string& dbName, const std::s
       sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
       while (std::getline(sqFile, line, '\n')) {
         if (!line.empty()) {
-          SequelLiteralUpdateResult result = sqliteExecuteLiteral(dbName, line);
+          SQLiteLiteralUpdateResult result = sqliteExecuteLiteral(dbName, line);
           if (result.type == SQLiteError) {
             sqliteExecuteLiteral(dbName, "ROLLBACK");
             sqFile.close();

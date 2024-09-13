@@ -9,6 +9,6 @@
 
 namespace margelo::rnquicksqlite {
 
-SequelBatchOperationResult importSQLFile(const std::string& dbName, const std::string& fileLocation);
+SQLiteBatchOperationResult importSQLFile(const std::string& dbName, const std::string& fileLocation);
 
 }

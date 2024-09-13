@@ -25,6 +25,6 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
 /**
  * Execute a batch of commands in a exclusive transaction
  */
-SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
+SQLiteBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
 
 } // namespace margelo::rnquicksqlite

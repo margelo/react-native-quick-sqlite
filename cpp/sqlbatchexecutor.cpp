@@ -31,10 +31,10 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
   return commands;
 }
 
-SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands) {
+SQLiteBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands) {
   size_t commandCount = commands.size();
   if (commandCount <= 0) {
-    return SequelBatchOperationResult{
+    return SQLiteBatchOperationResult{
         .type = SQLiteError,
         .message = "No SQL commands provided",
     };
@@ -52,7 +52,7 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const s
       auto result = sqliteExecute(dbName, command.sql, *command.params.get(), results, metadata);
       if (result.type == SQLiteError) {
         sqliteExecuteLiteral(dbName, "ROLLBACK");
-        return SequelBatchOperationResult{
+        return SQLiteBatchOperationResult{
             .type = SQLiteError,
             .message = result.errorMessage,
         };
@@ -61,14 +61,14 @@ SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const s
       }
     }
     sqliteExecuteLiteral(dbName, "COMMIT");
-    return SequelBatchOperationResult{
+    return SQLiteBatchOperationResult{
         .type = SQLiteOk,
         .affectedRows = affectedRows,
         .commands = (int)commandCount,
     };
   } catch (std::exception& exc) {
     sqliteExecuteLiteral(dbName, "ROLLBACK");
-    return SequelBatchOperationResult{
+    return SQLiteBatchOperationResult{
         .type = SQLiteError,
         .message = exc.what(),
     };

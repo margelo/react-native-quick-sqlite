@@ -10,36 +10,51 @@ using namespace margelo::nitro::rnquicksqlite;
 
 namespace margelo::rnquicksqlite {
 
+// using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>, std::monostate>;
+using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
+using SQLiteParams = std::vector<SQLiteValue>;
+using TableResultRow = std::unordered_map<std::string, SQLiteValue>;
+using TableResults = std::vector<TableResultRow>;
+using TableMetadata = std::unordered_map<std::string, ColumnMetadata>;
+
 /**
  * Various structs to help with the results of the SQLite operations
  */
-enum ResultType { SQLiteOk, SQLiteError };
+enum SQLiteResultType { SQLiteOk, SQLiteError };
 
-struct SQLiteOPResult {
-  ResultType type;
+struct SQLiteOperationResult {
+  SQLiteResultType type;
   std::string errorMessage;
   int rowsAffected;
   double insertId;
+  
+  std::unique_ptr<TableResults> results;
+  std::unique_ptr<TableMetadata> metadata;
 };
 
-struct SequelLiteralUpdateResult {
-  ResultType type;
+
+struct SQLiteExecuteQueryResult {
+  SQLiteResultType type;
+  std::string errorMessage;
+  int rowsAffected;
+  double insertId;
+  
+  std::unique_ptr<TableResults> results;
+  std::unique_ptr<TableMetadata> metadata;
+};
+
+struct SQLiteLiteralUpdateResult {
+  SQLiteResultType type;
   std::string message;
   int affectedRows;
 };
 
-struct SequelBatchOperationResult {
-  ResultType type;
+struct SQLiteBatchOperationResult {
+  SQLiteResultType type;
   std::string message;
   int affectedRows;
   int commands;
 };
-
-// using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>, std::monostate>;
-using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
-using SQLiteParams = std::vector<SQLiteValue>;
-using TableResults = std::vector<std::unordered_map<std::string, SQLiteValue>>;
-using TableMetadata = std::unordered_map<std::string, ColumnMetadata>;
 
 // constexpr function that maps SQLiteColumnType to string literals
 constexpr ColumnType mapSQLiteTypeToColumnType(std::string type) {

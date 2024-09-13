@@ -24,7 +24,7 @@ void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std:
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  SQLiteOPResult result = sqliteOpenDb(dbName, tempDocPath);
+  SQLiteOperationResult result = sqliteOpenDb(dbName, tempDocPath);
 
   if (result.type == SQLiteError) {
     throw std::runtime_error(result.errorMessage.c_str());
@@ -32,7 +32,7 @@ void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std:
 }
 
 void HybridQuickSQLite::close(const std::string& dbName) {
-  SQLiteOPResult result = sqliteCloseDb(dbName);
+  SQLiteOperationResult result = sqliteCloseDb(dbName);
 
   if (result.type == SQLiteError) {
     throw std::runtime_error(result.errorMessage.c_str());
@@ -45,7 +45,7 @@ void HybridQuickSQLite::drop(const std::string& dbName, const std::optional<std:
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  SQLiteOPResult result = sqliteRemoveDb(dbName, tempDocPath);
+  SQLiteOperationResult result = sqliteRemoveDb(dbName, tempDocPath);
 
   if (result.type == SQLiteError) {
     throw std::runtime_error(result.errorMessage.c_str());
@@ -59,7 +59,7 @@ void HybridQuickSQLite::attach(const std::string& mainDbName, const std::string&
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  SQLiteOPResult result = sqliteAttachDb(mainDbName, tempDocPath, dbNameToAttach, alias);
+  SQLiteOperationResult result = sqliteAttachDb(mainDbName, tempDocPath, dbNameToAttach, alias);
 
   if (result.type == SQLiteError) {
     throw std::runtime_error(result.errorMessage.c_str());
@@ -67,7 +67,7 @@ void HybridQuickSQLite::attach(const std::string& mainDbName, const std::string&
 };
 
 void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string& alias) {
-  SQLiteOPResult result = sqliteDetachDb(mainDbName, alias);
+  SQLiteOperationResult result = sqliteDetachDb(mainDbName, alias);
 
   if (result.type == SQLiteError) {
     throw std::runtime_error(result.errorMessage.c_str());
@@ -76,26 +76,18 @@ void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string&
 
 NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query,
                                              const std::optional<SQLiteParams>& params) {
-  auto results = TableResults();
-  auto metadata = std::optional<TableMetadata>(std::nullopt);
+  auto result = sqliteExecute(dbName, query, params);
 
-  // Converting results into a JSI Response
-  try {
-    auto status = sqliteExecute(dbName, query, params, results, metadata);
-
-    if (status.type == SQLiteError) {
-      throw std::runtime_error(status.errorMessage);
-    }
-
-    if (metadata) {
-      const auto selectQueryResult = std::make_shared<HybridSelectQueryResult>(std::move(results), std::move(*metadata));
-      return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
-    }
-
-    return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, std::nullopt);
-  } catch (std::exception& e) {
-    throw std::runtime_error(e.what());
+  if (result.type == SQLiteError) {
+    throw std::runtime_error(status.errorMessage);
   }
+
+  if (result.metadata) {
+    const auto selectQueryResult = std::make_shared<HybridSelectQueryResult>(std::move(results), std::move(*metadata));
+    return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
+  }
+
+  return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, std::nullopt);
 };
 
 std::future<NativeQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query,
