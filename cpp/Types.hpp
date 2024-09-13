@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "ArrayBuffer.hpp"
+#include <NitroModules/ArrayBuffer.hpp>
 #include "ColumnType.hpp"
 #include "ColumnMetadata.hpp"
 

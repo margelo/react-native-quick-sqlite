@@ -2,9 +2,7 @@
 
 #include "HybridQuickSQLiteSpec.hpp"
 
-using namespace margelo::nitro::rnquicksqlite;
-
-namespace margelo::rnquicksqlite {
+namespace margelo::nitro::rnquicksqlite {
 
 class HybridQuickSQLite: public HybridQuickSQLiteSpec {
 public:

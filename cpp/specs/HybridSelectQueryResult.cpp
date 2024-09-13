@@ -1,6 +1,6 @@
 #include "HybridSelectQueryResult.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::nitro::rnquicksqlite {
 
 TableResults HybridSelectQueryResult::getResults() {
     return this->_results;

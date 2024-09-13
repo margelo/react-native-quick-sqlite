@@ -10,16 +10,16 @@
 #include "sqlfileloader.h"
 #include "sqlbatchexecutor.h"
 #include "macros.h"
-#include "OnLoad.hpp"
+#include "Globals.hpp"
 #include "QueryType.hpp"
 #include "Types.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::nitro::rnquicksqlite {
 
 auto pool = std::make_shared<margelo::rnquicksqlite::ThreadPool>();
 
 void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std::string>& location) {
-    std::string tempDocPath = std::string(docPathStr);
+    std::string tempDocPath = std::string(nullptr);
     if (location) {
         tempDocPath = tempDocPath + "/" + *location;
     }

@@ -8,7 +8,7 @@
 #include <cmath>
 #include "sqliteBridge.h"
 #include "logs.h"
-#include "ArrayBuffer.hpp"
+#include <NitroModules/ArrayBuffer.hpp>
 
 using namespace facebook;
 using namespace margelo::nitro;
