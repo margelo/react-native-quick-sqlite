@@ -10,13 +10,46 @@ import {
   NativeQueryResult,
   ColumnType,
 } from './types'
+import { enhanceQueryResult } from './typeORM'
 
 export * from './types'
 export { typeORMDriver } from './typeORM'
 
-const _open = QuickSQLite.open
-QuickSQLite.open = (dbName: string, location?: string) => {
-  _open(dbName, location)
+export function open(options: {
+  name: string
+  location?: string
+}): QuickSQLiteConnection {
+  openDb(options.name, options.location)
+
+  return {
+    close: () => close(options.name),
+    delete: () => QuickSQLite.drop(options.name, options.location),
+    attach: (dbNameToAttach: string, alias: string, location?: string) =>
+      QuickSQLite.attach(options.name, dbNameToAttach, alias, location),
+    detach: (alias: string) => QuickSQLite.detach(options.name, alias),
+    transaction: (fn: (tx: Transaction) => Promise<void> | void) =>
+      transaction(options.name, fn),
+    execute: <Data extends SQLiteItem = never>(
+      query: string,
+      params?: SQLiteValue[]
+    ): QueryResult<Data> => execute(options.name, query, params),
+    executeAsync: <Data extends SQLiteItem = never>(
+      query: string,
+      params?: SQLiteValue[]
+    ): Promise<QueryResult<Data>> => executeAsync(options.name, query, params),
+    executeBatch: (commands: BatchQueryCommand[]) =>
+      QuickSQLite.executeBatch(options.name, commands),
+    executeBatchAsync: (commands: BatchQueryCommand[]) =>
+      QuickSQLite.executeBatchAsync(options.name, commands),
+    loadFile: (location: string) =>
+      QuickSQLite.loadFile(options.name, location),
+    loadFileAsync: (location: string) =>
+      QuickSQLite.loadFileAsync(options.name, location),
+  }
+}
+
+function openDb(dbName: string, location?: string) {
+  QuickSQLite.open(dbName, location)
 
   locks[dbName] = {
     queue: [],
@@ -24,15 +57,36 @@ QuickSQLite.open = (dbName: string, location?: string) => {
   }
 }
 
-const _close = QuickSQLite.close
-QuickSQLite.close = (dbName: string) => {
-  _close(dbName)
+function close(dbName: string) {
+  QuickSQLite.close(dbName)
   delete locks[dbName]
 }
 
-const buildJsQueryResult = <Data extends SQLiteItem = never>(
+function execute<Data extends SQLiteItem = never>(
+  dbName: string,
+  query: string,
+  params?: SQLiteValue[]
+): QueryResult<Data> {
+  const nativeResult = QuickSQLite.execute(dbName, query, params)
+  const result = buildJsQueryResult<Data>(nativeResult)
+  enhanceQueryResult(result)
+  return result
+}
+
+async function executeAsync<Data extends SQLiteItem = never>(
+  dbName: string,
+  query: string,
+  params?: SQLiteValue[]
+): Promise<QueryResult<Data>> {
+  const nativeResult = await QuickSQLite.executeAsync(dbName, query, params)
+  const result = buildJsQueryResult<Data>(nativeResult)
+  enhanceQueryResult(result)
+  return result
+}
+
+function buildJsQueryResult<Data extends SQLiteItem = never>(
   nativeResult: NativeQueryResult
-): QueryResult<Data> => {
+): QueryResult<Data> {
   let result: QueryResult<Data> = {
     queryType: nativeResult.queryType,
     insertId: nativeResult.insertId,
@@ -82,64 +136,4 @@ const buildJsQueryResult = <Data extends SQLiteItem = never>(
   }
 
   return result
-}
-
-const _execute = QuickSQLite.execute
-export const execute = <Data extends SQLiteItem = never>(
-  dbName: string,
-  query: string,
-  params?: SQLiteValue[]
-): QueryResult<Data> => {
-  const nativeResult = _execute(dbName, query, params)
-  const result = buildJsQueryResult<Data>(nativeResult)
-  // enhanceQueryResult(result);
-  return result
-}
-QuickSQLite.execute = execute
-
-const _executeAsync = QuickSQLite.executeAsync
-export const executeAsync = async <Data extends SQLiteItem = never>(
-  dbName: string,
-  query: string,
-  params?: SQLiteValue[]
-): Promise<QueryResult<Data>> => {
-  const nativeResult = await _executeAsync(dbName, query, params)
-  const result = buildJsQueryResult<Data>(nativeResult)
-  // enhanceQueryResult(res);
-  return result
-}
-QuickSQLite.executeAsync = executeAsync
-
-export const open = (options: {
-  name: string
-  location?: string
-}): QuickSQLiteConnection => {
-  QuickSQLite.open(options.name, options.location)
-
-  return {
-    close: () => QuickSQLite.close(options.name),
-    delete: () => QuickSQLite.drop(options.name, options.location),
-    attach: (dbNameToAttach: string, alias: string, location?: string) =>
-      QuickSQLite.attach(options.name, dbNameToAttach, alias, location),
-    detach: (alias: string) => QuickSQLite.detach(options.name, alias),
-    transaction: (fn: (tx: Transaction) => Promise<void> | void) =>
-      transaction(options.name, fn),
-    execute: <Data extends SQLiteItem = never>(
-      query: string,
-      params?: SQLiteValue[]
-    ): QueryResult<Data> => QuickSQLite.execute(options.name, query, params),
-    executeAsync: <Data extends SQLiteItem = never>(
-      query: string,
-      params?: SQLiteValue[]
-    ): Promise<QueryResult<Data>> =>
-      QuickSQLite.executeAsync(options.name, query, params),
-    executeBatch: (commands: BatchQueryCommand[]) =>
-      QuickSQLite.executeBatch(options.name, commands),
-    executeBatchAsync: (commands: BatchQueryCommand[]) =>
-      QuickSQLite.executeBatchAsync(options.name, commands),
-    loadFile: (location: string) =>
-      QuickSQLite.loadFile(options.name, location),
-    loadFileAsync: (location: string) =>
-      QuickSQLite.loadFileAsync(options.name, location),
-  }
 }

@@ -12,19 +12,19 @@ import { QueryResult, SQLiteItem, SQLiteValue, Transaction } from './types'
 // Enhance some host functions
 
 // Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
-const enhanceQueryResult = <Data extends SQLiteItem = never>(
+export const enhanceQueryResult = <Data extends SQLiteItem = never>(
   result: QueryResult<Data>
 ): void => {
   // Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
-  // if (result.rows == null) {
-  //   result.rows = {
-  //     _array: [],
-  //     length: 0,
-  //     item: (idx: number) => result.rows._array[idx],
-  //   };
-  // } else {
-  //   result.rows.item = (idx: number) => result.rows._array[idx];
-  // }
+  if (result.rows == null) {
+    result.rows = {
+      data: [],
+      length: 0,
+      item: (idx: number) => result.rows.data[idx],
+    }
+  } else {
+    result.rows.item = (idx: number) => result.rows.data[idx]
+  }
 }
 
 /**
@@ -47,8 +47,8 @@ export const typeORMDriver = {
         executeSql: async <Data extends SQLiteItem = never>(
           sql: string,
           params: SQLiteValue[] | undefined,
-          ok: (res: QueryResult<Data>) => void,
-          fail: (msg: string) => void
+          okExecute: (res: QueryResult<Data>) => void,
+          failExecute: (msg: string) => void
         ) => {
           try {
             let response = await QuickSQLite.executeAsync(
@@ -57,9 +57,9 @@ export const typeORMDriver = {
               params
             )
             enhanceQueryResult(response)
-            ok(response)
+            okExecute(response)
           } catch (e) {
-            fail(e)
+            failExecute(e)
           }
         },
         transaction: (
@@ -67,12 +67,12 @@ export const typeORMDriver = {
         ): Promise<void> => {
           return transaction(options.name, fn)
         },
-        close: (ok: any, fail: any) => {
+        close: (okClose: any, failClose: any) => {
           try {
             QuickSQLite.close(options.name)
-            ok()
+            okClose()
           } catch (e) {
-            fail(e)
+            failClose(e)
           }
         },
         attach: (
