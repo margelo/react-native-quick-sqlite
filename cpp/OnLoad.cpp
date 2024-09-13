@@ -5,17 +5,21 @@
 using namespace margelo::nitro;
 using namespace margelo::rnquicksqlite;
 
-void clearState() {
-    sqliteCloseAll();
-}
+// void clearState() {
+//     sqliteCloseAll();
+// }
 
-// Call this at app startup to register the HybridObjects
-void registerHybridObjectConstructors() {
-    HybridObjectRegistry::registerHybridObjectConstructor("QuickSQLite", []() -> std::shared_ptr<HybridObject> {
-        return std::make_shared<HybridQuickSQLite>();
-    });
-}
+// auto wasRegistered = false;
+// // Call this at app startup to register the HybridObjects
+// void registerHybridObjectConstructors() {
+//     // if (wasRegistered) return;
+//     wasRegistered = true;
 
-// OnLoad::OnLoad() {
+//     HybridObjectRegistry::registerHybridObjectConstructor("QuickSQLite", []() -> std::shared_ptr<HybridObject> {
+//         return std::make_shared<HybridQuickSQLite>();
+//     });
+// }
+
+// OnLoadCpp::OnLoadCpp() {
 //     registerHybridObjectConstructors();
 // }

@@ -7,16 +7,15 @@
 #include "ThreadPool.h"
 
 std::string docPathStr;
-auto pool = std::make_shared<margelo::rnquicksqlite::ThreadPool>();
 
-void clearState();
+// void clearState();
 
-void registerHybridObjectConstructors();
+// void registerHybridObjectConstructors();
 
-// class OnLoad {
-// public:
-//     OnLoad()
-// };
+//class OnLoadCpp {
+//public:
+//    OnLoadCpp();
+//};
 
-// #pragma optimize("", off)
-// static volatile OnLoad onLoad;
+//#pragma optimize("", off)
+//static volatile OnLoadCpp onLoad;

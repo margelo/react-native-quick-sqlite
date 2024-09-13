@@ -11,6 +11,11 @@
     ],
     "androidCxxLibName": "RNQuickSQLite"
   },
+  "autolinking": {
+    "QuickSQLite": {
+      "cpp": "HybridQuickSQLite"
+    }
+  },
   "ignorePaths": [
     "example",
     "lib"

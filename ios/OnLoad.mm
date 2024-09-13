@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "RNQuickSQLite-Swift-Cxx-Umbrella.hpp"
-#import "OnLoad.hpp"
+// #import "OnLoad.hpp"
 
 @interface OnLoad : NSObject
 @end
@@ -11,7 +11,7 @@ using namespace margelo::nitro;
 using namespace margelo::nitro::rnquicksqlite;
 
 + (void)load {
-    registerHybridObjectConstructors();
+    // registerHybridObjectConstructors();
 
     // Get appGroupID value from Info.plist using key "AppGroup"
     NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ReactNativeQuickSQLite_AppGroup"];
