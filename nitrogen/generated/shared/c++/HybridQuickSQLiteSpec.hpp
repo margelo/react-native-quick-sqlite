@@ -14,8 +14,8 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `NativeQueryResult` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct NativeQueryResult; }
+// Forward declaration of `HybridNativeQueryResultSpec` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridNativeQueryResultSpec; }
 // Forward declaration of `ArrayBuffer` to properly resolve imports.
 namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
@@ -27,7 +27,8 @@ namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
 
 #include <string>
 #include <optional>
-#include "NativeQueryResult.hpp"
+#include <memory>
+#include "HybridNativeQueryResultSpec.hpp"
 #include <vector>
 #include <variant>
 #include <NitroModules/ArrayBuffer.hpp>
@@ -69,8 +70,8 @@ namespace margelo::nitro::rnquicksqlite {
       virtual void drop(const std::string& dbName, const std::optional<std::string>& location) = 0;
       virtual void attach(const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias, const std::optional<std::string>& location) = 0;
       virtual void detach(const std::string& mainDbName, const std::string& alias) = 0;
-      virtual NativeQueryResult execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
-      virtual std::future<NativeQueryResult> executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
+      virtual std::shared_ptr<margelo::nitro::rnquicksqlite::HybridNativeQueryResultSpec> execute(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
+      virtual std::future<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridNativeQueryResultSpec>> executeAsync(const std::string& dbName, const std::string& query, const std::optional<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& params) = 0;
       virtual BatchQueryResult executeBatch(const std::string& dbName, const std::vector<BatchQueryCommand>& commands) = 0;
       virtual std::future<BatchQueryResult> executeBatchAsync(const std::string& dbName, const std::vector<BatchQueryCommand>& commands) = 0;
       virtual FileLoadResult loadFile(const std::string& dbName, const std::string& location) = 0;

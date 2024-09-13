@@ -28,8 +28,8 @@ target_sources(
   # Autolinking Setup
   ../nitrogen/generated/android/RNQuickSQLiteOnLoad.cpp
   # Shared Nitrogen C++ sources
+  ../nitrogen/generated/shared/c++/HybridNativeQueryResultSpec.cpp
   ../nitrogen/generated/shared/c++/HybridQuickSQLiteSpec.cpp
-  ../nitrogen/generated/shared/c++/HybridSelectQueryResultSpec.cpp
   # Android-specific Nitrogen C++ sources
   
 )

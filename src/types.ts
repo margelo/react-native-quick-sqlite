@@ -1,5 +1,3 @@
-import { SelectQueryResult } from './specs/SelectQueryResult.nitro'
-
 export enum QueryType {
   SELECT,
   INSERT,
@@ -28,24 +26,6 @@ export type SQLiteValue =
   | string
   | ArrayBuffer
   | undefined
-
-/**
- * Object returned by SQL Query executions {
- *  insertId: Represent the auto-generated row id if applicable
- *  rowsAffected: Number of affected rows if result of a update query
- *  message: if status === 1, here you will find error description
- *  rows: if status is undefined or 0 this object will contain the query results
- * }
- *
- * @interface QueryResult
- */
-export interface NativeQueryResult {
-  readonly queryType: QueryType
-  readonly insertId?: number
-  readonly rowsAffected: number
-
-  readonly selectQueryResult?: SelectQueryResult
-}
 
 export type SQLiteItem = Record<string, SQLiteValue>
 

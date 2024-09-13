@@ -1,11 +1,11 @@
 import { HybridObject } from 'react-native-nitro-modules'
 import {
-  NativeQueryResult as QueryResult,
   BatchQueryResult,
   FileLoadResult,
   BatchQueryCommand,
   SQLiteValue,
 } from '../types'
+import { NativeQueryResult } from './NativeQueryResult.nitro'
 
 export interface QuickSQLite
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
@@ -19,12 +19,16 @@ export interface QuickSQLite
     location?: string
   ): void
   detach(mainDbName: string, alias: string): void
-  execute(dbName: string, query: string, params?: SQLiteValue[]): QueryResult
+  execute(
+    dbName: string,
+    query: string,
+    params?: SQLiteValue[]
+  ): NativeQueryResult
   executeAsync(
     dbName: string,
     query: string,
     params?: SQLiteValue[]
-  ): Promise<QueryResult>
+  ): Promise<NativeQueryResult>
   executeBatch(dbName: string, commands: BatchQueryCommand[]): BatchQueryResult
   executeBatchAsync(
     dbName: string,

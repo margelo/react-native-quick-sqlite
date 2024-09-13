@@ -17,20 +17,16 @@ namespace NitroModules { class ArrayBuffer; }
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryCommand; }
 // Forward declaration of `BatchQueryResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct BatchQueryResult; }
-// Forward declaration of `ColumnMetadata` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct ColumnMetadata; }
 // Forward declaration of `ColumnType` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { enum class ColumnType; }
 // Forward declaration of `FileLoadResult` to properly resolve imports.
 namespace margelo::nitro::rnquicksqlite { struct FileLoadResult; }
-// Forward declaration of `HybridSelectQueryResultSpecSwift` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpecSwift; }
-// Forward declaration of `HybridSelectQueryResultSpec` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { class HybridSelectQueryResultSpec; }
-// Forward declaration of `NativeQueryResult` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct NativeQueryResult; }
-// Forward declaration of `QueryType` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
+// Forward declaration of `HybridNativeQueryResultSpecSwift` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridNativeQueryResultSpecSwift; }
+// Forward declaration of `HybridNativeQueryResultSpec` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { class HybridNativeQueryResultSpec; }
+// Forward declaration of `SQLiteQueryColumnMetadata` to properly resolve imports.
+namespace margelo::nitro::rnquicksqlite { struct SQLiteQueryColumnMetadata; }
 
 // Include C++ defined types
 #if __has_include("BatchQueryCommand.hpp")
@@ -39,26 +35,20 @@ namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
 #if __has_include("BatchQueryResult.hpp")
  #include "BatchQueryResult.hpp"
 #endif
-#if __has_include("ColumnMetadata.hpp")
- #include "ColumnMetadata.hpp"
-#endif
 #if __has_include("ColumnType.hpp")
  #include "ColumnType.hpp"
 #endif
 #if __has_include("FileLoadResult.hpp")
  #include "FileLoadResult.hpp"
 #endif
-#if __has_include("HybridSelectQueryResultSpec.hpp")
- #include "HybridSelectQueryResultSpec.hpp"
+#if __has_include("HybridNativeQueryResultSpec.hpp")
+ #include "HybridNativeQueryResultSpec.hpp"
 #endif
-#if __has_include("HybridSelectQueryResultSpecSwift.hpp")
- #include "HybridSelectQueryResultSpecSwift.hpp"
+#if __has_include("HybridNativeQueryResultSpecSwift.hpp")
+ #include "HybridNativeQueryResultSpecSwift.hpp"
 #endif
-#if __has_include("NativeQueryResult.hpp")
- #include "NativeQueryResult.hpp"
-#endif
-#if __has_include("QueryType.hpp")
- #include "QueryType.hpp"
+#if __has_include("SQLiteQueryColumnMetadata.hpp")
+ #include "SQLiteQueryColumnMetadata.hpp"
 #endif
 #if __has_include(<NitroModules/ArrayBuffer.hpp>)
  #include <NitroModules/ArrayBuffer.hpp>
@@ -98,27 +88,11 @@ namespace margelo::nitro::rnquicksqlite { enum class QueryType; }
 namespace margelo::nitro::rnquicksqlite::bridge::swift {
 
   /**
-   * Specialized version of `std::optional<std::string>`.
-   */
-  using std__optional_std__string_ = std::optional<std::string>;
-  inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) {
-    return std::optional<std::string>(value);
-  }
-  
-  /**
    * Specialized version of `std::optional<double>`.
    */
   using std__optional_double_ = std::optional<double>;
   inline std::optional<double> create_std__optional_double_(const double& value) {
     return std::optional<double>(value);
-  }
-  
-  /**
-   * Specialized version of `std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>`.
-   */
-  using std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__ = std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>;
-  inline std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>> create_std__optional_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridSelectQueryResultSpec__(const std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>& value) {
-    return std::optional<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridSelectQueryResultSpec>>(value);
   }
   
   /**
@@ -157,6 +131,68 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
+   * Specialized version of `std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
+   */
+  using std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
+  inline std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(size_t size) {
+    std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> map;
+    map.reserve(size);
+    return map;
+  }
+  inline std::vector<std::string> get_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____keys(const std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& map) {
+    std::vector<std::string> keys;
+    keys.reserve(map.size());
+    for (const auto& entry : map) {
+      keys.push_back(entry.first);
+    }
+    return keys;
+  }
+  
+  /**
+   * Specialized version of `std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>`.
+   */
+  using std__vector_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____ = std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>;
+  inline std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> create_std__vector_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____(size_t size) {
+    std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  /**
+   * Specialized version of `std::unordered_map<std::string, SQLiteQueryColumnMetadata>`.
+   */
+  using std__unordered_map_std__string__SQLiteQueryColumnMetadata_ = std::unordered_map<std::string, SQLiteQueryColumnMetadata>;
+  inline std::unordered_map<std::string, SQLiteQueryColumnMetadata> create_std__unordered_map_std__string__SQLiteQueryColumnMetadata_(size_t size) {
+    std::unordered_map<std::string, SQLiteQueryColumnMetadata> map;
+    map.reserve(size);
+    return map;
+  }
+  inline std::vector<std::string> get_std__unordered_map_std__string__SQLiteQueryColumnMetadata__keys(const std__unordered_map_std__string__SQLiteQueryColumnMetadata_& map) {
+    std::vector<std::string> keys;
+    keys.reserve(map.size());
+    for (const auto& entry : map) {
+      keys.push_back(entry.first);
+    }
+    return keys;
+  }
+  
+  /**
+   * Specialized version of `std::optional<std::unordered_map<std::string, SQLiteQueryColumnMetadata>>`.
+   */
+  using std__optional_std__unordered_map_std__string__SQLiteQueryColumnMetadata__ = std::optional<std::unordered_map<std::string, SQLiteQueryColumnMetadata>>;
+  inline std::optional<std::unordered_map<std::string, SQLiteQueryColumnMetadata>> create_std__optional_std__unordered_map_std__string__SQLiteQueryColumnMetadata__(const std::unordered_map<std::string, SQLiteQueryColumnMetadata>& value) {
+    return std::optional<std::unordered_map<std::string, SQLiteQueryColumnMetadata>>(value);
+  }
+  
+  /**
+   * Specialized version of `std::optional<std::string>`.
+   */
+  using std__optional_std__string_ = std::optional<std::string>;
+  inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) {
+    return std::optional<std::string>(value);
+  }
+  
+  /**
    * Specialized version of `std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
    */
   using std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
@@ -175,11 +211,11 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `PromiseHolder<NativeQueryResult>`.
+   * Specialized version of `PromiseHolder<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridNativeQueryResultSpec>>`.
    */
-  using PromiseHolder_NativeQueryResult_ = PromiseHolder<NativeQueryResult>;
-  inline PromiseHolder<NativeQueryResult> create_PromiseHolder_NativeQueryResult_() {
-    return PromiseHolder<NativeQueryResult>();
+  using PromiseHolder_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridNativeQueryResultSpec__ = PromiseHolder<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridNativeQueryResultSpec>>;
+  inline PromiseHolder<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridNativeQueryResultSpec>> create_PromiseHolder_std__shared_ptr_margelo__nitro__rnquicksqlite__HybridNativeQueryResultSpec__() {
+    return PromiseHolder<std::shared_ptr<margelo::nitro::rnquicksqlite::HybridNativeQueryResultSpec>>();
   }
   
   /**
@@ -241,52 +277,6 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   using PromiseHolder_FileLoadResult_ = PromiseHolder<FileLoadResult>;
   inline PromiseHolder<FileLoadResult> create_PromiseHolder_FileLoadResult_() {
     return PromiseHolder<FileLoadResult>();
-  }
-  
-  /**
-   * Specialized version of `std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>`.
-   */
-  using std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___ = std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>;
-  inline std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> create_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___(size_t size) {
-    std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> map;
-    map.reserve(size);
-    return map;
-  }
-  inline std::vector<std::string> get_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____keys(const std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___& map) {
-    std::vector<std::string> keys;
-    keys.reserve(map.size());
-    for (const auto& entry : map) {
-      keys.push_back(entry.first);
-    }
-    return keys;
-  }
-  
-  /**
-   * Specialized version of `std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>`.
-   */
-  using std__vector_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____ = std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>;
-  inline std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> create_std__vector_std__unordered_map_std__string__std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer____(size_t size) {
-    std::vector<std::unordered_map<std::string, std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> vector;
-    vector.reserve(size);
-    return vector;
-  }
-  
-  /**
-   * Specialized version of `std::unordered_map<std::string, ColumnMetadata>`.
-   */
-  using std__unordered_map_std__string__ColumnMetadata_ = std::unordered_map<std::string, ColumnMetadata>;
-  inline std::unordered_map<std::string, ColumnMetadata> create_std__unordered_map_std__string__ColumnMetadata_(size_t size) {
-    std::unordered_map<std::string, ColumnMetadata> map;
-    map.reserve(size);
-    return map;
-  }
-  inline std::vector<std::string> get_std__unordered_map_std__string__ColumnMetadata__keys(const std__unordered_map_std__string__ColumnMetadata_& map) {
-    std::vector<std::string> keys;
-    keys.reserve(map.size());
-    for (const auto& entry : map) {
-      keys.push_back(entry.first);
-    }
-    return keys;
   }
 
 } // namespace margelo::nitro::rnquicksqlite::bridge::swift

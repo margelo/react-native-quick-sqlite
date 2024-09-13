@@ -7,10 +7,11 @@ import {
   BatchQueryCommand,
   Transaction,
   SQLiteItem,
-  NativeQueryResult,
   ColumnType,
+  QueryType,
 } from './types'
 import { enhanceQueryResult } from './typeORM'
+import { NativeQueryResult } from './specs/NativeQueryResult.nitro'
 
 export * from './types'
 export { typeORMDriver } from './typeORM'
@@ -62,18 +63,19 @@ function close(dbName: string) {
   delete locks[dbName]
 }
 
-function execute<Data extends SQLiteItem = never>(
+export function execute<Data extends SQLiteItem = never>(
   dbName: string,
   query: string,
   params?: SQLiteValue[]
 ): QueryResult<Data> {
   const nativeResult = QuickSQLite.execute(dbName, query, params)
   const result = buildJsQueryResult<Data>(nativeResult)
+  console.log(query)
   enhanceQueryResult(result)
   return result
 }
 
-async function executeAsync<Data extends SQLiteItem = never>(
+export async function executeAsync<Data extends SQLiteItem = never>(
   dbName: string,
   query: string,
   params?: SQLiteValue[]
@@ -93,9 +95,23 @@ function buildJsQueryResult<Data extends SQLiteItem = never>(
     rowsAffected: nativeResult.rowsAffected,
   }
 
-  if (nativeResult.selectQueryResult) {
-    const results = nativeResult.selectQueryResult.results
-    const metadata = nativeResult.selectQueryResult.metadata
+  if (nativeResult.metadata) {
+    const results = nativeResult.results
+    const metadata = nativeResult.metadata
+
+    const prettyMetadata = Object.fromEntries(
+      Object.entries(metadata).map(([key, value]) => [
+        key,
+        {
+          name: value.name,
+          type: ColumnType[value.type],
+          index: value.index,
+        },
+      ])
+    )
+
+    console.log(QueryType[nativeResult.queryType], prettyMetadata)
+
     const data = results.map((row) => {
       let item = {}
 
