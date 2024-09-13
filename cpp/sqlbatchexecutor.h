@@ -1,10 +1,10 @@
 /**
  * SQL Batch execution implementation using default sqliteBridge implementation
-*/
+ */
 #pragma once
 
-#include "Types.hpp"
 #include "BatchQueryCommand.hpp"
+#include "Types.hpp"
 
 using namespace facebook;
 using namespace margelo::nitro;
@@ -12,8 +12,8 @@ using namespace margelo::nitro;
 namespace margelo::rnquicksqlite {
 
 struct BatchQuery {
-    std::string sql;
-    std::shared_ptr<SQLiteParams> params;
+  std::string sql;
+  std::shared_ptr<SQLiteParams> params;
 };
 
 /**
@@ -27,4 +27,4 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
  */
 SequelBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
 
-}
+} // namespace margelo::rnquicksqlite
