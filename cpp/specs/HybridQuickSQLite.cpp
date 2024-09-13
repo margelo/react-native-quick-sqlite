@@ -19,7 +19,7 @@ namespace margelo::nitro::rnquicksqlite {
 auto pool = std::make_shared<margelo::rnquicksqlite::ThreadPool>();
 
 void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std::string>& location) {
-    std::string tempDocPath = std::string(nullptr);
+    std::string tempDocPath = std::string(docPathStr);
     if (location) {
         tempDocPath = tempDocPath + "/" + *location;
     }
