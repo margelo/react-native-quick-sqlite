@@ -12,7 +12,7 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
 
   for (auto& command : batchParams) {
     if (command.params) {
-      using ParamsVec = SQLiteParams;
+      using ParamsVec = SQLiteQueryParams;
       using NestedParamsVec = std::vector<ParamsVec>;
 
       if (std::holds_alternative<NestedParamsVec>(*command.params)) {

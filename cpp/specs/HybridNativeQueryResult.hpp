@@ -11,11 +11,10 @@ namespace margelo::nitro::rnquicksqlite {
 class HybridNativeQueryResult : public HybridNativeQueryResultSpec {
 public:
   HybridSelectQueryResult() : HybridObject(TAG) {}
-  HybridSelectQueryResult(SQLiteQueryResults&& results, SQLiteQueryTableMetadata&& metadata)
-      : HybridObject(TAG), _results(std::move(results)), _metadata(std::move(metadata)) {}
+  HybridSelectQueryResult(std::optional<double> insertId, double rowsAffected, SQLiteQueryResults&& results, SQLiteQueryTableMetadata&& metadata)
+      : HybridObject(TAG), _insertId(insertId), _rowsAffected(rowsAffected) _results(std::move(results)), _metadata(std::move(metadata)) {}
 
 private:
-  QueryType _queryType;
   std::optional<double> _insertId;
   double _rowsAffected;
   SQLiteQueryResults _results;
@@ -23,7 +22,6 @@ private:
 
 public:
   // Properties
-  QueryType getQueryType() override;
   std::optional<double> getInsertId() override;
   double getRowsAffected() override;
   SQLiteQueryTableResults getResults() override;

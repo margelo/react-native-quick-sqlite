@@ -13,7 +13,7 @@ namespace margelo::rnquicksqlite {
 
 struct BatchQuery {
   std::string sql;
-  std::shared_ptr<SQLiteParams> params;
+  std::shared_ptr<SQLiteQueryParams> params;
 };
 
 /**

@@ -15,7 +15,7 @@ SQLiteOperationResult sqliteAttachDb(const std::string& mainDBName, const std::s
 
 SQLiteOperationResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias);
 
-SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params);
+SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteQueryParams>& params);
 
 SQLiteLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query);
 

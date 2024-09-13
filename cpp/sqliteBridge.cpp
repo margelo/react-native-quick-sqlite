@@ -174,7 +174,7 @@ SQLiteOperationResult sqliteRemoveDb(const std::string& dbName, const std::strin
   };
 }
 
-void bindStatement(sqlite3_stmt* statement, const SQLiteParams& values) {
+void bindStatement(sqlite3_stmt* statement, const SQLiteQueryParams& values) {
   size_t size = values.size();
   if (size <= 0) {
     return;
@@ -210,7 +210,7 @@ void bindStatement(sqlite3_stmt* statement, const SQLiteParams& values) {
   }
 }
 
-SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteParams>& params) {
+SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteQueryParams>& params) {
   if (dbMap.count(dbName) == 0) {
     return SQLiteExecuteQueryResult{
       .type = SQLiteError,

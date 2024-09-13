@@ -1,7 +1,6 @@
 #include "HybridQuickSQLite.hpp"
+#include "HybridNativeQueryResult.hpp"
 #include "Globals.hpp"
-#include "HybridSelectQueryResult.hpp"
-#include "QueryType.hpp"
 #include "ThreadPool.h"
 #include "Types.hpp"
 #include "logs.h"
@@ -74,25 +73,22 @@ void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string&
   }
 };
 
-NativeQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query,
-                                             const std::optional<SQLiteParams>& params) {
+using ExecuteQueryResult = std::shared_ptr<HybridNativeQueryResultSpec>;
+
+ExecuteQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query,
+                                             const std::optional<SQLiteQueryParams>& params) {
   auto result = sqliteExecute(dbName, query, params);
 
   if (result.type == SQLiteError) {
-    throw std::runtime_error(status.errorMessage);
+    throw std::runtime_error(result.errorMessage);
   }
-
-  if (result.metadata) {
-    const auto selectQueryResult = std::make_shared<HybridSelectQueryResult>(std::move(results), std::move(*metadata));
-    return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, selectQueryResult);
-  }
-
-  return NativeQueryResult(QueryType::SELECT, status.insertId, status.rowsAffected, std::nullopt);
+  
+  return std::make_shared<HybridNativeQueryResult>(result.insertId, result.rowsAffected, std::move(*result.results), std::move(*result.metadata));
 };
 
-std::future<NativeQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query,
-                                                               const std::optional<SQLiteParams>& params) {
-  auto promise = std::make_shared<std::promise<NativeQueryResult>>();
+std::future<ExecuteQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query,
+                                                               const std::optional<SQLiteQueryParams>& params) {
+  auto promise = std::make_shared<std::promise<ExecuteQueryResult>>();
   auto future = promise->get_future();
 
   auto task = [this, promise, dbName, query, params]() {

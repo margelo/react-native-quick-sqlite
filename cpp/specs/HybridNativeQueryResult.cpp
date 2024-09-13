@@ -2,10 +2,6 @@
 
 namespace margelo::nitro::rnquicksqlite {
 
-QueryType HybridNativeQueryResult::getQueryType() {
-  return this->_queryType;
-}
-
 std::optional<double> HybridNativeQueryResult::getInsertId() {
   return this->_insertId;
 }
