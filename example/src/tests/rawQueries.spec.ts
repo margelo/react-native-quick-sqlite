@@ -7,6 +7,10 @@ import {
 import { beforeEach, describe, it } from './MochaRNAdapter'
 import chai from 'chai'
 
+function isError(e: unknown): e is Error {
+  return e instanceof Error
+}
+
 type User = { id: string; name: string; age: number; networth: number }
 
 let expect = chai.expect
@@ -102,11 +106,14 @@ export function registerBaseTests() {
           'INSERT INTO User (id, name, age, networth) VALUES(?, ?, ?, ?)',
           [id, name, age, networth]
         )
-      } catch (e: any) {
-        expect(typeof e).to.equal('object')
-        expect(e.message).to.include(
-          `cannot store TEXT value in INT column User.id`
-        )
+      } catch (e: unknown) {
+        if (isError(e)) {
+          expect(e.message).to.include(
+            `cannot store TEXT value in REAL column User.id`
+          )
+        } else {
+          expect.fail('Should have thrown an error')
+        }
       }
     })
     it('Transaction, auto commit', async () => {
@@ -177,14 +184,14 @@ export function registerBaseTests() {
           // ACT: Upsert statement to create record / increment the value
           tx.execute(
             `
-              INSERT OR REPLACE INTO [User] ([id], [name], [age], [networth])
-              SELECT ?, ?, ?,
-                IFNULL((
-                  SELECT [networth] + 1000
-                  FROM [User]
-                  WHERE [id] = ?
-                ), 0)
-          `,
+                INSERT OR REPLACE INTO [User] ([id], [name], [age], [networth])
+                SELECT ?, ?, ?,
+                  IFNULL((
+                    SELECT [networth] + 1000
+                    FROM [User]
+                    WHERE [id] = ?
+                  ), 0)
+            `,
             [id, name, age, id]
           )
           // ACT: Select statement to get incremented value and store it for checking later
@@ -374,8 +381,8 @@ export function registerBaseTests() {
       } catch (error) {
         expect(error).to.be.instanceOf(Error)
         expect((error as Error).message)
-          .to.include('SQL execution error')
-          .and.to.include('cannot store TEXT value in INT column User.id')
+          .to.include('SqlExecutionError')
+          .and.to.include('cannot store TEXT value in REAL column User.id')
         const res = db.execute('SELECT * FROM User')
         expect(res.rows?.data).to.eql([])
       }
@@ -432,14 +439,14 @@ export function registerBaseTests() {
           // ACT: Upsert statement to create record / increment the value
           await tx.executeAsync(
             `
-              INSERT OR REPLACE INTO [User] ([id], [name], [age], [networth])
-              SELECT ?, ?, ?,
-                IFNULL((
-                  SELECT [networth] + 1000
-                  FROM [User]
-                  WHERE [id] = ?
-                ), 0)
-          `,
+                INSERT OR REPLACE INTO [User] ([id], [name], [age], [networth])
+                SELECT ?, ?, ?,
+                  IFNULL((
+                    SELECT [networth] + 1000
+                    FROM [User]
+                    WHERE [id] = ?
+                  ), 0)
+            `,
             [id, name, age, id]
           )
           // ACT: Select statement to get incremented value and store it for checking later

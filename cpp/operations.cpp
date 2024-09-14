@@ -99,37 +99,26 @@ void sqliteRemoveDb(const std::string& dbName, const std::string& docPath) {
 }
 
 void bindStatement(sqlite3_stmt* statement, const SQLiteQueryParams& values) {
-  size_t size = values.size();
-  if (size <= 0) {
-    return;
-  }
-
-  for (int ii = 0; ii < size; ii++) {
-    int sqIndex = ii + 1;
-    SQLiteValue value = values.at(ii);
+  for (int valueIndex = 0; valueIndex < values.size(); valueIndex++) {
+    int sqliteIndex = valueIndex+1;
+    SQLiteValue value = values.at(valueIndex);
+    
     // if (std::holds_alternative<std::monostate>(value))
     // {
-    //     sqlite3_bind_null(statement, sqIndex);
+    //     sqlite3_bind_null(statement, sqliteIndex);
     // }
     if (std::holds_alternative<bool>(value)) {
-      sqlite3_bind_int(statement, sqIndex, std::get<bool>(value));
+      sqlite3_bind_int(statement, sqliteIndex, std::get<bool>(value));
     } else if (std::holds_alternative<double>(value)) {
-      const auto doubleValue = std::get<double>(value);
-      const auto isInt = std::floor(doubleValue) == doubleValue;
-
-      if (isInt) {
-        sqlite3_bind_int(statement, sqIndex, static_cast<int>(doubleValue));
-      } else {
-        sqlite3_bind_double(statement, sqIndex, doubleValue);
-      }
+      sqlite3_bind_double(statement, sqliteIndex, std::get<double>(value));
     } else if (std::holds_alternative<int64_t>(value)) {
-      sqlite3_bind_int64(statement, sqIndex, std::holds_alternative<int64_t>(value));
+      sqlite3_bind_int64(statement, sqliteIndex, std::get<int64_t>(value));
     } else if (std::holds_alternative<std::string>(value)) {
       const auto stringValue = std::get<std::string>(value);
-      sqlite3_bind_text(statement, sqIndex, stringValue.c_str(), stringValue.length(), SQLITE_TRANSIENT);
+      sqlite3_bind_text(statement, sqliteIndex, stringValue.c_str(), stringValue.length(), SQLITE_TRANSIENT);
     } else if (std::holds_alternative<std::shared_ptr<ArrayBuffer>>(value)) {
       const auto arrayBufferValue = std::get<std::shared_ptr<ArrayBuffer>>(value);
-      sqlite3_bind_blob(statement, sqIndex, arrayBufferValue->data(), arrayBufferValue->size(), SQLITE_STATIC);
+      sqlite3_bind_blob(statement, sqliteIndex, arrayBufferValue->data(), arrayBufferValue->size(), SQLITE_STATIC);
     }
   }
 }
@@ -175,21 +164,20 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
         while (i < count) {
           column_type = sqlite3_column_type(statement, i);
           column_name = sqlite3_column_name(statement, i);
-
           switch (column_type) {
 
             case SQLITE_INTEGER: {
-              int64_t column_value = sqlite3_column_int64(statement, i);
+              auto column_value = sqlite3_column_int64(statement, i);
               row[column_name] = column_value;
               break;
             }
             case SQLITE_FLOAT: {
-              double column_value = sqlite3_column_double(statement, i);
+              auto column_value = sqlite3_column_double(statement, i);
               row[column_name] = column_value;
               break;
             }
             case SQLITE_TEXT: {
-              const char* column_value = reinterpret_cast<const char*>(sqlite3_column_text(statement, i));
+              auto column_value = reinterpret_cast<const char*>(sqlite3_column_text(statement, i));
               sqlite3_column_bytes(statement, i);
               row[column_name] = column_value;
               break;

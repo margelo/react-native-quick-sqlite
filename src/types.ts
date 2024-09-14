@@ -5,15 +5,14 @@ export enum ColumnType {
   TEXT,
   ARRAY_BUFFER,
   NULL_VALUE,
-  UNKNOWN,
 }
 
 /**
  * Represents a value that can be stored in a SQLite database
  */
 export type SQLiteValue =
-  | number
   | boolean
+  | number
   | bigint
   | string
   | ArrayBuffer
@@ -21,7 +20,7 @@ export type SQLiteValue =
 
 export type SQLiteItem = Record<string, SQLiteValue>
 
-export interface QueryResult<Data extends SQLiteItem = never> {
+export interface QueryResult<Data extends SQLiteItem = SQLiteItem> {
   readonly insertId?: number
   readonly rowsAffected: number
 
@@ -40,12 +39,12 @@ export interface QueryResult<Data extends SQLiteItem = never> {
 
 export type SQLiteQueryParams = SQLiteValue[]
 
-export type ExecuteQuery = <Data extends SQLiteItem = never>(
+export type ExecuteQuery = <Data extends SQLiteItem = SQLiteItem>(
   query: string,
   params?: SQLiteQueryParams
 ) => QueryResult<Data>
 
-export type ExecuteAsyncQuery = <Data extends SQLiteItem = never>(
+export type ExecuteAsyncQuery = <Data extends SQLiteItem = SQLiteItem>(
   query: string,
   params?: SQLiteQueryParams
 ) => Promise<QueryResult<Data>>

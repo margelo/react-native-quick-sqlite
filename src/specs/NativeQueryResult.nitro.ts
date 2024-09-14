@@ -16,7 +16,7 @@ export interface NativeQueryResult
   readonly rowsAffected: number
   readonly insertId?: number
 
-  /** Select query results */
+  /** Query results */
   readonly results: SQLiteQueryResults
   /** Table metadata */
   readonly metadata?: Record<string, SQLiteQueryColumnMetadata>

@@ -88,66 +88,14 @@ export async function executeAsync<Data extends SQLiteItem = never>(
 function buildJsQueryResult<Data extends SQLiteItem = never>(
   nativeResult: NativeQueryResult
 ): QueryResult<Data> {
-  let result: QueryResult<Data> = {
+  const data = nativeResult.results as Data[]
+  return {
     insertId: nativeResult.insertId,
     rowsAffected: nativeResult.rowsAffected,
-  }
-
-  if (nativeResult.metadata) {
-    const results = nativeResult.results
-    const metadata = nativeResult.metadata
-
-    const prettyMetadata = Object.fromEntries(
-      Object.entries(metadata).map(([key, value]) => [
-        key,
-        {
-          name: value.name,
-          type: ColumnType[value.type],
-          index: value.index,
-        },
-      ])
-    )
-
-    console.log(prettyMetadata)
-
-    const data = results.map((row) => {
-      let item = {}
-
-      for (let key in row) {
-        switch (metadata[key].type) {
-          case ColumnType.BOOLEAN:
-            item[key] = row[key] as boolean
-            break
-          case ColumnType.NUMBER:
-            item[key] = row[key] as number
-            break
-          case ColumnType.INT64:
-            item[key] = row[key] as bigint
-            break
-          case ColumnType.TEXT:
-            item[key] = row[key] as string
-            break
-          case ColumnType.ARRAY_BUFFER:
-            item[key] = row[key] as ArrayBuffer
-            break
-          case ColumnType.NULL_VALUE:
-            item[key] = null
-            break
-          case ColumnType.UNKNOWN:
-          default:
-            item[key] = row[key] as unknown
-        }
-      }
-
-      return item as Data
-    })
-
-    result.rows = {
-      data: data,
+    rows: {
+      data,
       length: data.length,
-      item: (idx: number) => result.rows.data[idx],
-    }
+      item: (idx: number) => data[idx],
+    },
   }
-
-  return result
 }
