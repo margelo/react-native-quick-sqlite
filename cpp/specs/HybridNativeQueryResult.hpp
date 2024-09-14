@@ -1,7 +1,7 @@
 #pragma once
 
 #include "HybridNativeQueryResultSpec.hpp"
-#include "Types.hpp"
+#include "types.hpp"
 #include <map>
 
 using namespace margelo::rnquicksqlite;
@@ -11,12 +11,16 @@ namespace margelo::nitro::rnquicksqlite {
 class HybridNativeQueryResult : public HybridNativeQueryResultSpec {
 public:
   HybridNativeQueryResult() : HybridObject(TAG) {}
-  HybridNativeQueryResult(std::optional<double> insertId, double rowsAffected, SQLiteQueryResults&& results, SQLiteQueryTableMetadata&& metadata)
-      : HybridObject(TAG), _insertId(insertId), _rowsAffected(rowsAffected), _results(std::move(results)), _metadata(std::move(metadata)) {}
+  HybridNativeQueryResult(std::optional<double> insertId, int rowsAffected, SQLiteQueryResults& results, std::optional<SQLiteQueryTableMetadata>& metadata)
+      : HybridObject(TAG),
+        _insertId(insertId),
+        _rowsAffected(rowsAffected),
+        _results(std::move(results)),
+        _metadata(std::move(metadata)) {}
 
 private:
   std::optional<double> _insertId;
-  double _rowsAffected;
+  int _rowsAffected;
   SQLiteQueryResults _results;
   std::optional<SQLiteQueryTableMetadata> _metadata;
 

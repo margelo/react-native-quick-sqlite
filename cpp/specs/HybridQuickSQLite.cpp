@@ -2,7 +2,6 @@
 #include "HybridNativeQueryResult.hpp"
 #include "globals.hpp"
 #include "ThreadPool.hpp"
-#include "types.hpp"
 #include "QuickSQLiteException.hpp"
 #include "logs.hpp"
 #include "macros.hpp"
@@ -59,7 +58,7 @@ using ExecuteQueryResult = std::shared_ptr<HybridNativeQueryResultSpec>;
 ExecuteQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query,
                                              const std::optional<SQLiteQueryParams>& params) {
   auto result = sqliteExecute(dbName, query, params);
-  return std::make_shared<HybridNativeQueryResult>(result.insertId, result.rowsAffected, std::move(*result.results), std::move(*result.metadata));
+  return std::make_shared<HybridNativeQueryResult>(result.insertId, result.rowsAffected, *result.results, *result.metadata);
 };
 
 std::future<ExecuteQueryResult> HybridQuickSQLite::executeAsync(const std::string& dbName, const std::string& query,

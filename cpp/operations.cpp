@@ -239,7 +239,11 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
 
   int rowsAffected = sqlite3_changes(db);
   long long latestInsertRowId = sqlite3_last_insert_rowid(db);
-  auto meta = std::make_unique<std::optional<SQLiteQueryTableMetadata>>(metadata->size() > 0 ? std::make_optional(std::move(metadata)) : std::nullopt);
+  auto meta = std::make_unique<std::optional<SQLiteQueryTableMetadata>>(
+    metadata && metadata->size() > 0
+    ? std::make_optional(std::move(*metadata))
+    : std::nullopt
+  );
   
   return {
     .rowsAffected = rowsAffected,

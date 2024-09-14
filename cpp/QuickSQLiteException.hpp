@@ -32,7 +32,7 @@ class QuickSQLiteException : public std::exception {
 public:
   QuickSQLiteException(const char* message): QuickSQLiteException(QuickSQLiteExceptionType::UnknownError, message) {}
   QuickSQLiteException(std::string message): QuickSQLiteException(QuickSQLiteExceptionType::UnknownError, message) {}
-  QuickSQLiteException(const QuickSQLiteExceptionType type, const char* message) : QuickSQLiteException(type, message) {}
+  QuickSQLiteException(const QuickSQLiteExceptionType type, const char* message) : QuickSQLiteException(type, std::string(message)) {}
   QuickSQLiteException(const QuickSQLiteExceptionType type, std::string message)
     : _exceptionString("[react-native-quick-sqlite] " + typeToString(type) + ": " + message) {}
   

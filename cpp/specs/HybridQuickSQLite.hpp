@@ -2,7 +2,7 @@
 
 #include "HybridQuickSQLiteSpec.hpp"
 #include "HybridNativeQueryResultSpec.hpp"
-#include "Types.hpp"
+#include "types.hpp"
 
 using namespace margelo::rnquicksqlite;
 
