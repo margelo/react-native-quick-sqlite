@@ -23,14 +23,16 @@ export function registerBaseTests() {
       db = open({
         name: 'test',
       })
+
       db.execute('DROP TABLE IF EXISTS User;')
       db.execute(
-        'CREATE TABLE User ( id INT PRIMARY KEY, name TEXT NOT NULL, age INT, networth REAL) STRICT;'
+        'CREATE TABLE User ( id REAL PRIMARY KEY, name TEXT NOT NULL, age REAL, networth REAL) STRICT;'
       )
     } catch (e) {
       console.warn('error on before each', e)
     }
   })
+
   describe('Raw queries', () => {
     it('Insert', async () => {
       const id = chance.integer()
