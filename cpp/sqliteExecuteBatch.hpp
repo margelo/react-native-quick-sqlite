@@ -4,7 +4,7 @@
 #pragma once
 
 #include "BatchQueryCommand.hpp"
-#include "Types.hpp"
+#include "types.hpp"
 
 using namespace facebook;
 using namespace margelo::nitro;
@@ -25,6 +25,6 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
 /**
  * Execute a batch of commands in a exclusive transaction
  */
-SQLiteBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
+SQLiteOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
 
 } // namespace margelo::rnquicksqlite

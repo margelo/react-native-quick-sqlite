@@ -17,43 +17,18 @@ using SQLiteQueryResultRow = std::unordered_map<std::string, SQLiteValue>;
 using SQLiteQueryResults = std::vector<SQLiteQueryResultRow>;
 using SQLiteQueryTableMetadata = std::unordered_map<std::string, SQLiteQueryColumnMetadata>;
 
-/**
- * Various structs to help with the results of the SQLite operations
- */
-enum SQLiteResultType { SQLiteOk, SQLiteError };
-
 struct SQLiteOperationResult {
-  SQLiteResultType type;
-  std::string errorMessage;
   int rowsAffected;
   double insertId;
-  
-  std::unique_ptr<SQLiteQueryResults> results;
-  std::unique_ptr<SQLiteQueryTableMetadata> metadata;
+  int commands;
 };
-
 
 struct SQLiteExecuteQueryResult {
-  SQLiteResultType type;
-  std::string errorMessage;
   int rowsAffected;
   double insertId;
-  
+
   std::unique_ptr<SQLiteQueryResults> results;
-  std::unique_ptr<SQLiteQueryTableMetadata> metadata;
-};
-
-struct SQLiteLiteralUpdateResult {
-  SQLiteResultType type;
-  std::string message;
-  int affectedRows;
-};
-
-struct SQLiteBatchOperationResult {
-  SQLiteResultType type;
-  std::string message;
-  int affectedRows;
-  int commands;
+  std::unique_ptr<std::optional<SQLiteQueryTableMetadata>> metadata;
 };
 
 // constexpr function that maps SQLiteColumnType to string literals

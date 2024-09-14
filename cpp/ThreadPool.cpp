@@ -5,7 +5,7 @@
 //  Created by Oscar on 13.03.22.
 //
 
-#include "ThreadPool.h"
+#include "ThreadPool.hpp"
 
 namespace margelo::rnquicksqlite {
 

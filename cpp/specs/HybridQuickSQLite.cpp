@@ -1,13 +1,14 @@
 #include "HybridQuickSQLite.hpp"
 #include "HybridNativeQueryResult.hpp"
-#include "Globals.hpp"
-#include "ThreadPool.h"
-#include "Types.hpp"
-#include "logs.h"
-#include "macros.h"
-#include "sqlbatchexecutor.h"
-#include "sqlfileloader.h"
-#include "sqliteBridge.h"
+#include "globals.hpp"
+#include "ThreadPool.hpp"
+#include "types.hpp"
+#include "QuickSQLiteException.hpp"
+#include "logs.hpp"
+#include "macros.hpp"
+#include "sqliteExecuteBatch.hpp"
+#include "importSqlFile.hpp"
+#include "operations.hpp"
 #include <iostream>
 #include <map>
 #include <string>
@@ -23,19 +24,11 @@ void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std:
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  SQLiteOperationResult result = sqliteOpenDb(dbName, tempDocPath);
-
-  if (result.type == SQLiteError) {
-    throw std::runtime_error(result.errorMessage.c_str());
-  }
+  sqliteOpenDb(dbName, tempDocPath);
 }
 
 void HybridQuickSQLite::close(const std::string& dbName) {
-  SQLiteOperationResult result = sqliteCloseDb(dbName);
-
-  if (result.type == SQLiteError) {
-    throw std::runtime_error(result.errorMessage.c_str());
-  }
+  sqliteCloseDb(dbName);
 };
 
 void HybridQuickSQLite::drop(const std::string& dbName, const std::optional<std::string>& location) {
@@ -44,11 +37,7 @@ void HybridQuickSQLite::drop(const std::string& dbName, const std::optional<std:
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  SQLiteOperationResult result = sqliteRemoveDb(dbName, tempDocPath);
-
-  if (result.type == SQLiteError) {
-    throw std::runtime_error(result.errorMessage.c_str());
-  }
+  sqliteRemoveDb(dbName, tempDocPath);
 };
 
 void HybridQuickSQLite::attach(const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias,
@@ -58,19 +47,11 @@ void HybridQuickSQLite::attach(const std::string& mainDbName, const std::string&
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  SQLiteOperationResult result = sqliteAttachDb(mainDbName, tempDocPath, dbNameToAttach, alias);
-
-  if (result.type == SQLiteError) {
-    throw std::runtime_error(result.errorMessage.c_str());
-  }
+  sqliteAttachDb(mainDbName, tempDocPath, dbNameToAttach, alias);
 };
 
 void HybridQuickSQLite::detach(const std::string& mainDbName, const std::string& alias) {
-  SQLiteOperationResult result = sqliteDetachDb(mainDbName, alias);
-
-  if (result.type == SQLiteError) {
-    throw std::runtime_error(result.errorMessage.c_str());
-  }
+  sqliteDetachDb(mainDbName, alias);
 };
 
 using ExecuteQueryResult = std::shared_ptr<HybridNativeQueryResultSpec>;
@@ -78,11 +59,6 @@ using ExecuteQueryResult = std::shared_ptr<HybridNativeQueryResultSpec>;
 ExecuteQueryResult HybridQuickSQLite::execute(const std::string& dbName, const std::string& query,
                                              const std::optional<SQLiteQueryParams>& params) {
   auto result = sqliteExecute(dbName, query, params);
-
-  if (result.type == SQLiteError) {
-    throw std::runtime_error(result.errorMessage);
-  }
-  
   return std::make_shared<HybridNativeQueryResult>(result.insertId, result.rowsAffected, std::move(*result.results), std::move(*result.metadata));
 };
 
@@ -108,12 +84,8 @@ std::future<ExecuteQueryResult> HybridQuickSQLite::executeAsync(const std::strin
 BatchQueryResult HybridQuickSQLite::executeBatch(const std::string& dbName, const std::vector<BatchQueryCommand>& batchParams) {
   const auto commands = batchParamsToCommands(batchParams);
 
-  auto batchResult = sqliteExecuteBatch(dbName, commands);
-  if (batchResult.type == SQLiteOk) {
-    return BatchQueryResult(batchResult.affectedRows);
-  } else {
-    throw std::runtime_error(batchResult.message);
-  }
+  auto result = sqliteExecuteBatch(dbName, commands);
+  return BatchQueryResult(result.rowsAffected);
 };
 
 std::future<BatchQueryResult> HybridQuickSQLite::executeBatchAsync(const std::string& dbName,
@@ -136,13 +108,8 @@ std::future<BatchQueryResult> HybridQuickSQLite::executeBatchAsync(const std::st
 };
 
 FileLoadResult HybridQuickSQLite::loadFile(const std::string& dbName, const std::string& location) {
-  const auto importResult = importSQLFile(dbName, location);
-  if (importResult.type == SQLiteOk) {
-    auto result = new FileLoadResult(importResult.commands, importResult.affectedRows);
-    return *result;
-  } else {
-    throw std::runtime_error("[react-native-quick-sqlite][loadFile] Could not open file");
-  }
+  const auto result = importSqlFile(dbName, location);
+  return FileLoadResult(result.commands, result.rowsAffected);
 };
 
 std::future<FileLoadResult> HybridQuickSQLite::loadFileAsync(const std::string& dbName, const std::string& location) {

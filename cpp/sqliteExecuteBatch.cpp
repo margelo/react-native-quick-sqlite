@@ -1,9 +1,10 @@
 /**
  * SQL Batch execution implementation using default sqliteBridge implementation
  */
-#include "sqlbatchexecutor.h"
-#include "sqliteBridge.h"
+#include "sqliteExecuteBatch.hpp"
+#include "operations.hpp"
 #include <utility>
+#include "QuickSQLiteException.hpp"
 
 namespace margelo::rnquicksqlite {
 
@@ -31,47 +32,38 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
   return commands;
 }
 
-SQLiteBatchOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands) {
+SQLiteOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands) {
   size_t commandCount = commands.size();
   if (commandCount <= 0) {
-    return SQLiteBatchOperationResult{
-        .type = SQLiteError,
-        .message = "No SQL commands provided",
-    };
+    throw QuickSQLiteException(QuickSQLiteExceptionType::NoBatchCommandsProvided, "No SQL batch commands provided");
   }
 
   try {
-    int affectedRows = 0;
+    int rowsAffected = 0;
     sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
     for (int i = 0; i < commandCount; i++) {
       const auto command = commands.at(i);
 
-      // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution
+      // We do not provide a datas tructure to receive query data because we don't need/want to handle this results in a batch execution
       auto results = SQLiteQueryResults();
       auto metadata = std::optional<SQLiteQueryTableMetadata>(std::nullopt);
-      auto result = sqliteExecute(dbName, command.sql, *command.params.get());
-      if (result.type == SQLiteError) {
+      try {
+        auto result = sqliteExecute(dbName, command.sql, *command.params.get());
+        rowsAffected += result.rowsAffected;
+      } catch (QuickSQLiteException& e) {
         sqliteExecuteLiteral(dbName, "ROLLBACK");
-        return SQLiteBatchOperationResult{
-            .type = SQLiteError,
-            .message = result.errorMessage,
-        };
-      } else {
-        affectedRows += result.rowsAffected;
+        throw e;
       }
     }
+    
     sqliteExecuteLiteral(dbName, "COMMIT");
-    return SQLiteBatchOperationResult{
-        .type = SQLiteOk,
-        .affectedRows = affectedRows,
+    return {
+        .rowsAffected = rowsAffected,
         .commands = (int)commandCount,
     };
-  } catch (std::exception& exc) {
+  } catch (QuickSQLiteException& e) {
     sqliteExecuteLiteral(dbName, "ROLLBACK");
-    return SQLiteBatchOperationResult{
-        .type = SQLiteError,
-        .message = exc.what(),
-    };
+    throw e;
   }
 }
 

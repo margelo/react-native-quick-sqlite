@@ -1,3 +1,10 @@
+//
+//  ThreadPool.hpp
+//  react-native-quick-sqlite
+//
+//  Created by Oscar on 13.03.22.
+//
+
 #pragma once
 
 #include <condition_variable>

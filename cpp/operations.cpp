@@ -1,5 +1,6 @@
-#include "sqliteBridge.h"
-#include "logs.h"
+#include "operations.hpp"
+#include "logs.hpp"
+#include "utils.hpp"
 #include <NitroModules/ArrayBuffer.hpp>
 #include <cmath>
 #include <ctime>
@@ -7,8 +8,8 @@
 #include <map>
 #include <sqlite3.h>
 #include <sstream>
-#include <sys/stat.h>
 #include <unistd.h>
+#include "QuickSQLiteException.hpp"
 
 using namespace facebook;
 using namespace margelo::nitro;
@@ -18,59 +19,7 @@ namespace margelo::rnquicksqlite {
 
 std::map<std::string, sqlite3*> dbMap = std::map<std::string, sqlite3*>();
 
-bool folder_exists(const std::string& foldername) {
-  struct stat buffer;
-  return (stat(foldername.c_str(), &buffer) == 0);
-}
-
-/**
- * Portable wrapper for mkdir. Internally used by mkdir()
- * @param[in] path the full path of the directory to create.
- * @return zero on success, otherwise -1.
- */
-int _mkdir(const char* path) {
-#if _POSIX_C_SOURCE
-  return mkdir(path);
-#else
-  return mkdir(path, 0755); // not sure if this works on mac
-#endif
-}
-
-/**
- * Recursive, portable wrapper for mkdir.
- * @param[in] path the full path of the directory to create.
- * @return zero on success, otherwise -1.
- */
-int mkdir(const char* path) {
-  std::string current_level = "/";
-  std::string level;
-  std::stringstream ss(path);
-  // First line is empty because it starts with /User
-  getline(ss, level, '/');
-  // split path using slash as a separator
-  while (getline(ss, level, '/')) {
-    current_level += level; // append folder to the current level
-    // create current level
-    if (!folder_exists(current_level) && _mkdir(current_level.c_str()) != 0)
-      return -1;
-
-    current_level += "/"; // don't forget to append a slash
-  }
-
-  return 0;
-}
-
-inline bool file_exists(const std::string& path) {
-  struct stat buffer;
-  return (stat(path.c_str(), &buffer) == 0);
-}
-
-std::string get_db_path(const std::string& dbName, const std::string& docPath) {
-  mkdir(docPath.c_str());
-  return docPath + "/" + dbName;
-}
-
-SQLiteOperationResult sqliteOpenDb(const std::string& dbName, const std::string& docPath) {
+void sqliteOpenDb(const std::string& dbName, const std::string& docPath) {
   std::string dbPath = get_db_path(dbName, docPath);
 
   int sqlOpenFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX;
@@ -80,21 +29,16 @@ SQLiteOperationResult sqliteOpenDb(const std::string& dbName, const std::string&
   exit = sqlite3_open_v2(dbPath.c_str(), &db, sqlOpenFlags, nullptr);
 
   if (exit != SQLITE_OK) {
-    return SQLiteOperationResult{.type = SQLiteError, .errorMessage = sqlite3_errmsg(db)};
+    throw QuickSQLiteException(QuickSQLiteExceptionType::DatabaseCannotBeOpened, sqlite3_errmsg(db));
   } else {
     dbMap[dbName] = db;
   }
-
-  return SQLiteOperationResult{.type = SQLiteOk, .rowsAffected = 0};
 }
 
-SQLiteOperationResult sqliteCloseDb(const std::string& dbName) {
+void sqliteCloseDb(const std::string& dbName) {
 
   if (dbMap.count(dbName) == 0) {
-    return SQLiteOperationResult{
-        .type = SQLiteError,
-        .errorMessage = dbName + " is not open",
-    };
+    throw QuickSQLiteException::DatabaseNotOpen(dbName);
   }
 
   sqlite3* db = dbMap[dbName];
@@ -102,10 +46,6 @@ SQLiteOperationResult sqliteCloseDb(const std::string& dbName) {
   sqlite3_close_v2(db);
 
   dbMap.erase(dbName);
-
-  return SQLiteOperationResult{
-      .type = SQLiteOk,
-  };
 }
 
 void sqliteCloseAll() {
@@ -117,61 +57,45 @@ void sqliteCloseAll() {
   dbMap.clear();
 }
 
-SQLiteOperationResult sqliteAttachDb(const std::string& mainDBName, const std::string& docPath, const std::string& databaseToAttach,
+void sqliteAttachDb(const std::string& mainDBName, const std::string& docPath, const std::string& databaseToAttach,
                               const std::string& alias) {
   /**
    * There is no need to check if mainDBName is opened because sqliteExecuteLiteral will do that.
    * */
   std::string dbPath = get_db_path(databaseToAttach, docPath);
   std::string statement = "ATTACH DATABASE '" + dbPath + "' AS " + alias;
-  SQLiteLiteralUpdateResult result = sqliteExecuteLiteral(mainDBName, statement);
-  if (result.type == SQLiteError) {
-    return SQLiteOperationResult{
-        .type = SQLiteError,
-        .errorMessage = mainDBName + " was unable to attach another database: " + std::string(result.message),
-    };
+  
+  try {
+    sqliteExecuteLiteral(mainDBName, statement);
+  } catch (QuickSQLiteException& e) {
+    throw QuickSQLiteException(QuickSQLiteExceptionType::UnableToAttachToDatabase, mainDBName + " was unable to attach another database: " + std::string(e.what()));
   }
-  return SQLiteOperationResult{
-      .type = SQLiteOk,
-  };
 }
 
-SQLiteOperationResult sqliteDetachDb(const std::string& mainDBName, const std::string& alias) {
+void sqliteDetachDb(const std::string& mainDBName, const std::string& alias) {
   /**
    * There is no need to check if mainDBName is opened because sqliteExecuteLiteral will do that.
    * */
   std::string statement = "DETACH DATABASE " + alias;
-  SQLiteLiteralUpdateResult result = sqliteExecuteLiteral(mainDBName, statement);
-  if (result.type == SQLiteError) {
-    return SQLiteOperationResult{
-        .type = SQLiteError,
-        .errorMessage = mainDBName + "was unable to detach database: " + std::string(result.message),
-    };
+  
+  try {
+    sqliteExecuteLiteral(mainDBName, statement);
+  } catch (QuickSQLiteException& e) {
+    throw QuickSQLiteException(QuickSQLiteExceptionType::UnableToAttachToDatabase, mainDBName + " was unable to detach database: " + std::string(e.what()));
   }
-  return SQLiteOperationResult{
-      .type = SQLiteOk,
-  };
 }
 
-SQLiteOperationResult sqliteRemoveDb(const std::string& dbName, const std::string& docPath) {
+void sqliteRemoveDb(const std::string& dbName, const std::string& docPath) {
   if (dbMap.count(dbName) == 1) {
-    SQLiteOperationResult closeResult = sqliteCloseDb(dbName);
-    if (closeResult.type == SQLiteError) {
-      return closeResult;
-    }
+    sqliteCloseDb(dbName);
   }
 
-  std::string dbPath = get_db_path(dbName, docPath);
-
-  if (!file_exists(dbPath)) {
-    return SQLiteOperationResult{.type = SQLiteOk, .errorMessage = "[react-native-quick-sqlite]: Database file not found" + dbPath};
+  std::string dbFilePath = get_db_path(dbName, docPath);
+  if (!file_exists(dbFilePath)) {
+    throw QuickSQLiteException::DatabaseFileNotFound(dbFilePath);
   }
 
-  remove(dbPath.c_str());
-
-  return SQLiteOperationResult{
-      .type = SQLiteOk,
-  };
+  remove(dbFilePath.c_str());
 }
 
 void bindStatement(sqlite3_stmt* statement, const SQLiteQueryParams& values) {
@@ -212,11 +136,7 @@ void bindStatement(sqlite3_stmt* statement, const SQLiteQueryParams& values) {
 
 SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteQueryParams>& params) {
   if (dbMap.count(dbName) == 0) {
-    return SQLiteExecuteQueryResult{
-      .type = SQLiteError,
-      .errorMessage = "[react-native-quick-sqlite]: Database " + dbName + " is not open",
-      .rowsAffected = 0
-    };
+    throw QuickSQLiteException::DatabaseNotOpen(dbName);
   }
 
   auto db = dbMap[dbName];
@@ -229,12 +149,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
       bindStatement(statement, *params);
     }
   } else {
-    auto message = sqlite3_errmsg(db);
-    return SQLiteExecuteQueryResult{
-      .type = SQLiteError,
-      .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + std::string(message),
-      .rowsAffected = 0
-    };
+    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
   auto isConsuming = true;
@@ -246,7 +161,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
   SQLiteQueryResultRow row;
   
   auto results = std::make_unique<SQLiteQueryResults>();
-  auto metadata = std::make_unique<SQLiteQueryTableMetadata>();
+  auto metadata = new SQLiteQueryTableMetadata();
 
   while (isConsuming) {
     result = sqlite3_step(statement);
@@ -319,30 +234,25 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
   sqlite3_finalize(statement);
 
   if (isFailed) {
-    const char* message = sqlite3_errmsg(db);
-    return SQLiteExecuteQueryResult{
-      .type = SQLiteError,
-      .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + std::string(message),
-      .rowsAffected = 0,
-      .insertId = 0
-    };
+    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
-  int changedRowCount = sqlite3_changes(db);
+  int rowsAffected = sqlite3_changes(db);
   long long latestInsertRowId = sqlite3_last_insert_rowid(db);
-  return SQLiteExecuteQueryResult {
-    .type = SQLiteOk,
-    .rowsAffected = changedRowCount,
+  auto meta = std::make_unique<std::optional<SQLiteQueryTableMetadata>>(metadata->size() > 0 ? std::make_optional(std::move(metadata)) : std::nullopt);
+  
+  return {
+    .rowsAffected = rowsAffected,
     .insertId = static_cast<double>(latestInsertRowId),
     .results = std::move(results),
-    .metadata = std::move(metadata)
+    .metadata = std::move(meta)
   };
 }
 
-SQLiteLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query) {
+SQLiteOperationResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query) {
   // Check if db connection is opened
   if (dbMap.count(dbName) == 0) {
-    return {SQLiteError, "[react-native-quick-sqlite] Database not opened: " + dbName, 0};
+    throw QuickSQLiteException::DatabaseNotOpen(dbName);
   }
 
   sqlite3* db = dbMap[dbName];
@@ -355,8 +265,7 @@ SQLiteLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const 
 
   if (statementStatus != SQLITE_OK) // statemnet is correct, bind the passed parameters
   {
-    const char* message = sqlite3_errmsg(db);
-    return {SQLiteError, "[react-native-quick-sqlite] SQL execution error: " + std::string(message), 0};
+    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
   bool isConsuming = true;
@@ -386,12 +295,10 @@ SQLiteLiteralUpdateResult sqliteExecuteLiteral(const std::string& dbName, const 
   sqlite3_finalize(statement);
 
   if (isFailed) {
-    const char* message = sqlite3_errmsg(db);
-    return {SQLiteError, "[react-native-quick-sqlite] SQL execution error: " + std::string(message), 0};
+    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
-  int changedRowCount = sqlite3_changes(db);
-  return {SQLiteOk, "", changedRowCount};
+  return {.rowsAffected = sqlite3_changes(db)};
 }
 
 } // namespace margelo::rnquicksqlite
