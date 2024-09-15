@@ -22,8 +22,9 @@ export function resetTestDb() {
   }
 }
 
-// Copyright 2021 Oscar Franco
-// Taken from op-sqlite tests
+// Copyright 2024 Oscar Franco
+// Taken from "op-sqlite" example project.
+// Used to demonstrate the performance of NitroSQLite.
 const ROWS = 300000;
 export let largeDb: QuickSQLiteConnection;
 export async function resetLargeDb() {
