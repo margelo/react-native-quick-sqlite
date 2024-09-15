@@ -27,6 +27,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+**/.xcode.env.local
 project.xcworkspace
 
 # Android/IJ
@@ -47,7 +48,7 @@ vendor/
 
 # Cocoapods
 #
-example/ios/Pods
+**/Pods
 example/vendor/bundle
 
 # Temporary files created by Metro to check the health of the file watcher
@@ -75,3 +76,7 @@ lib/
 # Gradle
 android/gradle/
 android/gradle*
+
+# Yalc
+.yalc
+yalc.lock
