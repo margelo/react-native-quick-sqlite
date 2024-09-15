@@ -21,7 +21,6 @@ const ids = Array(100000)
 const stringValue = chance.name()
 const integerValue = chance.integer()
 const doubleValue = chance.floating()
-const bigintValue = BigInt(0x7fffffffffffffff)
 
 type Benchmark = {
   description: string
