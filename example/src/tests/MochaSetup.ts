@@ -1,5 +1,4 @@
 import 'mocha'
-// import type { RowItemType } from '../navigators/children/TestingScreen/RowItemType';
 import { clearTests, rootSuite } from './MochaRNAdapter'
 
 export async function runTests(...registrators: Array<() => void>) {
@@ -59,9 +58,7 @@ export async function runTests(...registrators: Array<() => void>) {
         resolve(results)
       })
 
-    registrators.forEach((register) => {
-      register()
-    })
+    registrators.forEach((register) => register())
     runner.run()
   })
 

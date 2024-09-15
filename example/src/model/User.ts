@@ -1,11 +1,5 @@
 // import { Book } from './Book'
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm/browser'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm/browser'
 
 @Entity('user')
 export class User {

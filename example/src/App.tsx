@@ -1,50 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { SafeAreaView, ScrollView, Text } from 'react-native'
+import React from 'react'
 import 'reflect-metadata'
-import { registerBaseTests, runTests } from './tests'
-// import {registerTypeORMTests} from './tests/typeorm.spec';
+import { UnitTestScreen } from './screens/UnitTestScreen'
+import { BenchmarkScreen } from './screens/BenchmarkScreen'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NavigationContainer } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar'
+import { ParamList } from './navigation'
+import { HomeScreen } from './screens/HomeScreen'
+
+const Stack = createNativeStackNavigator<ParamList>()
 
 export default function App() {
-  const [results, setResults] = useState<any>([])
-
-  useEffect(() => {
-    setResults([])
-    runTests(
-      registerBaseTests
-      // registerTypeORMTests
-    ).then(setResults)
-  }, [])
-
   return (
-    <SafeAreaView className="flex-1 bg-neutral-900">
-      <ScrollView className="p-4">
-        <Text className="font-bold text-blue-500 text-lg text-center">
-          RN Quick SQLite Test Suite
-        </Text>
-        {results.map((r: any, i: number) => {
-          if (r.type === 'grouping') {
-            return (
-              <Text key={i} className="mt-3 font-bold text-white">
-                {r.description}
-              </Text>
-            )
-          }
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="NitroSQLite Example">
+        <Stack.Screen name="NitroSQLite Example" component={HomeScreen} />
+        <Stack.Screen name="Unit Tests" component={UnitTestScreen} />
+        <Stack.Screen name="Benchmarks" component={BenchmarkScreen} />
+      </Stack.Navigator>
 
-          if (r.type === 'incorrect') {
-            return (
-              <Text key={i} className="mt-1 text-white">
-                🔴 {r.description}: {r.errorMsg}
-              </Text>
-            )
-          }
-
-          return (
-            <Text key={i} className="mt-1 text-white">
-              🟢 {r.description}
-            </Text>
-          )
-        })}
-      </ScrollView>
-    </SafeAreaView>
+      <StatusBar style="auto" />
+    </NavigationContainer>
   )
 }
