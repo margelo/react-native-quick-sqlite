@@ -6,7 +6,6 @@ import {
   BatchQueryCommand,
   Transaction,
   SQLiteItem,
-  ColumnType,
   SQLiteQueryParams,
 } from './types'
 import { enhanceQueryResult } from './typeORM'
@@ -69,7 +68,6 @@ export function execute<Data extends SQLiteItem = never>(
 ): QueryResult<Data> {
   const nativeResult = QuickSQLite.execute(dbName, query, params)
   const result = buildJsQueryResult<Data>(nativeResult)
-  console.log(query)
   enhanceQueryResult(result)
   return result
 }
