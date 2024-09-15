@@ -14,7 +14,7 @@ using namespace margelo::nitro::rnquicksqlite;
     // registerHybridObjectConstructors();
 
     // Get appGroupID value from Info.plist using key "AppGroup"
-    NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ReactNativeQuickSQLite_AppGroup"];
+    NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RNQuickSQLite_AppGroup"];
     NSString *documentPath;
 
     if (appGroupID != nil) {
