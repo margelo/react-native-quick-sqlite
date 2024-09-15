@@ -11,5 +11,6 @@ export const ScreenStyles = StyleSheet.create({
     fontWeight: 'semibold',
     fontSize: 18,
     paddingBottom: 10,
+    color: 'black',
   },
 })
