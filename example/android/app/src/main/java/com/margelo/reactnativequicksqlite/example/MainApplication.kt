@@ -1,4 +1,4 @@
-package com.margelo.reactnativequicksqlite.example;
+package com.margelo.rnquicksqlite.example;
 
 import android.app.Application
 import com.facebook.react.PackageList
