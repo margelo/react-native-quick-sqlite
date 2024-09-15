@@ -1,8 +1,8 @@
 import Chance from 'chance';
 import {
-  BatchQueryCommand,
   open,
   QuickSQLiteConnection,
+  SQLBatchTuple,
 } from 'react-native-quick-sqlite';
 
 const chance = new Chance();
@@ -43,12 +43,11 @@ export async function resetLargeDb() {
 
     largeDb.execute('PRAGMA mmap_size=268435456');
 
-    let insertions: BatchQueryCommand[] = [];
+    let insertions: SQLBatchTuple[] = [];
     for (let i = 0; i < ROWS; i++) {
-      insertions.push({
-        query:
-          'INSERT INTO "Test" (id, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        params: [
+      insertions.push([
+        'INSERT INTO "Test" (id, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [
           i,
           chance.name(),
           chance.name(),
@@ -65,7 +64,7 @@ export async function resetLargeDb() {
           chance.floating(),
           chance.floating(),
         ],
-      });
+      ]);
     }
 
     await largeDb.executeBatch(insertions);
