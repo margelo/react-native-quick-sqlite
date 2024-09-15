@@ -1,46 +1,48 @@
-import Chance from 'chance'
+import Chance from 'chance';
 import {
   BatchQueryCommand,
   open,
   QuickSQLiteConnection,
-} from 'react-native-quick-sqlite'
+} from 'react-native-quick-sqlite';
 
-const chance = new Chance()
+const chance = new Chance();
 
-export let testDb: QuickSQLiteConnection
+export let testDb: QuickSQLiteConnection;
 export function resetTestDb() {
   try {
     if (testDb) {
-      testDb.close()
-      testDb.delete()
+      testDb.close();
+      testDb.delete();
     }
     testDb = open({
       name: 'test',
-    })
+    });
   } catch (e) {
-    console.warn('Error resetting user database', e)
+    console.warn('Error resetting user database', e);
   }
 }
 
-const ROWS = 300000
-export let largeDb: QuickSQLiteConnection
+// Copyright 2021 Oscar Franco
+// Taken from op-sqlite tests
+const ROWS = 300000;
+export let largeDb: QuickSQLiteConnection;
 export async function resetLargeDb() {
   try {
     if (largeDb) {
-      largeDb.close()
-      largeDb.delete()
+      largeDb.close();
+      largeDb.delete();
     }
     largeDb = open({
       name: 'large',
-    })
+    });
 
     largeDb.execute(
-      'CREATE TABLE Test ( id INT PRIMARY KEY, v1 TEXT, v2 TEXT, v3 TEXT, v4 TEXT, v5 TEXT, v6 INT, v7 INT, v8 INT, v9 INT, v10 INT, v11 REAL, v12 REAL, v13 REAL, v14 REAL) STRICT;'
-    )
+      'CREATE TABLE Test ( id INT PRIMARY KEY, v1 TEXT, v2 TEXT, v3 TEXT, v4 TEXT, v5 TEXT, v6 INT, v7 INT, v8 INT, v9 INT, v10 INT, v11 REAL, v12 REAL, v13 REAL, v14 REAL) STRICT;',
+    );
 
-    largeDb.execute('PRAGMA mmap_size=268435456')
+    largeDb.execute('PRAGMA mmap_size=268435456');
 
-    let insertions: BatchQueryCommand[] = []
+    let insertions: BatchQueryCommand[] = [];
     for (let i = 0; i < ROWS; i++) {
       insertions.push({
         query:
@@ -62,11 +64,11 @@ export async function resetLargeDb() {
           chance.floating(),
           chance.floating(),
         ],
-      })
+      });
     }
 
-    await largeDb.executeBatch(insertions)
+    await largeDb.executeBatch(insertions);
   } catch (e) {
-    console.warn('Error resetting user database', e)
+    console.warn('Error resetting user database', e);
   }
 }
