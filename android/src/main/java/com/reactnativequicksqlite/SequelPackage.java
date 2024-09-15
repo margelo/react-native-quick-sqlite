@@ -1,4 +1,4 @@
-package com.reactnativequicksqlite;
+package com.margelo.reactnativequicksqlite;
 
 import androidx.annotation.NonNull;
 
@@ -10,7 +10,6 @@ import com.facebook.react.uimanager.ViewManager;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 
 public class SequelPackage implements ReactPackage {
   @NonNull
