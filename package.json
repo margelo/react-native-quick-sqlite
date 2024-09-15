@@ -26,8 +26,10 @@
     "typescript": "tsc --noEmit",
     "prepare": "bob build",
     "example": "yarn --cwd example",
-    "pods": "cd example/ios && bundle exec pod install",
-    "bootstrap": "yarn example && yarn && yarn pods",
+    "format-cpp": "./scripts/clang-format.sh",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
+    "lint-ci": "eslint \"**/*.{js,ts,tsx}\" -f @jamesacarr/github-actions",
+    "bootstrap": "yarn example && yarn && yarn example pods",
     "bump": "./bump-version.sh"
   },
   "keywords": [
@@ -45,22 +47,65 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "dependencies": {
+    "typeorm": "^0.3.20"
+  },
   "devDependencies": {
-    "react": "18.2.0",
-    "react-native": "0.71.0",
+    "@react-native/eslint-config": "0.75.2",
+    "@react-native/typescript-config": "0.75.2",
+    "@types/mocha": "^10.0.7",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "chai": "^5.1.1",
+    "chance": "^1.1.12",
+    "eslint": "8.57.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "mocha": "^10.7.3",
+    "prettier": "^3.3.3",
+    "react": "18.3.1",
+    "react-native": "0.75.2",
     "react-native-builder-bob": "^0.18.2",
     "typescript": "^4.8.4"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": ">=0.74.0"
   },
+  "engines": {
+    "node": ">=18"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@react-native",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "warn",
+        {
+          "quoteProps": "consistent",
+          "singleQuote": true,
+          "tabWidth": 2,
+          "trailingComma": "es5",
+          "useTabs": false
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "es5",
-    "useTabs": false
+    "useTabs": false,
+    "semi": false
   },
   "react-native-builder-bob": {
     "source": "src",
@@ -75,7 +120,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {},
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  }
 }
