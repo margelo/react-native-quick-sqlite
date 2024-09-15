@@ -1,4 +1,4 @@
-package com.reactnativequicksqlite;
+package com.margelo.reactnativequicksqlite;
 
 import androidx.annotation.NonNull;
 import android.util.Log;
@@ -12,7 +12,7 @@ import com.facebook.react.turbomodule.core.CallInvokerHolderImpl;
 
 class SequelModule extends ReactContextBaseJavaModule {
   public static final String NAME = "QuickSQLite";
-  
+
   public SequelModule(ReactApplicationContext context) {
     super(context);
   }
