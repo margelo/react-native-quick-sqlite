@@ -323,7 +323,7 @@ quickSqliteFlags="<SQLITE_FLAGS>"
 
 On iOS, the SQLite database can be placed in an app group, in order to make it accessible from other apps in that app group. E.g. for sharing capabilities.
 
-To use an app group, add the app group ID as the value for the `ReactNativeQuickSQLite_AppGroup` key in your project's `Info.plist` file. You'll also need to configure the app group in your project settings. (Xcode -> Project Settings -> Signing & Capabilities -> Add Capability -> App Groups)
+To use an app group, add the app group ID as the value for the `RNQuickSQLite_AppGroup` key in your project's `Info.plist` file. You'll also need to configure the app group in your project settings. (Xcode -> Project Settings -> Signing & Capabilities -> Add Capability -> App Groups)
 
 ## Community Discord
 

@@ -50,9 +50,7 @@ android {
     externalNativeBuild {
       cmake {
         cppFlags "-O2", "-fexceptions", "-frtti", "-std=c++1y", "-DONANDROID", "-Wall", "-fstack-protector-all"
-        arguments "-DANDROID_STL=c++_shared"
-        "-DSQLITE_FLAGS='${SQLITE_FLAGS ? SQLITE_FLAGS : ''}'",
-        "-DUSE_HERMES=${USE_HERMES}"
+        arguments "-DANDROID_STL=c++_shared", "-DSQLITE_FLAGS='${SQLITE_FLAGS ? SQLITE_FLAGS : ''}'"
       }
     }
   }
@@ -109,12 +107,4 @@ dependencies {
 
   // Add a dependency on NitroModules
   implementation project(":react-native-nitro-modules")
-}
-
-if (isNewArchitectureEnabled()) {
-  react {
-    jsRootDir = file("../src/")
-    libraryName = "RNQuickSQLite"
-    codegenJavaPackageName = "com.margelo.rnquicksqlite"
-  }
 }
