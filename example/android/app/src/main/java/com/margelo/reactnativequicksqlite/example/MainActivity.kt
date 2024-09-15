@@ -1,4 +1,4 @@
-package com.margelo.reactnativequicksqlite.example
+package com.margelo.rnquicksqlite.example
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
