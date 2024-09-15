@@ -23,6 +23,7 @@ add_library(
   ../cpp/bindings.h
   ../cpp/sqlite3.h
   ../cpp/sqlite3.c
+  ../cpp/JSIHelper.h
   ../cpp/JSIHelper.cpp
   ../cpp/ThreadPool.h
   ../cpp/ThreadPool.cpp
