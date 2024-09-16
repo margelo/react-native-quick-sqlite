@@ -65,6 +65,8 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 android/.cxx
+**/android/bin
+**/android/build
 
 # Expo
 .expo/*
