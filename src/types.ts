@@ -1,3 +1,22 @@
+export type QuickSQLiteConnectionOptions = {
+  name: string
+  location?: string
+}
+
+export interface QuickSQLiteConnection {
+  close(): void
+  delete(): void
+  attach(dbNameToAttach: string, alias: string, location?: string): void
+  detach(alias: string): void
+  transaction(fn: (tx: Transaction) => Promise<void> | void): Promise<void>
+  execute: ExecuteQuery
+  executeAsync: ExecuteAsyncQuery
+  executeBatch(commands: BatchQueryCommand[]): BatchQueryResult
+  executeBatchAsync(commands: BatchQueryCommand[]): Promise<BatchQueryResult>
+  loadFile(location: string): FileLoadResult
+  loadFileAsync(location: string): Promise<FileLoadResult>
+}
+
 export enum ColumnType {
   BOOLEAN,
   NUMBER,
@@ -20,34 +39,34 @@ export type SQLiteValue =
 
 export type SQLiteItem = Record<string, SQLiteValue>
 
-export interface QueryResult<Data extends SQLiteItem = SQLiteItem> {
+export interface QueryResult<RowData extends SQLiteItem = SQLiteItem> {
   readonly insertId?: number
   readonly rowsAffected: number
 
-  rows?: {
+  readonly rows?: {
     /** Raw array with all dataset */
-    data: Data[]
+    _array: RowData[]
     /** The lengh of the dataset */
     length: number
     /** A convenience function to acess the index based the row object
      * @param idx the row index
      * @returns the row structure identified by column names
      */
-    item: (idx: number) => Data
+    item: (idx: number) => RowData
   }
 }
 
 export type SQLiteQueryParams = SQLiteValue[]
 
-export type ExecuteQuery = <Data extends SQLiteItem = SQLiteItem>(
+export type ExecuteQuery = <RowData extends SQLiteItem = SQLiteItem>(
   query: string,
   params?: SQLiteQueryParams
-) => QueryResult<Data>
+) => QueryResult<RowData>
 
-export type ExecuteAsyncQuery = <Data extends SQLiteItem = SQLiteItem>(
+export type ExecuteAsyncQuery = <RowData extends SQLiteItem = SQLiteItem>(
   query: string,
   params?: SQLiteQueryParams
-) => Promise<QueryResult<Data>>
+) => Promise<QueryResult<RowData>>
 
 export interface Transaction {
   commit(): QueryResult
@@ -82,18 +101,4 @@ export interface BatchQueryResult {
  */
 export interface FileLoadResult extends BatchQueryResult {
   commands?: number
-}
-
-export interface QuickSQLiteConnection {
-  close(): void
-  delete(): void
-  attach(dbNameToAttach: string, alias: string, location?: string): void
-  detach(alias: string): void
-  transaction(fn: (tx: Transaction) => Promise<void> | void): Promise<void>
-  execute: ExecuteQuery
-  executeAsync: ExecuteAsyncQuery
-  executeBatch(commands: BatchQueryCommand[]): BatchQueryResult
-  executeBatchAsync(commands: BatchQueryCommand[]): Promise<BatchQueryResult>
-  loadFile(location: string): FileLoadResult
-  loadFileAsync(location: string): Promise<FileLoadResult>
 }

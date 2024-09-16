@@ -1,5 +1,5 @@
-import { execute, executeAsync } from '.'
-import { locks, QuickSQLite } from './init'
+import * as Operations from './operations'
+import { locks, HybridQuickSQLite } from './nitro'
 import {
   QueryResult,
   SQLiteItem,
@@ -40,7 +40,7 @@ export const transaction = async (
         `Quick SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
       )
     }
-    return execute(dbName, query, params)
+    return Operations.execute(dbName, query, params)
   }
 
   const executeAsyncOnTransaction = <Data extends SQLiteItem = never>(
@@ -52,7 +52,7 @@ export const transaction = async (
         `Quick SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
       )
     }
-    return executeAsync(dbName, query, params)
+    return Operations.executeAsync(dbName, query, params)
   }
 
   const commit = () => {
@@ -61,7 +61,7 @@ export const transaction = async (
         `Quick SQLite Error: Cannot execute commit on finalized transaction: ${dbName}`
       )
     }
-    const result = QuickSQLite.execute(dbName, 'COMMIT')
+    const result = HybridQuickSQLite.execute(dbName, 'COMMIT')
     isFinalized = true
     return result
   }
@@ -72,14 +72,14 @@ export const transaction = async (
         `Quick SQLite Error: Cannot execute rollback on finalized transaction: ${dbName}`
       )
     }
-    const result = QuickSQLite.execute(dbName, 'ROLLBACK')
+    const result = HybridQuickSQLite.execute(dbName, 'ROLLBACK')
     isFinalized = true
     return result
   }
 
   async function run() {
     try {
-      await QuickSQLite.executeAsync(dbName, 'BEGIN TRANSACTION')
+      await HybridQuickSQLite.executeAsync(dbName, 'BEGIN TRANSACTION')
 
       await fn({
         commit,
