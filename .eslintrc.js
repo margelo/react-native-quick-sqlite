@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  ignorePatterns: ['**/scripts', '**/lib'],
+  ignorePatterns: ['node_modules/', 'lib/'],
   rules: {
     'prettier/prettier': [
       'warn',
@@ -60,15 +60,10 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    '@typescript-eslint/explicit-function-return-type': [
-      'warn',
-      {
-        allowExpressions: true,
-      },
-    ],
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'error',
+    '@typescript-eslint/no-floating-promises': 'off',
     // react plugin
     'react/no-unescaped-entities': 'off',
     // react native plugin
@@ -100,5 +95,4 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['node_modules/', 'lib/'],
 }
