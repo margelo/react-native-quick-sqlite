@@ -8,7 +8,7 @@ module.exports = {
       'module-resolver',
       {
         alias: {
-          [pak.name]: path.join(__dirname, '..', pak.source),
+          [pak.name]: path.join(__dirname, '../package', pak.source),
           stream: 'stream-browserify',
           'react-native-sqlite-storage': 'react-native-quick-sqlite',
         },
