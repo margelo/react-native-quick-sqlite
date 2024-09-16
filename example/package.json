@@ -1,6 +1,6 @@
 {
   "name": "react-native-quick-sqlite-example",
-  "version": "0.0.1",
+  "version": "8.1.0",
   "private": true,
   "scripts": {
     "pods": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install",
@@ -52,42 +52,5 @@
     "prettier": "^2.8.8",
     "react-test-renderer": "18.3.1",
     "typescript": "^5.0.4"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@react-native",
-      "prettier"
-    ],
-    "plugins": [
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "warn",
-        {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
-        }
-      ]
-    }
-  },
-  "eslintIgnore": [
-    "node_modules/",
-    "lib/"
-  ],
-  "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false,
-    "semi": false
   }
 }
