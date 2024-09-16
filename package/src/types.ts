@@ -52,7 +52,7 @@ export interface QueryResult<RowData extends SQLiteItem = SQLiteItem> {
      * @param idx the row index
      * @returns the row structure identified by column names
      */
-    item: (idx: number) => RowData
+    item: (idx: number) => RowData | undefined
   }
 }
 

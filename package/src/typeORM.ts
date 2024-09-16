@@ -39,8 +39,8 @@ export const typeORMDriver = {
           try {
             const result = await db.executeAsync<RowData>(sql, params)
             okExecute(result)
-          } catch (e) {
-            failExecute(e)
+          } catch (e: unknown) {
+            failExecute(e as string)
           }
         },
         transaction: (
@@ -65,7 +65,7 @@ export const typeORMDriver = {
           db.attach(dbNameToAttach, alias, location)
           callback()
         },
-        detach: (alias, callback: () => void) => {
+        detach: (alias: any, callback: () => void) => {
           db.detach(alias)
           callback()
         },
@@ -74,8 +74,8 @@ export const typeORMDriver = {
       ok(connection)
 
       return connection
-    } catch (e) {
-      fail(e)
+    } catch (e: unknown) {
+      fail(e as string)
     }
   },
 }

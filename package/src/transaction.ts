@@ -102,7 +102,7 @@ export const transaction = async (
 
       throw executionError
     } finally {
-      locks[dbName].inProgress = false
+      locks[dbName]!.inProgress = false
       isFinalized = false
       startNextTransaction(dbName)
     }
@@ -115,7 +115,7 @@ export const transaction = async (
       },
     }
 
-    locks[dbName].queue.push(tx)
+    locks[dbName]!.queue.push(tx)
     startNextTransaction(dbName)
   })
 }
@@ -132,7 +132,7 @@ function startNextTransaction(dbName: string) {
 
   if (locks[dbName].queue.length) {
     locks[dbName].inProgress = true
-    const tx = locks[dbName].queue.shift()
+    const tx = locks[dbName].queue.shift()!
     setImmediate(() => {
       tx.start()
     })
