@@ -3,20 +3,20 @@
   "packageManager": "bun@1.1.21",
   "private": "true",
   "version": "8.1.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/margelo/react-native-quick-sqlite.git"
-  },
   "workspaces": [
     "package",
     "example"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/margelo/react-native-quick-sqlite.git"
+  },
   "scripts": {
     "package": "bun --cwd package",
     "example": "bun --cwd example",
     "format-cpp": "./scripts/clang-format.sh",
     "typescript": "bun --filter=\"**\" typescript",
-    "lint": "bun eslint \"**/*.{js,ts,tsx}\" --fix",
+    "lint": "bun --filter=\"**\" eslint \"**/*.{js,ts,tsx}\" --fix",
     "bootstrap": "bun package && bun example && bun example pods",
     "release": "release-it",
     "clean": "rm -rf packages/**/tsconfig.tsbuildinfo packages/**/node_modules packages/**/lib"
@@ -28,10 +28,16 @@
   },
   "homepage": "https://github.com/margelo/react-native-quick-sqlite#readme",
   "devDependencies": {
-    "@release-it/conventional-changelog": "^8.0.1",
-    "@release-it/bumper": "^6.0.1",
+    "@eslint/js": "^9.10.0",
     "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
-    "release-it": "^17.6.0"
+    "@react-native/eslint-config": "^0.75.2",
+    "@release-it/bumper": "^6.0.1",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "^8.57.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "release-it": "^17.6.0",
+    "typescript-eslint": "^8.6.0"
   },
   "release-it": {
     "npm": {
