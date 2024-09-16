@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class RNQuickSQLitePackage extends TurboReactPackage {
+  static {
+    System.loadLibrary("RNQuickSQLite");
+  }
+
   @Nullable
   @Override
   public NativeModule getModule(String name, ReactApplicationContext reactContext) {
