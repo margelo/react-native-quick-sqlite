@@ -1,6 +1,6 @@
 import { transaction } from './transaction'
 import { HybridQuickSQLite } from './nitro'
-import {
+import type {
   QueryResult,
   QuickSQLiteConnection,
   BatchQueryCommand,

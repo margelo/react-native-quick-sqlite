@@ -5,7 +5,7 @@
 //     | |     | |  | |    | |___| |__| | | \ \| |  | |  / ____ \| |    _| |_
 //     |_|     |_|  |_|    |______\____/|_|  \_\_|  |_| /_/    \_\_|   |_____|
 
-import {
+import type {
   QueryResult,
   SQLiteItem,
   SQLiteQueryParams,
