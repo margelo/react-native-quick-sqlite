@@ -1,4 +1,4 @@
-package com.margelo.nitro.image;
+package com.margelo.rnquicksqlite;
 
 import android.util.Log;
 
