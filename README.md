@@ -2,7 +2,7 @@
 
 <div align="center">
   <pre align="center">
-    yarn add react-native-quick-sqlite
+    bun add react-native-quick-sqlite
     npx pod-install</pre>
   <a align="center" href="https://github.com/mrousavy?tab=followers">
     <img src="https://img.shields.io/github/followers/mrousavy?label=Follow%20%40mrousavy&style=social" />
@@ -235,7 +235,7 @@ Starting on Node14 all files that need to be accessed by third-party modules nee
 After you have applied that change, do:
 
 ```sh
-yarn patch-package --exclude 'nothing' typeorm
+bun patch-package --exclude 'nothing' typeorm
 ```
 
 Now every time you install your node_modules that line will be added.
@@ -260,7 +260,7 @@ plugins: [
 You will need to install the babel `module-resolver` plugin:
 
 ```sh
-yarn add babel-plugin-module-resolver
+bun add babel-plugin-module-resolver
 ```
 
 Finally, you will now be able to start the app without any metro/babel errors (you will also need to follow the instructions on how to setup TypeORM), now we can feed the driver into TypeORM:

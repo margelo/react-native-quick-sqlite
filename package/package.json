@@ -25,12 +25,8 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "prepare": "bob build",
-    "example": "yarn --cwd example",
-    "format-cpp": "./scripts/clang-format.sh",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "lint-ci": "eslint \"**/*.{js,ts,tsx}\" -f @jamesacarr/github-actions",
     "specs": "bun run --filter=\"**\" typescript && bun nitro-codegen --logLevel=\"debug\"",
-    "bootstrap": "yarn && yarn example && yarn example pods",
     "bump": "./bump-version.sh"
   },
   "keywords": [

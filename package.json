@@ -12,12 +12,12 @@
     "example"
   ],
   "scripts": {
-    "package": "yarn --cwd package",
-    "example": "yarn --cwd example",
+    "package": "bun --cwd package",
+    "example": "bun --cwd example",
     "format-cpp": "./scripts/clang-format.sh",
     "typescript": "bun --filter=\"**\" typescript",
     "lint": "bun eslint \"**/*.{js,ts,tsx}\" --fix",
-    "bootstrap": "yarn package && yarn example && yarn example pods",
+    "bootstrap": "bun package && bun example && bun example pods",
     "release": "release-it",
     "clean": "rm -rf packages/**/tsconfig.tsbuildinfo packages/**/node_modules packages/**/lib"
   },
