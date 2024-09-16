@@ -12,7 +12,7 @@ add_definitions(
 file(GLOB_RECURSE cpp_files RELATIVE ${CMAKE_SOURCE_DIR}
   "../cpp/**.c"
   "../cpp/**.cpp"
-  src/main/cpp/cpp-adapter.cpp
+  "src/main/cpp/cpp-adapter.cpp"
 )
 
 # Create library "RNQuickSQLite" and add all C++ files to it
@@ -28,13 +28,6 @@ include_directories(
   ../cpp
   ../cpp/specs
   ../cpp/sqlite
-)
-
-set_target_properties(
-  ${PACKAGE_NAME} PROPERTIES
-  CXX_STANDARD 20
-  CXX_EXTENSIONS OFF
-  POSITION_INDEPENDENT_CODE ON
 )
 
 find_library(LOG_LIB log)
