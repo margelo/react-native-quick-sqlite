@@ -75,7 +75,7 @@ android/.cxx
 lib/
 # Gradle
 android/gradle/
-android/gradle*
+android/.gradle
 
 # Yalc
 .yalc
