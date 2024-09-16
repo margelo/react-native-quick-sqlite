@@ -16,7 +16,7 @@
     "example": "bun --cwd example",
     "format-cpp": "./scripts/clang-format.sh",
     "typescript": "bun --filter=\"**\" typescript",
-    "lint": "bun --filter=\"**\" eslint \"**/*.{js,ts,tsx}\" --fix",
+    "lint": "bun --filter=\"**\" lint",
     "bootstrap": "bun package && bun example && bun example pods",
     "release": "release-it",
     "clean": "rm -rf packages/**/tsconfig.tsbuildinfo packages/**/node_modules packages/**/lib"

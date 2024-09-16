@@ -24,9 +24,9 @@
   ],
   "scripts": {
     "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "prepare": "bob build",
     "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
-    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "specs": "bun run --filter=\"**\" typescript && bun nitro-codegen --logLevel=\"debug\"",
     "bump": "./bump-version.sh"
   },
