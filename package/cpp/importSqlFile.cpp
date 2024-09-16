@@ -31,7 +31,7 @@ SQLiteOperationResult importSqlFile(const std::string& dbName, const std::string
           }
         }
       }
-      
+
       sqFile.close();
       sqliteExecuteLiteral(dbName, "COMMIT");
       return {.rowsAffected = rowsAffected, .commands = commands};
