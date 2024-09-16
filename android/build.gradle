@@ -29,11 +29,11 @@ if (isNewArchitectureEnabled()) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["Nitro_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["RNQuickSQLite_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["Nitro_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["RNQuickSQLite_" + name]).toInteger()
 }
 
 android {
@@ -51,6 +51,7 @@ android {
       cmake {
         cppFlags "-O2", "-fexceptions", "-frtti", "-std=c++1y", "-DONANDROID", "-Wall", "-fstack-protector-all"
         arguments "-DANDROID_STL=c++_shared", "-DSQLITE_FLAGS='${SQLITE_FLAGS ? SQLITE_FLAGS : ''}'"
+        abiFilters (*reactNativeArchitectures())
       }
     }
   }
