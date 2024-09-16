@@ -1,6 +1,6 @@
 import * as Operations from './operations'
 import { locks, HybridQuickSQLite } from './nitro'
-import {
+import type {
   QueryResult,
   SQLiteItem,
   SQLiteQueryParams,
@@ -24,9 +24,8 @@ export const transaction = async (
   dbName: string,
   fn: (tx: Transaction) => Promise<void> | void
 ): Promise<void> => {
-  if (!locks[dbName]) {
+  if (locks[dbName] == null)
     throw Error(`Quick SQLite Error: No lock found on db: ${dbName}`)
-  }
 
   let isFinalized = false
 
@@ -88,9 +87,7 @@ export const transaction = async (
         rollback,
       })
 
-      if (!isFinalized) {
-        commit()
-      }
+      if (!isFinalized) commit()
     } catch (executionError) {
       if (!isFinalized) {
         try {
@@ -102,36 +99,36 @@ export const transaction = async (
 
       throw executionError
     } finally {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       locks[dbName]!.inProgress = false
       isFinalized = false
       startNextTransaction(dbName)
     }
   }
 
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const tx: PendingTransaction = {
       start: () => {
         run().then(resolve).catch(reject)
       },
     }
 
-    locks[dbName]!.queue.push(tx)
+    locks[dbName]?.queue.push(tx)
     startNextTransaction(dbName)
   })
 }
 
 function startNextTransaction(dbName: string) {
-  if (!locks[dbName]) {
-    throw Error(`Lock not found for db: ${dbName}`)
-  }
+  if (locks[dbName] == null) throw Error(`Lock not found for db: ${dbName}`)
 
   if (locks[dbName].inProgress) {
     // Transaction is already in process bail out
     return
   }
 
-  if (locks[dbName].queue.length) {
+  if (locks[dbName].queue.length > 0) {
     locks[dbName].inProgress = true
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const tx = locks[dbName].queue.shift()!
     setImmediate(() => {
       tx.start()

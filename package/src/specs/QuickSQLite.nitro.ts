@@ -1,11 +1,11 @@
-import { HybridObject } from 'react-native-nitro-modules'
-import {
+import type { HybridObject } from 'react-native-nitro-modules'
+import type {
   BatchQueryResult,
   FileLoadResult,
   BatchQueryCommand,
   SQLiteQueryParams,
 } from '../types'
-import { NativeQueryResult } from './NativeQueryResult.nitro'
+import type { NativeQueryResult } from './NativeQueryResult.nitro'
 
 export interface QuickSQLite
   extends HybridObject<{ ios: 'c++'; android: 'c++' }> {

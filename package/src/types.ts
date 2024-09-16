@@ -1,4 +1,4 @@
-export type QuickSQLiteConnectionOptions = {
+export interface QuickSQLiteConnectionOptions {
   name: string
   location?: string
 }

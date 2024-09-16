@@ -1,6 +1,6 @@
 import { locks, HybridQuickSQLite } from './nitro'
-import { NativeQueryResult } from './specs/NativeQueryResult.nitro'
-import { QueryResult, SQLiteItem, SQLiteQueryParams } from './types'
+import type { NativeQueryResult } from './specs/NativeQueryResult.nitro'
+import type { QueryResult, SQLiteItem, SQLiteQueryParams } from './types'
 
 export function open(dbName: string, location?: string) {
   HybridQuickSQLite.open(dbName, location)
