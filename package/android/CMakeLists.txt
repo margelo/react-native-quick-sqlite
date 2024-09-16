@@ -16,8 +16,7 @@ file(GLOB_RECURSE cpp_files RELATIVE ${CMAKE_SOURCE_DIR}
 )
 
 # Create library "RNQuickSQLite" and add all C++ files to it
-add_library(
-  ${PACKAGE_NAME}
+add_library(${PACKAGE_NAME} SHARED
   ${cpp_files}
 )
 
