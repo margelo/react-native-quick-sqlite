@@ -25,6 +25,7 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "prepare": "bob build",
+    "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "specs": "bun run --filter=\"**\" typescript && bun nitro-codegen --logLevel=\"debug\"",
     "bump": "./bump-version.sh"
@@ -51,12 +52,12 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@react-native/eslint-config": "0.75.2",
+    "@react-native/eslint-config": "^0.75.2",
     "@react-native/typescript-config": "0.75.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "8.57.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "nitro-codegen": "^0.8.0",
+    "nitro-codegen": "^0.9.0",
     "prettier": "^3.3.3",
     "react": "18.3.1",
     "react-native": "0.75.2",
