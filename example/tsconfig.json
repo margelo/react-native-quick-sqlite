@@ -1,12 +1,35 @@
 {
+  "references": [
+    {
+      "path": "../package"
+    }
+  ],
+  "include": ["src"],
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    "outDir": "lib",
+    "rootDir": ".",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "lib": ["esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noStrictGenericChecks": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "paths": {
-      "react-native-quick-sqlite": ["../package/src/index"]
-    },
-    "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "strict": true,
+    "target": "esnext",
+    "verbatimModuleSyntax": true
   }
 }
