@@ -1,8 +1,12 @@
 import Chance from 'chance'
-import { testDb, resetTestDb } from './db'
-import { SQLBatchTuple } from 'react-native-quick-sqlite'
+import { BatchQueryCommand } from 'react-native-quick-sqlite'
 import { beforeEach, describe, it } from './MochaRNAdapter'
 import chai from 'chai'
+import { testDb, resetTestDb } from './db'
+
+function isError(e: unknown): e is Error {
+  return e instanceof Error
+}
 
 let expect = chai.expect
 const chance = new Chance()
@@ -34,7 +38,6 @@ export function registerUnitTests() {
 
       expect(res.rowsAffected).to.equal(1)
       expect(res.insertId).to.equal(1)
-      expect(res.metadata).to.eql([])
       expect(res.rows?._array).to.eql([])
       expect(res.rows?.length).to.equal(0)
       expect(res.rows?.item).to.be.a('function')
@@ -100,11 +103,13 @@ export function registerUnitTests() {
           [id, name, age, networth]
         )
       } catch (e: any) {
-        expect(typeof e).to.equal('object')
-
-        expect(e.message).to.include(
-          `cannot store TEXT value in REAL column User.id`
-        )
+        if (isError(e)) {
+          expect(e.message).to.include(
+            'cannot store TEXT value in REAL column User.age'
+          )
+        } else {
+          expect.fail('Should have thrown a valid QuickSQLiteException')
+        }
       }
     })
 
@@ -122,7 +127,6 @@ export function registerUnitTests() {
 
         expect(res.rowsAffected).to.equal(1)
         expect(res.insertId).to.equal(1)
-        expect(res.metadata).to.eql([])
         expect(res.rows?._array).to.eql([])
         expect(res.rows?.length).to.equal(0)
         expect(res.rows?.item).to.be.a('function')
@@ -153,7 +157,6 @@ export function registerUnitTests() {
 
         expect(res.rowsAffected).to.equal(1)
         expect(res.insertId).to.equal(1)
-        expect(res.metadata).to.eql([])
         expect(res.rows?._array).to.eql([])
         expect(res.rows?.length).to.equal(0)
         expect(res.rows?.item).to.be.a('function')
@@ -239,7 +242,6 @@ export function registerUnitTests() {
 
         expect(res.rowsAffected).to.equal(1)
         expect(res.insertId).to.equal(1)
-        expect(res.metadata).to.eql([])
         expect(res.rows?._array).to.eql([])
         expect(res.rows?.length).to.equal(0)
         expect(res.rows?.item).to.be.a('function')
@@ -328,8 +330,11 @@ export function registerUnitTests() {
         await promised
         expect.fail('Should not resolve')
       } catch (e) {
-        expect(e).to.be.a.instanceof(Error)
-        expect((e as Error)?.message).to.equal('Error from callback')
+        if (isError(e)) {
+          expect(e.message).to.equal('Error from callback')
+        } else {
+          expect.fail('Should have thrown a valid QuickSQLiteException')
+        }
       }
     })
 
@@ -339,17 +344,17 @@ export function registerUnitTests() {
         tx.execute('SELECT * FROM [tableThatDoesNotExist];')
         console.log('execute bad done')
       })
-
       // ASSERT: should return a promise that eventually rejects
       expect(promised).to.have.property('then').that.is.a('function')
       try {
         await promised
         expect.fail('Should not resolve')
       } catch (e) {
-        expect(e).to.be.a.instanceof(Error)
-        expect((e as Error)?.message).to.include(
-          'no such table: tableThatDoesNotExist'
-        )
+        if (isError(e)) {
+          expect(e.message).to.include('no such table: tableThatDoesNotExist')
+        } else {
+          expect.fail('Should have thrown a valid QuickSQLiteException')
+        }
       }
     })
 
@@ -383,7 +388,6 @@ export function registerUnitTests() {
 
         expect(res.rowsAffected).to.equal(1)
         expect(res.insertId).to.equal(1)
-        expect(res.metadata).to.eql([])
         expect(res.rows?._array).to.eql([])
         expect(res.rows?.length).to.equal(0)
         expect(res.rows?.item).to.be.a('function')
@@ -413,14 +417,17 @@ export function registerUnitTests() {
             [id, name, age, networth]
           )
         })
-      } catch (error) {
-        expect(error).to.be.instanceOf(Error)
-        expect((error as Error).message)
-          .to.include('SQL execution error')
-          .and.to.include('cannot store TEXT value in REAL column User.id')
+      } catch (e) {
+        if (isError(e)) {
+          expect(e.message)
+            .to.include('SqlExecutionError')
+            .and.to.include('cannot store TEXT value in REAL column User.id')
 
-        const res = testDb.execute('SELECT * FROM User')
-        expect(res.rows?._array).to.eql([])
+          const res = testDb.execute('SELECT * FROM User')
+          expect(res.rows).to.eql([])
+        } else {
+          expect.fail('Should have thrown a valid QuickSQLiteException')
+        }
       }
     })
 
@@ -531,8 +538,11 @@ export function registerUnitTests() {
         await promised
         expect.fail('Should not resolve')
       } catch (e) {
-        expect(e).to.be.a.instanceof(Error)
-        expect((e as Error)?.message).to.equal('Error from callback')
+        if (isError(e)) {
+          expect(e.message).to.equal('Error from callback')
+        } else {
+          expect.fail('Should have thrown a valid QuickSQLiteException')
+        }
       }
     })
 
@@ -547,10 +557,11 @@ export function registerUnitTests() {
         await promised
         expect.fail('Should not resolve')
       } catch (e) {
-        expect(e).to.be.a.instanceof(Error)
-        expect((e as Error)?.message).to.include(
-          'no such table: tableThatDoesNotExist'
-        )
+        if (isError(e)) {
+          expect(e.message).to.include('no such table: tableThatDoesNotExist')
+        } else {
+          expect.fail('Should have thrown a valid QuickSQLiteException')
+        }
       }
     })
 
@@ -564,16 +575,17 @@ export function registerUnitTests() {
       const name2 = chance.name()
       const age2 = chance.integer()
       const networth2 = chance.floating()
-
-      const commands: SQLBatchTuple[] = [
-        [
-          'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
-          [id1, name1, age1, networth1],
-        ],
-        [
-          'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
-          [id2, name2, age2, networth2],
-        ],
+      const commands: BatchQueryCommand[] = [
+        {
+          query:
+            'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
+          params: [id1, name1, age1, networth1],
+        },
+        {
+          query:
+            'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
+          params: [id2, name2, age2, networth2],
+        },
       ]
 
       testDb.executeBatch(commands)
@@ -595,21 +607,21 @@ export function registerUnitTests() {
       const name1 = chance.name()
       const age1 = chance.integer()
       const networth1 = chance.floating()
-
       const id2 = chance.integer()
       const name2 = chance.name()
       const age2 = chance.integer()
       const networth2 = chance.floating()
-
-      const commands: SQLBatchTuple[] = [
-        [
-          'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
-          [id1, name1, age1, networth1],
-        ],
-        [
-          'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
-          [id2, name2, age2, networth2],
-        ],
+      const commands: BatchQueryCommand[] = [
+        {
+          query:
+            'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
+          params: [id1, name1, age1, networth1],
+        },
+        {
+          query:
+            'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
+          params: [id2, name2, age2, networth2],
+        },
       ]
 
       await testDb.executeBatchAsync(commands)

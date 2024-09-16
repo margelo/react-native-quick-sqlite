@@ -5,32 +5,13 @@
 //     | |     | |  | |    | |___| |__| | | \ \| |  | |  / ____ \| |    _| |_
 //     |_|     |_|  |_|    |______\____/|_|  \_\_|  |_| /_/    \_\_|   |_____|
 
-import { transaction } from './transaction'
-import { QuickSQLite } from './init'
 import {
   QueryResult,
   SQLiteItem,
   SQLiteQueryParams,
   Transaction,
 } from './types'
-
-// Enhance some host functions
-
-// Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
-export const enhanceQueryResult = <Data extends SQLiteItem = never>(
-  result: QueryResult<Data>
-): void => {
-  // Add 'item' function to result object to allow the sqlite-storage typeorm driver to work
-  if (result.rows == null) {
-    result.rows = {
-      data: [],
-      length: 0,
-      item: (idx: number) => result.rows.data[idx],
-    }
-  } else {
-    result.rows.item = (idx: number) => result.rows.data[idx]
-  }
-}
+import { open } from 'react-native-quick-sqlite'
 
 /**
  * DO NOT USE THIS! THIS IS MEANT FOR TYPEORM
@@ -46,23 +27,18 @@ export const typeORMDriver = {
     fail: (msg: string) => void
   ): any => {
     try {
-      QuickSQLite.open(options.name, options.location)
+      const db = open(options)
 
       const connection = {
-        executeSql: async <Data extends SQLiteItem = never>(
+        executeSql: async <RowData extends SQLiteItem = never>(
           sql: string,
           params: SQLiteQueryParams | undefined,
-          okExecute: (res: QueryResult<Data>) => void,
+          okExecute: (res: QueryResult<RowData>) => void,
           failExecute: (msg: string) => void
         ) => {
           try {
-            let response = await QuickSQLite.executeAsync(
-              options.name,
-              sql,
-              params
-            )
-            enhanceQueryResult(response)
-            okExecute(response)
+            const result = await db.executeAsync<RowData>(sql, params)
+            okExecute(result)
           } catch (e) {
             failExecute(e)
           }
@@ -70,11 +46,11 @@ export const typeORMDriver = {
         transaction: (
           fn: (tx: Transaction) => Promise<void>
         ): Promise<void> => {
-          return transaction(options.name, fn)
+          return db.transaction(fn)
         },
         close: (okClose: any, failClose: any) => {
           try {
-            QuickSQLite.close(options.name)
+            db.close()
             okClose()
           } catch (e) {
             failClose(e)
@@ -86,13 +62,11 @@ export const typeORMDriver = {
           location: string | undefined,
           callback: () => void
         ) => {
-          QuickSQLite.attach(options.name, dbNameToAttach, alias, location)
-
+          db.attach(dbNameToAttach, alias, location)
           callback()
         },
         detach: (alias, callback: () => void) => {
-          QuickSQLite.detach(options.name, alias)
-
+          db.detach(alias)
           callback()
         },
       }
