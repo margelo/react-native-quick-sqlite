@@ -13,6 +13,9 @@ public:
   HybridQuickSQLite() : HybridObject(TAG) {}
 
 public:
+    static std::string docPath;
+
+public:
   // Methods
   void open(const std::string& dbName, const std::optional<std::string>& location) override;
   void close(const std::string& dbName) override;
@@ -27,5 +30,7 @@ public:
   FileLoadResult loadFile(const std::string& dbName, const std::string& location) override;
   std::future<FileLoadResult> loadFileAsync(const std::string& dbName, const std::string& location) override;
 };
+
+inline std::string HybridQuickSQLite::docPath = "";
 
 } // namespace margelo::nitro::rnquicksqlite

@@ -1,6 +1,5 @@
 #include "HybridQuickSQLite.hpp"
 #include "HybridNativeQueryResult.hpp"
-#include "globals.hpp"
 #include "ThreadPool.hpp"
 #include "QuickSQLiteException.hpp"
 #include "logs.hpp"
@@ -17,13 +16,18 @@ namespace margelo::nitro::rnquicksqlite {
 
 auto pool = std::make_shared<margelo::rnquicksqlite::ThreadPool>();
 
-void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std::string>& location) {
-  std::string tempDocPath = std::string(docPathStr);
+const std::string getDocPath(const std::optional<std::string>& location) {
+  std::string tempDocPath = std::string(HybridQuickSQLite::docPath);
   if (location) {
     tempDocPath = tempDocPath + "/" + *location;
   }
 
-  sqliteOpenDb(dbName, tempDocPath);
+  return tempDocPath;
+}
+
+void HybridQuickSQLite::open(const std::string& dbName, const std::optional<std::string>& location) {
+  const auto docPath = getDocPath(location);
+  sqliteOpenDb(dbName, docPath);
 }
 
 void HybridQuickSQLite::close(const std::string& dbName) {
@@ -31,17 +35,13 @@ void HybridQuickSQLite::close(const std::string& dbName) {
 };
 
 void HybridQuickSQLite::drop(const std::string& dbName, const std::optional<std::string>& location) {
-  std::string tempDocPath = std::string(docPathStr);
-  if (location) {
-    tempDocPath = tempDocPath + "/" + *location;
-  }
-
-  sqliteRemoveDb(dbName, tempDocPath);
+  const auto docPath = getDocPath(location);
+  sqliteRemoveDb(dbName, docPath);
 };
 
 void HybridQuickSQLite::attach(const std::string& mainDbName, const std::string& dbNameToAttach, const std::string& alias,
                                const std::optional<std::string>& location) {
-  std::string tempDocPath = std::string(docPathStr);
+  std::string tempDocPath = std::string(docPath);
   if (location) {
     tempDocPath = tempDocPath + "/" + *location;
   }

@@ -2,8 +2,10 @@
 #include <jni.h>
 #include <jsi/jsi.h>
 #include <typeinfo>
+#include "HybridQuickSQLite.hpp"
 #include "RNQuickSQLiteOnLoad.hpp"
-#include "globals.hpp"
+
+using namespace margelo::nitro::rnquicksqlite;
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -11,7 +13,7 @@ Java_com_margelo_rnquicksqlite_RNQuickSQLiteModule_setDocPath__Ljava_lang_String
                                                                                    jobject thiz,
                                                                                    jstring doc_path) {
     const char *nativeString = env->GetStringUTFChars(doc_path, nullptr);
-    docPathStr = std::string(nativeString);
+    HybridQuickSQLite::docPath = std::string(nativeString);
     env->ReleaseStringUTFChars(doc_path, nativeString);
 }
 
