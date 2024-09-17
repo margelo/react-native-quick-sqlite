@@ -1,6 +1,6 @@
 import { NitroModules } from 'react-native-nitro-modules'
-import { QuickSQLite as QuickSQLiteSpec } from './specs/QuickSQLite.nitro'
-import { PendingTransaction } from './transaction'
+import type { QuickSQLite as QuickSQLiteSpec } from './specs/QuickSQLite.nitro'
+import type { PendingTransaction } from './transaction'
 
 export const HybridQuickSQLite =
   NitroModules.createHybridObject<QuickSQLiteSpec>('QuickSQLite')
