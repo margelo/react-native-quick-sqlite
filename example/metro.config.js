@@ -3,13 +3,16 @@ const path = require('path');
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const exclusionList = require('metro-config/src/defaults/exclusionList');
 const escape = require('escape-string-regexp');
-const pak = require('../package/package.json');
 
 const root = path.resolve(__dirname, '..');
 const rootNodeModulesPath = path.join(root, 'node_modules');
 const nodeModulesPath = path.join(__dirname, 'node_modules');
 
 function getPackageNames(nodeModulesPath) {
+  if (!fs.existsSync(nodeModulesPath)) {
+    return [];
+  }
+
   const allFiles = fs.readdirSync(nodeModulesPath);
 
   // Filter out only directories (package names)
@@ -34,10 +37,6 @@ function getPackageNames(nodeModulesPath) {
 }
 
 const localNodeModules = getPackageNames(nodeModulesPath);
-
-const modules = Object.keys({
-  ...pak.peerDependencies,
-});
 
 const config = {
   projectRoot: __dirname,
