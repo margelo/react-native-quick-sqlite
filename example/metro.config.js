@@ -6,7 +6,7 @@ const escape = require('escape-string-regexp');
 
 const root = path.resolve(__dirname, '..');
 const rootNodeModulesPath = path.join(root, 'node_modules');
-const nodeModulesPath = path.join(__dirname, 'node_modules');
+const exampleNodeModulesPath = path.join(__dirname, 'node_modules');
 
 function getPackageNames(nodeModulesPath) {
   if (!fs.existsSync(nodeModulesPath)) {
@@ -36,7 +36,7 @@ function getPackageNames(nodeModulesPath) {
     .concat(scopedPackages);
 }
 
-const localNodeModules = getPackageNames(nodeModulesPath);
+const exampleNodeModules = getPackageNames(exampleNodeModulesPath);
 
 const config = {
   projectRoot: __dirname,
@@ -47,7 +47,7 @@ const config = {
   resolver: {
     unstable_enableSymlinks: true,
     blockList: exclusionList(
-      localNodeModules.map(
+      exampleNodeModules.map(
         m => new RegExp(`^${escape(path.join(rootNodeModulesPath, m))}\\/.*$`),
       ),
     ),
