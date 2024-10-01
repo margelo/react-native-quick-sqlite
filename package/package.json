@@ -57,7 +57,7 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "8.57.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "nitro-codegen": "^0.9.0",
+    "nitro-codegen": "^0.10.0",
     "prettier": "^3.3.3",
     "react": "18.3.1",
     "react-native": "0.75.2",
