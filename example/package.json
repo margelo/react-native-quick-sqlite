@@ -12,6 +12,7 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
   },
   "dependencies": {
+    "@craftzdog/react-native-buffer": "^6.0.5",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
     "chai": "^4.3.7",

@@ -1,8 +1,9 @@
+import type {QuickSQLiteConnection} from './../../../package/src/types';
 import Chance from 'chance';
 import type {BatchQueryCommand} from 'react-native-quick-sqlite';
 import {beforeEach, describe, it} from './MochaRNAdapter';
 import chai from 'chai';
-import {testDb, resetTestDb} from './db';
+import {testDb as testDbInternal, resetTestDb} from './db';
 
 function isError(e: unknown): e is Error {
   return e instanceof Error;
@@ -12,14 +13,21 @@ const expect = chai.expect;
 const chance = new Chance();
 
 export function registerUnitTests() {
+  let testDb: QuickSQLiteConnection;
+
   beforeEach(() => {
     try {
       resetTestDb();
 
-      testDb.execute('DROP TABLE IF EXISTS User;');
-      testDb.execute(
+      if (testDbInternal == null)
+        throw new Error('Failed to reset test database');
+
+      testDbInternal.execute('DROP TABLE IF EXISTS User;');
+      testDbInternal.execute(
         'CREATE TABLE User ( id REAL PRIMARY KEY, name TEXT NOT NULL, age REAL, networth REAL) STRICT;',
       );
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      testDb = testDbInternal!;
     } catch (e) {
       console.warn('Error resetting user database', e);
     }
@@ -92,17 +100,17 @@ export function registerUnitTests() {
     });
 
     it('Failed insert', () => {
-      const id = chance.string();
+      const id = chance.integer();
       const name = chance.name();
       const age = chance.string();
       const networth = chance.string();
-      // expect(
+
       try {
         testDb.execute(
           'INSERT INTO User (id, name, age, networth) VALUES(?, ?, ?, ?)',
           [id, name, age, networth],
         );
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (isError(e)) {
           expect(e.message).to.include(
             'cannot store TEXT value in REAL column User.age',
@@ -209,7 +217,7 @@ export function registerUnitTests() {
             [id],
           );
 
-          actual.push(results.rows?._array[0].networth);
+          actual.push(results.rows?._array[0]?.networth);
         });
 
         promises.push(promised);
@@ -251,7 +259,7 @@ export function registerUnitTests() {
         try {
           tx.execute('SELECT * FROM "User"');
         } catch (e) {
-          expect(!!e).to.equal(true);
+          expect(e).to.not.equal(undefined);
         }
       });
 
@@ -297,8 +305,8 @@ export function registerUnitTests() {
           'INSERT INTO "User" (id, name, age, networth) VALUES(?, ?, ?, ?)',
           [id, name, age, networth],
         );
-      } catch (e: any) {
-        expect(!!e).to.equal(true);
+      } catch (e: unknown) {
+        expect(!!e).to.not.equal(undefined);
       }
     });
 
@@ -337,9 +345,7 @@ export function registerUnitTests() {
 
     it('Transaction, rejects on invalid query', async () => {
       const promised = testDb.transaction(tx => {
-        console.log('execute bad start');
         tx.execute('SELECT * FROM [tableThatDoesNotExist];');
-        console.log('execute bad done');
       });
       // ASSERT: should return a promise that eventually rejects
       expect(promised).to.have.property('then').that.is.a('function');
@@ -400,7 +406,7 @@ export function registerUnitTests() {
     });
 
     it('Async transaction, auto rollback', async () => {
-      const id = chance.string(); // Causes error because it should be an integer
+      const id = chance.string(); // Causes error because `id` should be an integer
       const name = chance.name();
       const age = chance.integer();
       const networth = chance.floating();
@@ -419,7 +425,7 @@ export function registerUnitTests() {
             .and.to.include('cannot store TEXT value in REAL column User.id');
 
           const res = testDb.execute('SELECT * FROM User');
-          expect(res.rows).to.eql([]);
+          expect(res.rows?._array).to.eql([]);
         } else {
           expect.fail('Should have thrown a valid QuickSQLiteException');
         }
@@ -503,7 +509,7 @@ export function registerUnitTests() {
             [id],
           );
 
-          actual.push(results.rows?._array[0].networth);
+          actual.push(results.rows?._array[0]?.networth);
         });
 
         promises.push(promised);
@@ -523,7 +529,7 @@ export function registerUnitTests() {
     });
 
     it('Async transaction, rejects on callback error', async () => {
-      const promised = testDb.transaction(async () => {
+      const promised = testDb.transaction(() => {
         throw new Error('Error from callback');
       });
 

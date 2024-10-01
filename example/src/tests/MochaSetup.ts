@@ -6,13 +6,8 @@ export function runTests(...registrators: (() => void)[]) {
   // console.log('setting up mocha');
 
   const promise = new Promise(resolve => {
-    const {
-      EVENT_RUN_BEGIN,
-      EVENT_RUN_END,
-      EVENT_TEST_FAIL,
-      EVENT_TEST_PASS,
-      EVENT_SUITE_BEGIN,
-    } = Mocha.Runner.constants;
+    const {EVENT_RUN_END, EVENT_TEST_FAIL, EVENT_TEST_PASS, EVENT_SUITE_BEGIN} =
+      Mocha.Runner.constants;
 
     clearTests();
     const results: {
@@ -24,7 +19,6 @@ export function runTests(...registrators: (() => void)[]) {
     const runner = new Mocha.Runner(rootSuite);
 
     runner
-      .once(EVENT_RUN_BEGIN, () => {})
       .on(EVENT_SUITE_BEGIN, suite => {
         const name = suite.title;
         if (name !== '') {
