@@ -35,13 +35,13 @@ const benchmarks: Benchmark[] = [
     numberOfRuns: NUMBER_OF_INSERTS,
     prepare: () => {
       resetTestDb();
-      testDb.execute('DROP TABLE IF EXISTS User;');
-      testDb.execute(
+      testDb?.execute('DROP TABLE IF EXISTS User;');
+      testDb?.execute(
         'CREATE TABLE User ( id REAL PRIMARY KEY, name TEXT NOT NULL, age REAL, networth REAL) STRICT;',
       );
     },
     run: i => {
-      testDb.execute(
+      testDb?.execute(
         'INSERT INTO User (id, name, age, networth) VALUES(?, ?, ?, ?)',
         [ids[i], stringValue, integerValue, doubleValue],
       );
@@ -52,10 +52,10 @@ const benchmarks: Benchmark[] = [
     numberOfRuns: 1000,
     prepare: () => {
       resetTestDb();
-      testDb.execute('CREATE TABLE t1(a INTEGER, b INTEGER, c VARCHAR(100));');
+      testDb?.execute('CREATE TABLE t1(a INTEGER, b INTEGER, c VARCHAR(100));');
     },
     run: i => {
-      testDb.execute('INSERT INTO t1 (a, b, c) VALUES(?, ?, ?)', [
+      testDb?.execute('INSERT INTO t1 (a, b, c) VALUES(?, ?, ?)', [
         ids[i],
         integerValue,
         stringValue,
@@ -69,7 +69,7 @@ const benchmarks: Benchmark[] = [
       resetLargeDb();
     },
     run: () => {
-      largeDb.execute('SELECT * FROM Test;');
+      largeDb?.execute('SELECT * FROM Test;');
     },
   },
 ];
@@ -100,7 +100,7 @@ export const BenchmarkScreen: React.FC<Props> = () => {
   const [results, setResults] = useState<Record<string, string | null>>({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const startBenchmarks = useCallback(() => {
+  const startBenchmarks = useCallback(async () => {
     console.log('START BENCHMARKS');
 
     setResults({});
@@ -118,8 +118,7 @@ export const BenchmarkScreen: React.FC<Props> = () => {
       if (benchmarks[i + 1] != null) return start(i + 1);
     }
 
-    // eslint-disable-next-line no-void
-    void start();
+    await start();
 
     console.log('--------- FINISHED NitroSQLite BENCHMARKS! ---------');
     setIsLoading(false);
