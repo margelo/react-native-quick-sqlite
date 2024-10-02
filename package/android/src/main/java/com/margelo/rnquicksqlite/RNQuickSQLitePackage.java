@@ -38,7 +38,7 @@ public class RNQuickSQLitePackage extends TurboReactPackage {
               RNQuickSQLiteOnLoadModule.NAME,
               RNQuickSQLiteOnLoadModule.NAME,
               false,
-              false,
+              true,
               true,
               false,
               true));
