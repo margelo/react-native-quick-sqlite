@@ -80,3 +80,6 @@ android/.gradle
 # Yalc
 .yalc
 yalc.lock
+
+# Typescript
+**/tsconfig.tsbuildinfo

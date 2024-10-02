@@ -9,15 +9,14 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    project: true,
     tsconfigRootDir: __dirname,
-    project: ['./tsconfig.json'],
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  ignorePatterns: ['node_modules/', 'lib/'],
   rules: {
     'prettier/prettier': [
       'warn',
