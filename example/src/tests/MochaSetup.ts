@@ -1,21 +1,23 @@
 import 'mocha';
 import {clearTests, rootSuite} from './MochaRNAdapter';
 
+export interface MochaTestResult {
+  description: string;
+  key: string;
+  type: string;
+  errorMsg?: string;
+}
+
 export function runTests(...registrators: (() => void)[]) {
   // testRegistrators: Array<() => void> = []
   // console.log('setting up mocha');
 
-  const promise = new Promise(resolve => {
+  const promise = new Promise<MochaTestResult[]>(resolve => {
     const {EVENT_RUN_END, EVENT_TEST_FAIL, EVENT_TEST_PASS, EVENT_SUITE_BEGIN} =
       Mocha.Runner.constants;
 
     clearTests();
-    const results: {
-      description: string;
-      key: string;
-      type: string;
-      errorMsg?: string;
-    }[] = [];
+    const results: MochaTestResult[] = [];
     const runner = new Mocha.Runner(rootSuite);
 
     runner

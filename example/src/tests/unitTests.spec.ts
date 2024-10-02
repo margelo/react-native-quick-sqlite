@@ -1,6 +1,8 @@
-import type {QuickSQLiteConnection} from './../../../package/src/types';
 import Chance from 'chance';
-import type {BatchQueryCommand} from 'react-native-quick-sqlite';
+import type {
+  QuickSQLiteConnection,
+  BatchQueryCommand,
+} from 'react-native-quick-sqlite';
 import {beforeEach, describe, it} from './MochaRNAdapter';
 import chai from 'chai';
 import {testDb as testDbInternal, resetTestDb} from './db';
@@ -306,7 +308,7 @@ export function registerUnitTests() {
           [id, name, age, networth],
         );
       } catch (e: unknown) {
-        expect(!!e).to.not.equal(undefined);
+        expect(e).to.not.equal(undefined);
       }
     });
 

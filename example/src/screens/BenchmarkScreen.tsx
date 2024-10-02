@@ -74,7 +74,8 @@ const benchmarks: Benchmark[] = [
   },
 ];
 
-const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(resolve, ms));
 
 function runBenchmark(benchmark: Benchmark) {
   return wait(1000).then(() => {
@@ -173,7 +174,9 @@ export const BenchmarkScreen: React.FC<Props> = () => {
           marginBottom: 20,
         }}>
         <TouchableOpacity
-          onPressIn={startBenchmarks}
+          onPressIn={() => {
+            startBenchmarks();
+          }}
           style={{paddingRight: 10}}>
           <Text style={ScreenStyles.buttonText}>Run benchmarks</Text>
         </TouchableOpacity>

@@ -13,6 +13,24 @@ import type {
 } from './types'
 import { open } from 'react-native-quick-sqlite'
 
+interface TypeOrmQuickSQLiteConnection {
+  executeSql: <RowData extends SQLiteItem = never>(
+    sql: string,
+    params: SQLiteQueryParams | undefined,
+    okExecute: (res: QueryResult<RowData>) => void,
+    failExecute: (msg: string) => void
+  ) => Promise<void>
+  transaction: (fn: (tx: Transaction) => Promise<void>) => Promise<void>
+  close: (okClose: () => void, failClose: (e: unknown) => void) => void
+  attach: (
+    dbNameToAttach: string,
+    alias: string,
+    location: string | undefined,
+    callback: () => void
+  ) => void
+  detach: (alias: string, callback: () => void) => void
+}
+
 /**
  * DO NOT USE THIS! THIS IS MEANT FOR TYPEORM
  * If you are looking for a convenience wrapper use `connect`
@@ -23,13 +41,13 @@ export const typeORMDriver = {
       name: string
       location?: string
     },
-    ok: (db: any) => void,
+    ok: (db: TypeOrmQuickSQLiteConnection) => void,
     fail: (msg: string) => void
-  ): any => {
+  ): TypeOrmQuickSQLiteConnection | null => {
     try {
       const db = open(options)
 
-      const connection = {
+      const connection: TypeOrmQuickSQLiteConnection = {
         executeSql: async <RowData extends SQLiteItem = never>(
           sql: string,
           params: SQLiteQueryParams | undefined,
@@ -48,7 +66,7 @@ export const typeORMDriver = {
         ): Promise<void> => {
           return db.transaction(fn)
         },
-        close: (okClose: any, failClose: any) => {
+        close: (okClose: () => void, failClose: (e: unknown) => void) => {
           try {
             db.close()
             okClose()
@@ -65,7 +83,7 @@ export const typeORMDriver = {
           db.attach(dbNameToAttach, alias, location)
           callback()
         },
-        detach: (alias: any, callback: () => void) => {
+        detach: (alias: string, callback: () => void) => {
           db.detach(alias)
           callback()
         },
@@ -76,6 +94,8 @@ export const typeORMDriver = {
       return connection
     } catch (e: unknown) {
       fail(e as string)
+
+      return null
     }
   },
 }
