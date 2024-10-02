@@ -1,7 +1,7 @@
-import { TurboModuleRegistry, type TurboModule } from 'react-native'
+import type { Spec as AndroidOnLoadTurboModuleSpec } from './NativeQuickSQLiteOnLoad.android.ts'
 
-export interface Spec extends TurboModule {
-  onReactApplicationContextReady(callback: () => void): void
+export const noop: AndroidOnLoadTurboModuleSpec = {
+  onReactApplicationContextReady: () => undefined,
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('RNQuickSQLiteOnLoad')
+export default noop
