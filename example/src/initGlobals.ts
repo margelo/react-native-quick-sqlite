@@ -1,6 +1,3 @@
-import {AppRegistry} from 'react-native';
-import App from './src/App';
-import {name as appName} from './app.json';
 import {Buffer as CraftzdogBuffer} from '@craftzdog/react-native-buffer';
 
 declare global {
@@ -16,5 +13,3 @@ declare global {
 globalThis.Buffer = CraftzdogBuffer;
 globalThis.process.cwd = () => 'sxsx';
 globalThis.process.env = {NODE_ENV: 'production'};
-
-AppRegistry.registerComponent(appName, () => App);
