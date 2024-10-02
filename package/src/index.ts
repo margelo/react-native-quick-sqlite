@@ -10,17 +10,14 @@ import type {
   QuickSQLiteConnectionOptions,
 } from './types'
 import * as Operations from './operations'
+import QuickSQLiteOnLoad from './specs/NativeQuickSQLiteOnLoad'
 
 export * from './types'
 export { typeORMDriver } from './typeORM'
 
-export const QuickSQLite = {
-  ...HybridQuickSQLite,
-  open,
-  transaction,
-  execute: Operations.execute,
-  executeAsync: Operations.executeAsync,
-}
+export const onInitialized = new Promise<void>((resolve) => {
+  QuickSQLiteOnLoad.onReactApplicationContextReady(resolve)
+})
 
 export function open(
   options: QuickSQLiteConnectionOptions
@@ -53,4 +50,13 @@ export function open(
     loadFileAsync: (location: string) =>
       HybridQuickSQLite.loadFileAsync(options.name, location),
   }
+}
+
+export const QuickSQLite = {
+  ...HybridQuickSQLite,
+  onInitialized,
+  open,
+  transaction,
+  execute: Operations.execute,
+  executeAsync: Operations.executeAsync,
 }

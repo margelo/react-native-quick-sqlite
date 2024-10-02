@@ -13,8 +13,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_margelo_rnquicksqlite_RNQuickSQLitePackage_setDocPathInJNI__Ljava_lang_String_2(
-    JNIEnv *env, jclass clazz, jstring doc_path) {
+Java_com_margelo_rnquicksqlite_RNQuickSQLiteOnLoadModule_setDocPathInJNI(JNIEnv *env, jclass clazz,
+                                                                         jstring doc_path) {
   const char *nativeString = env->GetStringUTFChars(doc_path, nullptr);
   HybridQuickSQLite::docPath = std::string(nativeString);
   env->ReleaseStringUTFChars(doc_path, nativeString);
