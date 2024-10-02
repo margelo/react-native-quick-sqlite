@@ -58,8 +58,6 @@ example/vendor/bundle
 #
 node_modules/
 npm-debug.log
-yarn-debug.log
-yarn-error.log
 
 # BUCK
 buck-out/
@@ -67,6 +65,8 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 android/.cxx
+**/android/bin
+**/android/build
 
 # Expo
 .expo/*
@@ -80,3 +80,6 @@ android/.gradle
 # Yalc
 .yalc
 yalc.lock
+
+# Typescript
+**/tsconfig.tsbuildinfo
