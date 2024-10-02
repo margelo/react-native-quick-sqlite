@@ -1,21 +1,20 @@
-const path = require('path')
-const pak = require('../package.json')
+const path = require('path');
+const pak = require('../package/package.json');
 
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
-    'nativewind/babel',
     [
       'module-resolver',
       {
         alias: {
-          [pak.name]: path.join(__dirname, '..', pak.source),
-          'stream': 'stream-browserify',
+          [pak.name]: path.join(__dirname, '../package', pak.source),
+          stream: 'stream-browserify',
           'react-native-sqlite-storage': 'react-native-quick-sqlite',
         },
       },
     ],
     'babel-plugin-transform-typescript-metadata',
-    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-proposal-decorators', {legacy: true}],
   ],
-}
+};

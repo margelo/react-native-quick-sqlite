@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "paths": {
+      "react-native-quick-sqlite": ["./src/index"]
+    },
+    "outDir": "lib",
+    "rootDir": "src",
+    "noEmit": false
+  }
+}
