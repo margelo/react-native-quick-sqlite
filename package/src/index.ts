@@ -1,3 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable no-return-await */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable no-var */
 import { NativeModules } from 'react-native'
 
 declare global {
@@ -50,7 +60,7 @@ export const QuickSQLite = proxy as ISQLite
  *
  * @interface QueryResult
  */
-export type QueryResult = {
+export interface QueryResult {
   insertId?: number
   rowsAffected: number
   rows?: {
@@ -74,7 +84,7 @@ export type QueryResult = {
  * Column metadata
  * Describes some information about columns fetched by the query
  */
-export type ColumnMetadata = {
+export interface ColumnMetadata {
   /** The name used for this column for this resultset */
   columnName: string
   /** The declared column type for this column, when fetched directly from a table or a View resulting from a table column. "UNKNOWN" for dynamic values, like function returned ones. */
@@ -90,14 +100,14 @@ export type ColumnMetadata = {
  * If a single query must be executed many times with different arguments, its preferred
  * to declare it a single time, and use an array of array parameters.
  */
-export type SQLBatchTuple = [string] | [string, Array<any> | Array<Array<any>>]
+export type SQLBatchTuple = [string] | [string, any[] | any[][]]
 
 /**
  * status: 0 or undefined for correct execution, 1 for error
  * message: if status === 1, here you will find error description
  * rowsAffected: Number of affected rows if status == 0
  */
-export type BatchQueryResult = {
+export interface BatchQueryResult {
   rowsAffected?: number
 }
 
@@ -176,10 +186,10 @@ const enhanceQueryResult = (result: QueryResult): void => {
     result.rows = {
       _array: [],
       length: 0,
-      item: (idx: number) => result.rows._array[idx],
+      item: (idx: number) => result.rows?._array[idx],
     }
   } else {
-    result.rows.item = (idx: number) => result.rows._array[idx]
+    result.rows.item = (idx: number) => result.rows?._array[idx]
   }
 }
 
@@ -221,13 +231,13 @@ QuickSQLite.executeAsync = async (
   return res
 }
 
+// @ts-ignore
 QuickSQLite.transaction = async (
   dbName: string,
   fn: (tx: Transaction) => Promise<void>
 ): Promise<void> => {
-  if (!locks[dbName]) {
+  if (!locks[dbName])
     throw Error(`Quick SQLite Error: No lock found on db: ${dbName}`)
-  }
 
   let isFinalized = false
 
@@ -283,9 +293,7 @@ QuickSQLite.transaction = async (
         rollback,
       })
 
-      if (!isFinalized) {
-        commit()
-      }
+      if (!isFinalized) commit()
     } catch (executionError) {
       if (!isFinalized) {
         try {
@@ -297,6 +305,7 @@ QuickSQLite.transaction = async (
 
       throw executionError
     } finally {
+      // @ts-ignore
       locks[dbName].inProgress = false
       isFinalized = false
       startNextTransaction(dbName)
@@ -310,25 +319,25 @@ QuickSQLite.transaction = async (
       },
     }
 
+    // @ts-ignore
     locks[dbName].queue.push(tx)
     startNextTransaction(dbName)
   })
 }
 
 const startNextTransaction = (dbName: string) => {
-  if (!locks[dbName]) {
-    throw Error(`Lock not found for db: ${dbName}`)
-  }
+  if (!locks[dbName]) throw Error(`Lock not found for db: ${dbName}`)
 
   if (locks[dbName].inProgress) {
     // Transaction is already in process bail out
     return
   }
 
-  if (locks[dbName].queue.length) {
+  if (locks[dbName].queue.length > 0) {
     locks[dbName].inProgress = true
     const tx = locks[dbName].queue.shift()
     setImmediate(() => {
+      // @ts-ignore
       tx.start()
     })
   }
@@ -365,7 +374,7 @@ export const typeORMDriver = {
           okFail: (msg: string) => void
         ) => {
           try {
-            let response = await QuickSQLite.executeAsync(
+            const response = await QuickSQLite.executeAsync(
               options.name,
               sql,
               params
@@ -373,6 +382,7 @@ export const typeORMDriver = {
             enhanceQueryResult(response)
             okExecute(response)
           } catch (e) {
+            // @ts-ignore
             okFail(e)
           }
         },
@@ -399,6 +409,7 @@ export const typeORMDriver = {
 
           callback()
         },
+        // @ts-ignore
         detach: (alias, callback: () => void) => {
           QuickSQLite.detach(options.name, alias)
 
@@ -410,12 +421,13 @@ export const typeORMDriver = {
 
       return connection
     } catch (e) {
+      // @ts-ignore
       fail(e)
     }
   },
 }
 
-export type QuickSQLiteConnection = {
+export interface QuickSQLiteConnection {
   close: () => void
   delete: () => void
   attach: (dbNameToAttach: string, alias: string, location?: string) => void

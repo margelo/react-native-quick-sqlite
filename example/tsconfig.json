@@ -1,12 +1,9 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "../tsconfig.json",
+  "include": ["src", "../package", "index.js", "app.json"],
   "compilerOptions": {
-    "skipLibCheck": true,
     "paths": {
-      "react-native-quick-sqlite": ["../src/index"]
-    },
-    "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+      "react-native-quick-sqlite": ["../package/src/index"]
+    }
   }
 }
