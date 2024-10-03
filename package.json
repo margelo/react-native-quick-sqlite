@@ -33,10 +33,12 @@
     "@react-native/eslint-config": "0.75.2",
     "@release-it/bumper": "^6.0.1",
     "@release-it/conventional-changelog": "^8.0.1",
+    "@tsconfig/react-native": "^2.0.2",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.13",
     "eslint": "8.57.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
     "release-it": "^17.6.0",
     "typescript-eslint": "^8.6.0"
   },
