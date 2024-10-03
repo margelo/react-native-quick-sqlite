@@ -17,6 +17,7 @@ export interface QuickSQLiteConnection {
   loadFileAsync(location: string): Promise<FileLoadResult>
 }
 
+// eslint-disable-next-line no-restricted-syntax
 export enum ColumnType {
   BOOLEAN,
   NUMBER,

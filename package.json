@@ -19,7 +19,7 @@
     "lint": "bun --filter=\"**\" lint",
     "bootstrap": "bun package && bun example && bun example pods",
     "release": "release-it",
-    "clean": "rm -rf packages/**/tsconfig.tsbuildinfo packages/**/node_modules packages/**/lib"
+    "clean": "rm -rf **/tsconfig.tsbuildinfo node_modules package/node_module package/lib"
   },
   "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
   "license": "MIT",
