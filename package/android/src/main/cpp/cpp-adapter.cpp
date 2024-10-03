@@ -8,7 +8,7 @@
 
 struct QuickSQLiteBridge : jni::JavaClass<QuickSQLiteBridge> {
   static constexpr auto kJavaDescriptor =
-      "Lcom/reactnativequicksqlite/QuickSQLiteBridge;";
+      "Lcom/margelo/rnquicksqlite/QuickSQLiteBridge;";
 
   static void registerNatives() {
     javaClassStatic()->registerNatives(

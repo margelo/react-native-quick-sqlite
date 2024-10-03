@@ -1,8 +1,5 @@
-package com.margelo.reactnativequicksqlite;
+package com.margelo.rnquicksqlite;
 
-import android.util.Log;
-
-import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.turbomodule.core.CallInvokerHolderImpl;
 

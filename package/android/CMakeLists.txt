@@ -14,25 +14,14 @@ add_definitions(
   ${SQLITE_FLAGS}
 )
 
-add_library(
-  ${PACKAGE_NAME}
-  SHARED
-  ../cpp/sqliteBridge.cpp
-  ../cpp/sqliteBridge.h
-  ../cpp/bindings.cpp
-  ../cpp/bindings.h
-  ../cpp/sqlite3.h
-  ../cpp/sqlite3.c
-  ../cpp/JSIHelper.h
-  ../cpp/JSIHelper.cpp
-  ../cpp/ThreadPool.h
-  ../cpp/ThreadPool.cpp
-  ../cpp/sqlfileloader.h
-  ../cpp/sqlfileloader.cpp
-  ../cpp/sqlbatchexecutor.h
-  ../cpp/sqlbatchexecutor.cpp
-  ../cpp/macros.h
-  cpp-adapter.cpp
+file(GLOB_RECURSE cpp_files RELATIVE ${CMAKE_SOURCE_DIR}
+  "../cpp/**.c"
+  "../cpp/**.cpp"
+  "src/main/cpp/cpp-adapter.cpp"
+)
+
+add_library(${PACKAGE_NAME} SHARED
+  ${cpp_files}
 )
 
 set_target_properties(
