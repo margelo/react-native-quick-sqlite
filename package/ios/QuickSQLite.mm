@@ -1,32 +1,34 @@
-#import "QuickSQLite.h"
-
-#import <React/RCTBridge+Private.h>
-
 #import <React/RCTUtils.h>
+#import <React/RCTBridge+Private.h>
 #import <ReactCommon/RCTTurboModule.h>
 #import <jsi/jsi.h>
-
+#import "QuickSQLite.h"
 #import "../cpp/bindings.h"
+
+using namespace facebook;
 
 @implementation QuickSQLite
 
-RCT_EXPORT_MODULE(QuickSQLite)
+RCT_EXPORT_MODULE()
 
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+    (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+    return std::make_shared<facebook::react::NativeRNQuickSQLiteInitSpecJSI>(params);
+}
 
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
+- (void)install:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
   NSLog(@"Installing QuickSQLite module...");
 
   RCTBridge *bridge = [RCTBridge currentBridge];
   RCTCxxBridge *cxxBridge = (RCTCxxBridge *)bridge;
   if (cxxBridge == nil) {
-    return @false;
+    return resolve(@false);
   }
-
-  using namespace facebook;
 
   auto jsiRuntime = (jsi::Runtime *)cxxBridge.runtime;
   if (jsiRuntime == nil) {
-    return @false;
+    return resolve(@false);
   }
   auto &runtime = *jsiRuntime;
   auto callInvoker = bridge.jsCallInvoker;
@@ -42,7 +44,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
 
     if (storeUrl == nil) {
       NSLog(@"Invalid AppGroup ID provided (%@). Check the value of \"AppGroup\" in your Info.plist file", appGroupID);
-      return @false;
+      return resolve(@false);
     }
     NSLog(@"Configured with AppGroup ID: %@", appGroupID);
 
@@ -54,12 +56,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   }
 
   osp::install(runtime, callInvoker, [documentPath UTF8String]);
-  return @true;
+  return resolve(@true);
 }
-
-- (void)invalidate {
-  osp::clearState();
-}
-
 
 @end

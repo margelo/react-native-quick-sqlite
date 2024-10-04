@@ -1,8 +1,11 @@
-#import <React/RCTBridgeModule.h>
-#import <React/RCTInvalidating.h>
+#import <RNQuickSQLite/RNQuickSQLite.h>
 
-@interface QuickSQLite : NSObject <RCTBridgeModule, RCTInvalidating>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface RNQuickSQLiteInit : NSObject <NativeRNQuickSQLiteInitSpec>
 
 @property(nonatomic, assign) BOOL setBridgeOnMainQueue;
 
 @end
+
+NS_ASSUME_NONNULL_END

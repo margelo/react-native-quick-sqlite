@@ -3,6 +3,8 @@ package com.margelo.rnquicksqlite;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 
 public class RNQuickSQLiteInitModule extends NativeRNQuickSQLiteInitSpec {
@@ -17,13 +19,13 @@ public class RNQuickSQLiteInitModule extends NativeRNQuickSQLiteInitSpec {
   }
 
   @Override
-  public boolean install() {
+  public void install(Promise promise) {
     try {
       QuickSQLiteBridge.instance.install(getReactApplicationContext());
-      return true;
+      promise.resolve(true);
     } catch (Exception exception) {
       Log.e(NAME, "Failed to install JSI Bindings!", exception);
-      return false;
+      promise.resolve(false);
     }
   }
 }
