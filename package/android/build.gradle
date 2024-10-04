@@ -46,9 +46,8 @@ repositories {
 }
 
 android {
-  
   compileSdkVersion safeExtGet("compileSdkVersion", 28)
-  
+
   // Used to override the NDK path/version on internal CI or by allowing
   // users to customize the NDK path/version from their root project (e.g. for M1 support)
   if (rootProject.hasProperty("ndkPath")) {
@@ -67,7 +66,7 @@ android {
     targetSdkVersion safeExtGet('targetSdkVersion', 28)
     versionCode 1
     versionName "1.0"
-    
+
     externalNativeBuild {
         cmake {
             cppFlags "-O2", "-fexceptions", "-frtti", "-std=c++1y", "-DONANDROID"
@@ -90,9 +89,8 @@ android {
               "**/libfbjni.so"
       ]
     }
-    
   }
-  
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
@@ -108,6 +106,7 @@ android {
 dependencies {
   //noinspection GradleDynamicVersion
   implementation 'com.facebook.react:react-android:+'
+  implementation 'com.facebook.fbjni:fbjni:+'
 }
 
 // Resolves "LOCAL_SRC_FILES points to a missing file, Check that libfb.so exists or that its path is correct".
