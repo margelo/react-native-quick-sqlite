@@ -2,7 +2,7 @@
 
 <div align="center">
   <pre align="center">
-    yarn add react-native-quick-sqlite
+    bun add react-native-quick-sqlite
     npx pod-install</pre>
   <a align="center" href="https://github.com/mrousavy?tab=followers">
     <img src="https://img.shields.io/github/followers/mrousavy?label=Follow%20%40mrousavy&style=social" />
@@ -235,7 +235,7 @@ Starting on Node14 all files that need to be accessed by third-party modules nee
 After you have applied that change, do:
 
 ```sh
-yarn patch-package --exclude 'nothing' typeorm
+bun patch-package --exclude 'nothing' typeorm
 ```
 
 Now every time you install your node_modules that line will be added.
@@ -260,7 +260,7 @@ plugins: [
 You will need to install the babel `module-resolver` plugin:
 
 ```sh
-yarn add babel-plugin-module-resolver
+bun add babel-plugin-module-resolver
 ```
 
 Finally, you will now be able to start the app without any metro/babel errors (you will also need to follow the instructions on how to setup TypeORM), now we can feed the driver into TypeORM:
@@ -280,7 +280,7 @@ datasource = new DataSource({
 
 # Loading existing DBs
 
-The library creates/opens databases by appending the passed name plus, the [documents directory on iOS](https://github.com/margelo/react-native-quick-sqlite/blob/733e876d98896f5efc80f989ae38120f16533a66/ios/QuickSQLite.mm#L34-L35) and the [files directory on Android](https://github.com/margelo/react-native-quick-sqlite/blob/main/android/src/main/java/com/reactnativequicksqlite/QuickSQLiteBridge.java#L16), this differs from other SQL libraries (some place it in a `www` folder, some in androids `databases` folder, etc.).
+The library creates/opens databases by appending the passed name plus, the [documents directory on iOS](https://github.com/margelo/react-native-quick-sqlite/blob/733e876d98896f5efc80f989ae38120f16533a66/ios/QuickSQLite.mm#L34-L35) and the [files directory on Android](https://github.com/margelo/react-native-quick-sqlite/blob/main/android/src/main/java/com/margelo/rnquicksqlite/QuickSQLiteBridge.java#L16), this differs from other SQL libraries (some place it in a `www` folder, some in androids `databases` folder, etc.).
 
 If you have an existing database file you want to load you can navigate from these directories using dot notation. e.g. `../www/myDb.sqlite`. Note that on iOS the file system is sand-boxed, so you cannot access files/directories outside your app bundle directories.
 
@@ -323,7 +323,7 @@ quickSqliteFlags="<SQLITE_FLAGS>"
 
 On iOS, the SQLite database can be placed in an app group, in order to make it accessible from other apps in that app group. E.g. for sharing capabilities.
 
-To use an app group, add the app group ID as the value for the `ReactNativeQuickSQLite_AppGroup` key in your project's `Info.plist` file. You'll also need to configure the app group in your project settings. (Xcode -> Project Settings -> Signing & Capabilities -> Add Capability -> App Groups)
+To use an app group, add the app group ID as the value for the `RNQuickSQLite_AppGroup` key in your project's `Info.plist` file. You'll also need to configure the app group in your project settings. (Xcode -> Project Settings -> Signing & Capabilities -> Add Capability -> App Groups)
 
 ## Community Discord
 
