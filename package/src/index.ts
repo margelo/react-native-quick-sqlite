@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable no-return-await */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-var */
-import { NativeModules } from 'react-native'
+
+import RNQuickSQLiteInit from './NativeRNQuickSQLiteInit'
 
 declare global {
   function nativeCallSyncHook(): unknown
@@ -16,26 +16,24 @@ declare global {
 }
 
 if (global.__QuickSQLiteProxy == null) {
-  const QuickSQLiteModule = NativeModules.QuickSQLite
-
-  if (QuickSQLiteModule == null) {
+  if (RNQuickSQLiteInit == null) {
     throw new Error(
-      'Base quick-sqlite module not found. Maybe try rebuilding the app.'
+      'QuickSQLite TurboModule not found. Maybe try rebuilding the app.'
     )
   }
 
   // Check if we are running on-device (JSI)
-  if (global.nativeCallSyncHook == null || QuickSQLiteModule.install == null) {
+  if (global.nativeCallSyncHook == null || RNQuickSQLiteInit.install == null) {
     throw new Error(
       'Failed to install react-native-quick-sqlite: React Native is not running on-device. QuickSQLite can only be used when synchronous method invocations (JSI) are possible. If you are using a remote debugger (e.g. Chrome), switch to an on-device debugger (e.g. Flipper) instead.'
     )
   }
 
   // Call the synchronous blocking install() function
-  const result = QuickSQLiteModule.install()
+  const result = RNQuickSQLiteInit.install()
   if (result !== true) {
     throw new Error(
-      `Failed to install react-native-quick-sqlite: The native QuickSQLite Module could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
+      `Failed to install react-native-quick-sqlite: The QuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
     )
   }
 
