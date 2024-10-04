@@ -19,7 +19,6 @@ public class RNQuickSQLiteInitModule extends NativeRNQuickSQLiteInitSpec {
   @Override
   public boolean install() {
     try {
-      System.loadLibrary("RNQuickSQLite");
       QuickSQLiteBridge.instance.install(getReactApplicationContext());
       return true;
     } catch (Exception exception) {

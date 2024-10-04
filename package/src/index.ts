@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -16,16 +17,9 @@ declare global {
 }
 
 if (global.__QuickSQLiteProxy == null) {
-  if (RNQuickSQLiteInit == null) {
+  if (RNQuickSQLiteInit == null || RNQuickSQLiteInit.install == null) {
     throw new Error(
       'QuickSQLite TurboModule not found. Maybe try rebuilding the app.'
-    )
-  }
-
-  // Check if we are running on-device (JSI)
-  if (global.nativeCallSyncHook == null || RNQuickSQLiteInit.install == null) {
-    throw new Error(
-      'Failed to install react-native-quick-sqlite: React Native is not running on-device. QuickSQLite can only be used when synchronous method invocations (JSI) are possible. If you are using a remote debugger (e.g. Chrome), switch to an on-device debugger (e.g. Flipper) instead.'
     )
   }
 
