@@ -62,11 +62,16 @@ npm-debug.log
 # BUCK
 buck-out/
 \.buckd/
+
+#Android
 android/app/libs
 android/keystores/debug.keystore
 android/.cxx
 **/android/bin
 **/android/build
+
+**/android/.project
+**/.settings
 
 # Expo
 .expo/*
