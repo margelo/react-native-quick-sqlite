@@ -19,13 +19,13 @@ public class RNQuickSQLiteInitModule extends NativeRNQuickSQLiteInitSpec {
   }
 
   @Override
-  public void install(Promise promise) {
+  public boolean install() {
     try {
       QuickSQLiteBridge.instance.install(getReactApplicationContext());
-      promise.resolve(true);
+      return true;
     } catch (Exception exception) {
       Log.e(NAME, "Failed to install JSI Bindings!", exception);
-      promise.resolve(false);
+      return false;
     }
   }
 }

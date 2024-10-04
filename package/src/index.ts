@@ -6,7 +6,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import RNQuickSQLiteInit from './NativeRNQuickSQLiteInit'
@@ -16,8 +15,6 @@ declare global {
   var __QuickSQLiteProxy: object | undefined
 }
 
-export let QuickSQLite: ISQLite | null
-
 if (global.__QuickSQLiteProxy == null) {
   if (RNQuickSQLiteInit == null || RNQuickSQLiteInit.install == null) {
     throw new Error(
@@ -26,24 +23,21 @@ if (global.__QuickSQLiteProxy == null) {
   }
 
   // Call the synchronous blocking install() function
-  RNQuickSQLiteInit.install().then((result) => {
-    if (result !== true) {
-      throw new Error(
-        `Failed to install react-native-quick-sqlite: The QuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
-      )
-    }
+  const result = RNQuickSQLiteInit.install()
+  if (result !== true) {
+    throw new Error(
+      `Failed to install react-native-quick-sqlite: The QuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
+    )
+  }
 
-    // Check again if the constructor now exists. If not, throw an error.
-    if (global.__QuickSQLiteProxy == null) {
-      throw new Error(
-        'Failed to install react-native-quick-sqlite, the native initializer function does not exist. Are you trying to use QuickSQLite from different JS Runtimes?'
-      )
-    }
-
-    QuickSQLite = global.__QuickSQLiteProxy as ISQLite
-  })
+  // Check again if the constructor now exists. If not, throw an error.
+  if (global.__QuickSQLiteProxy == null) {
+    throw new Error(
+      'Failed to install react-native-quick-sqlite, the native initializer function does not exist. Are you trying to use QuickSQLite from different JS Runtimes?'
+    )
+  }
 }
-QuickSQLite = global.__QuickSQLiteProxy as ISQLite
+export const QuickSQLite = global.__QuickSQLiteProxy as ISQLite
 
 /**
  * Object returned by SQL Query executions {

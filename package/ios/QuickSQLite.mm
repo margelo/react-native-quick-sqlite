@@ -7,7 +7,7 @@
 
 using namespace facebook;
 
-@implementation QuickSQLite
+@implementation RNQuickSQLiteInit
 
 RCT_EXPORT_MODULE()
 
@@ -17,18 +17,18 @@ RCT_EXPORT_MODULE()
     return std::make_shared<facebook::react::NativeRNQuickSQLiteInitSpecJSI>(params);
 }
 
-- (void)install:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+- (NSNumber *) install {
   NSLog(@"Installing QuickSQLite module...");
 
   RCTBridge *bridge = [RCTBridge currentBridge];
   RCTCxxBridge *cxxBridge = (RCTCxxBridge *)bridge;
   if (cxxBridge == nil) {
-    return resolve(@false);
+    return @false;
   }
 
   auto jsiRuntime = (jsi::Runtime *)cxxBridge.runtime;
   if (jsiRuntime == nil) {
-    return resolve(@false);
+    return @false;
   }
   auto &runtime = *jsiRuntime;
   auto callInvoker = bridge.jsCallInvoker;
@@ -44,7 +44,7 @@ RCT_EXPORT_MODULE()
 
     if (storeUrl == nil) {
       NSLog(@"Invalid AppGroup ID provided (%@). Check the value of \"AppGroup\" in your Info.plist file", appGroupID);
-      return resolve(@false);
+      return @false;
     }
     NSLog(@"Configured with AppGroup ID: %@", appGroupID);
 
@@ -56,7 +56,7 @@ RCT_EXPORT_MODULE()
   }
 
   osp::install(runtime, callInvoker, [documentPath UTF8String]);
-  return resolve(@true);
+  return @true;
 }
 
 @end
