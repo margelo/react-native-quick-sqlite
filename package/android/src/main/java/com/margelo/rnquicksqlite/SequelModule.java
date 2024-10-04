@@ -22,7 +22,7 @@ class SequelModule extends ReactContextBaseJavaModule {
   @ReactMethod(isBlockingSynchronousMethod = true)
   public boolean install() {
     try {
-      System.loadLibrary("react-native-quick-sqlite");
+      System.loadLibrary("RNQuickSQLite");
       QuickSQLiteBridge.instance.install(getReactApplicationContext());
       return true;
     } catch (Exception exception) {
