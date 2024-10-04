@@ -1,7 +1,7 @@
-project(ReactNativeQuickSQLite)
+project(RNQuickSQLite)
 cmake_minimum_required(VERSION 3.9.0)
 
-set (PACKAGE_NAME "react-native-quick-sqlite")
+set (PACKAGE_NAME "RNQuickSQLite")
 set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_CXX_STANDARD 17)
 set (BUILD_DIR ${CMAKE_SOURCE_DIR}/build)
