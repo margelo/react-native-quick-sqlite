@@ -12,12 +12,12 @@
 
 RCT_EXPORT_MODULE(QuickSQLite)
 
+@synthesize bridge = _bridge;
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   NSLog(@"Installing QuickSQLite module...");
 
-  RCTBridge *bridge = [RCTBridge currentBridge];
-  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)bridge;
+  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
   if (cxxBridge == nil) {
     return @false;
   }
@@ -29,7 +29,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
     return @false;
   }
   auto &runtime = *jsiRuntime;
-  auto callInvoker = bridge.jsCallInvoker;
+  auto callInvoker = cxxBridge.jsCallInvoker;
 
   // Get appGroupID value from Info.plist using key "AppGroup"
   NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ReactNativeQuickSQLite_AppGroup"];
