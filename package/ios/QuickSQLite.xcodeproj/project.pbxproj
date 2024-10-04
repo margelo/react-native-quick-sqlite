@@ -7,7 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E555C0D2413F4C50049A1A2 /* QuickSQLite.mm in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* QuickSQLite.mm */; };
+		83BC6E412C8F788C00B954D2 /* OnLoad.mm in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E402C8F788C00B954D2 /* OnLoad.mm */; };
+		83BC6E712C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E452C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp */; };
+		83BC6E722C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E4F2C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp */; };
+		83BC6E732C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E512C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp */; };
+		83BC6E742C8F78A200B954D2 /* HybridQuickSQLite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLite.cpp */; };
+		83BC6E752C8F78A200B954D2 /* HybridSelectQueryResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E5C2C8F78A200B954D2 /* HybridSelectQueryResult.cpp */; };
+		83BC6E762C8F78A200B954D2 /* JSIHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E602C8F78A200B954D2 /* JSIHelper.cpp */; };
+		83BC6E772C8F78A200B954D2 /* OnLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E642C8F78A200B954D2 /* OnLoad.cpp */; };
+		83BC6E782C8F78A200B954D2 /* sqlbatchexecutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E662C8F78A200B954D2 /* sqlbatchexecutor.cpp */; };
+		83BC6E792C8F78A200B954D2 /* sqlfileloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E682C8F78A200B954D2 /* sqlfileloader.cpp */; };
+		83BC6E7A2C8F78A200B954D2 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E6A2C8F78A200B954D2 /* sqlite3.c */; };
+		83BC6E7B2C8F78A200B954D2 /* sqliteBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E6C2C8F78A200B954D2 /* sqliteBridge.cpp */; };
+		83BC6E7C2C8F78A200B954D2 /* ThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E6E2C8F78A200B954D2 /* ThreadPool.cpp */; };
+		83BC6E7F2C8F7BDD00B954D2 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC6E7E2C8F7BDD00B954D2 /* Empty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +37,47 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libQuickSQLite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuickSQLite.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E7B5891CC2AC0600A0062D /* QuickSQLite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickSQLite.mm; sourceTree = "<group>"; };
+		83BC6E402C8F788C00B954D2 /* OnLoad.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OnLoad.mm; sourceTree = "<group>"; };
+		83BC6E422C8F78A200B954D2 /* RNQuickSQLite+autolinking.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "RNQuickSQLite+autolinking.cmake"; sourceTree = "<group>"; };
+		83BC6E432C8F78A200B954D2 /* RNQuickSQLite+autolinking.gradle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "RNQuickSQLite+autolinking.gradle"; sourceTree = "<group>"; };
+		83BC6E452C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "RNQuickSQLite-Swift-Cxx-Bridge.cpp"; sourceTree = "<group>"; };
+		83BC6E462C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "RNQuickSQLite-Swift-Cxx-Bridge.hpp"; sourceTree = "<group>"; };
+		83BC6E472C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Umbrella.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "RNQuickSQLite-Swift-Cxx-Umbrella.hpp"; sourceTree = "<group>"; };
+		83BC6E482C8F78A200B954D2 /* RNQuickSQLite+autolinking.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = "RNQuickSQLite+autolinking.rb"; sourceTree = "<group>"; };
+		83BC6E4A2C8F78A200B954D2 /* BatchQueryCommand.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BatchQueryCommand.hpp; sourceTree = "<group>"; };
+		83BC6E4B2C8F78A200B954D2 /* BatchQueryResult.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BatchQueryResult.hpp; sourceTree = "<group>"; };
+		83BC6E4C2C8F78A200B954D2 /* ColumnMetadata.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ColumnMetadata.hpp; sourceTree = "<group>"; };
+		83BC6E4D2C8F78A200B954D2 /* ColumnType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ColumnType.hpp; sourceTree = "<group>"; };
+		83BC6E4E2C8F78A200B954D2 /* FileLoadResult.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileLoadResult.hpp; sourceTree = "<group>"; };
+		83BC6E4F2C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridQuickSQLiteSpec.cpp; sourceTree = "<group>"; };
+		83BC6E502C8F78A200B954D2 /* HybridQuickSQLiteSpec.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridQuickSQLiteSpec.hpp; sourceTree = "<group>"; };
+		83BC6E512C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridSelectQueryResultSpec.cpp; sourceTree = "<group>"; };
+		83BC6E522C8F78A200B954D2 /* HybridSelectQueryResultSpec.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridSelectQueryResultSpec.hpp; sourceTree = "<group>"; };
+		83BC6E532C8F78A200B954D2 /* QueryResult.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QueryResult.hpp; sourceTree = "<group>"; };
+		83BC6E542C8F78A200B954D2 /* QueryType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QueryType.hpp; sourceTree = "<group>"; };
+		83BC6E552C8F78A200B954D2 /* Transaction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Transaction.hpp; sourceTree = "<group>"; };
+		83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridQuickSQLite.cpp; sourceTree = "<group>"; };
+		83BC6E5B2C8F78A200B954D2 /* HybridQuickSQLite.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridQuickSQLite.hpp; sourceTree = "<group>"; };
+		83BC6E5C2C8F78A200B954D2 /* HybridSelectQueryResult.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HybridSelectQueryResult.cpp; sourceTree = "<group>"; };
+		83BC6E5D2C8F78A200B954D2 /* HybridSelectQueryResult.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HybridSelectQueryResult.hpp; sourceTree = "<group>"; };
+		83BC6E5E2C8F78A200B954D2 /* Types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Types.hpp; sourceTree = "<group>"; };
+		83BC6E602C8F78A200B954D2 /* JSIHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSIHelper.cpp; sourceTree = "<group>"; };
+		83BC6E612C8F78A200B954D2 /* JSIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSIHelper.h; sourceTree = "<group>"; };
+		83BC6E622C8F78A200B954D2 /* logs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logs.h; sourceTree = "<group>"; };
+		83BC6E632C8F78A200B954D2 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		83BC6E642C8F78A200B954D2 /* OnLoad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnLoad.cpp; sourceTree = "<group>"; };
+		83BC6E652C8F78A200B954D2 /* OnLoad.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OnLoad.hpp; sourceTree = "<group>"; };
+		83BC6E662C8F78A200B954D2 /* sqlbatchexecutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sqlbatchexecutor.cpp; sourceTree = "<group>"; };
+		83BC6E672C8F78A200B954D2 /* sqlbatchexecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlbatchexecutor.h; sourceTree = "<group>"; };
+		83BC6E682C8F78A200B954D2 /* sqlfileloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sqlfileloader.cpp; sourceTree = "<group>"; };
+		83BC6E692C8F78A200B954D2 /* sqlfileloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlfileloader.h; sourceTree = "<group>"; };
+		83BC6E6A2C8F78A200B954D2 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		83BC6E6B2C8F78A200B954D2 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		83BC6E6C2C8F78A200B954D2 /* sqliteBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sqliteBridge.cpp; sourceTree = "<group>"; };
+		83BC6E6D2C8F78A200B954D2 /* sqliteBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqliteBridge.h; sourceTree = "<group>"; };
+		83BC6E6E2C8F78A200B954D2 /* ThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadPool.cpp; sourceTree = "<group>"; };
+		83BC6E6F2C8F78A200B954D2 /* ThreadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadPool.h; sourceTree = "<group>"; };
+		83BC6E7E2C8F7BDD00B954D2 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,9 +102,115 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				B3E7B5891CC2AC0600A0062D /* QuickSQLite.mm */,
+				83BC6E702C8F78A200B954D2 /* cpp */,
+				83BC6E592C8F78A200B954D2 /* nitrogen */,
+				83BC6E402C8F788C00B954D2 /* OnLoad.mm */,
+				83BC6E7E2C8F7BDD00B954D2 /* Empty.swift */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		83BC6E442C8F78A200B954D2 /* android */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E422C8F78A200B954D2 /* RNQuickSQLite+autolinking.cmake */,
+				83BC6E432C8F78A200B954D2 /* RNQuickSQLite+autolinking.gradle */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		83BC6E492C8F78A200B954D2 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E452C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp */,
+				83BC6E462C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.hpp */,
+				83BC6E472C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Umbrella.hpp */,
+				83BC6E482C8F78A200B954D2 /* RNQuickSQLite+autolinking.rb */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		83BC6E562C8F78A200B954D2 /* c++ */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E4A2C8F78A200B954D2 /* BatchQueryCommand.hpp */,
+				83BC6E4B2C8F78A200B954D2 /* BatchQueryResult.hpp */,
+				83BC6E4C2C8F78A200B954D2 /* ColumnMetadata.hpp */,
+				83BC6E4D2C8F78A200B954D2 /* ColumnType.hpp */,
+				83BC6E4E2C8F78A200B954D2 /* FileLoadResult.hpp */,
+				83BC6E4F2C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp */,
+				83BC6E502C8F78A200B954D2 /* HybridQuickSQLiteSpec.hpp */,
+				83BC6E512C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp */,
+				83BC6E522C8F78A200B954D2 /* HybridSelectQueryResultSpec.hpp */,
+				83BC6E532C8F78A200B954D2 /* QueryResult.hpp */,
+				83BC6E542C8F78A200B954D2 /* QueryType.hpp */,
+				83BC6E552C8F78A200B954D2 /* Transaction.hpp */,
+			);
+			path = "c++";
+			sourceTree = "<group>";
+		};
+		83BC6E572C8F78A200B954D2 /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E562C8F78A200B954D2 /* c++ */,
+			);
+			path = shared;
+			sourceTree = "<group>";
+		};
+		83BC6E582C8F78A200B954D2 /* generated */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E442C8F78A200B954D2 /* android */,
+				83BC6E492C8F78A200B954D2 /* ios */,
+				83BC6E572C8F78A200B954D2 /* shared */,
+			);
+			path = generated;
+			sourceTree = "<group>";
+		};
+		83BC6E592C8F78A200B954D2 /* nitrogen */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E582C8F78A200B954D2 /* generated */,
+			);
+			name = nitrogen;
+			path = ../nitrogen;
+			sourceTree = "<group>";
+		};
+		83BC6E5F2C8F78A200B954D2 /* specs */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E5A2C8F78A200B954D2 /* HybridQuickSQLite.cpp */,
+				83BC6E5B2C8F78A200B954D2 /* HybridQuickSQLite.hpp */,
+				83BC6E5C2C8F78A200B954D2 /* HybridSelectQueryResult.cpp */,
+				83BC6E5D2C8F78A200B954D2 /* HybridSelectQueryResult.hpp */,
+				83BC6E5E2C8F78A200B954D2 /* Types.hpp */,
+			);
+			path = specs;
+			sourceTree = "<group>";
+		};
+		83BC6E702C8F78A200B954D2 /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+				83BC6E5F2C8F78A200B954D2 /* specs */,
+				83BC6E602C8F78A200B954D2 /* JSIHelper.cpp */,
+				83BC6E612C8F78A200B954D2 /* JSIHelper.h */,
+				83BC6E622C8F78A200B954D2 /* logs.h */,
+				83BC6E632C8F78A200B954D2 /* macros.h */,
+				83BC6E642C8F78A200B954D2 /* OnLoad.cpp */,
+				83BC6E652C8F78A200B954D2 /* OnLoad.hpp */,
+				83BC6E662C8F78A200B954D2 /* sqlbatchexecutor.cpp */,
+				83BC6E672C8F78A200B954D2 /* sqlbatchexecutor.h */,
+				83BC6E682C8F78A200B954D2 /* sqlfileloader.cpp */,
+				83BC6E692C8F78A200B954D2 /* sqlfileloader.h */,
+				83BC6E6A2C8F78A200B954D2 /* sqlite3.c */,
+				83BC6E6B2C8F78A200B954D2 /* sqlite3.h */,
+				83BC6E6C2C8F78A200B954D2 /* sqliteBridge.cpp */,
+				83BC6E6D2C8F78A200B954D2 /* sqliteBridge.h */,
+				83BC6E6E2C8F78A200B954D2 /* ThreadPool.cpp */,
+				83BC6E6F2C8F78A200B954D2 /* ThreadPool.h */,
+			);
+			name = cpp;
+			path = ../cpp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,7 +270,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E555C0D2413F4C50049A1A2 /* QuickSQLite.mm in Sources */,
+				83BC6E772C8F78A200B954D2 /* OnLoad.cpp in Sources */,
+				83BC6E792C8F78A200B954D2 /* sqlfileloader.cpp in Sources */,
+				83BC6E7C2C8F78A200B954D2 /* ThreadPool.cpp in Sources */,
+				83BC6E712C8F78A200B954D2 /* RNQuickSQLite-Swift-Cxx-Bridge.cpp in Sources */,
+				83BC6E762C8F78A200B954D2 /* JSIHelper.cpp in Sources */,
+				83BC6E7F2C8F7BDD00B954D2 /* Empty.swift in Sources */,
+				83BC6E7B2C8F78A200B954D2 /* sqliteBridge.cpp in Sources */,
+				83BC6E722C8F78A200B954D2 /* HybridQuickSQLiteSpec.cpp in Sources */,
+				83BC6E732C8F78A200B954D2 /* HybridSelectQueryResultSpec.cpp in Sources */,
+				83BC6E782C8F78A200B954D2 /* sqlbatchexecutor.cpp in Sources */,
+				83BC6E752C8F78A200B954D2 /* HybridSelectQueryResult.cpp in Sources */,
+				83BC6E412C8F788C00B954D2 /* OnLoad.mm in Sources */,
+				83BC6E7A2C8F78A200B954D2 /* sqlite3.c in Sources */,
+				83BC6E742C8F78A200B954D2 /* HybridQuickSQLite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

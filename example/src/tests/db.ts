@@ -1,7 +1,7 @@
 import Chance from 'chance';
 import type {
   QuickSQLiteConnection,
-  SQLBatchTuple,
+  BatchQueryCommand,
 } from 'react-native-quick-sqlite';
 import {open} from 'react-native-quick-sqlite';
 
@@ -24,7 +24,7 @@ export function resetTestDb() {
 
 // Copyright 2024 Oscar Franco
 // Taken from "op-sqlite" example project.
-// Used to demonstrate the performance of QuickSQLite.
+// Used to demonstrate the performance of NitroSQLite.
 const ROWS = 300000;
 export let largeDb: QuickSQLiteConnection | undefined;
 export function resetLargeDb() {
@@ -43,11 +43,12 @@ export function resetLargeDb() {
 
     largeDb.execute('PRAGMA mmap_size=268435456');
 
-    const insertions: SQLBatchTuple[] = [];
+    const insertions: BatchQueryCommand[] = [];
     for (let i = 0; i < ROWS; i++) {
-      insertions.push([
-        'INSERT INTO "Test" (id, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [
+      insertions.push({
+        query:
+          'INSERT INTO "Test" (id, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        params: [
           i,
           chance.name(),
           chance.name(),
@@ -64,7 +65,7 @@ export function resetLargeDb() {
           chance.floating(),
           chance.floating(),
         ],
-      ]);
+      });
     }
 
     largeDb.executeBatch(insertions);
