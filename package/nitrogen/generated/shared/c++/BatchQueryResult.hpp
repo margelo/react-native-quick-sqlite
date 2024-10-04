@@ -22,7 +22,7 @@
 
 #include <optional>
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   /**
    * A struct which can be represented as a JavaScript object (BatchQueryResult).
@@ -35,11 +35,11 @@ namespace margelo::nitro::rnquicksqlite {
     explicit BatchQueryResult(std::optional<double> rowsAffected): rowsAffected(rowsAffected) {}
   };
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rnquicksqlite;
+  using namespace margelo::nitro::rnnitrosqlite;
 
   // C++ BatchQueryResult <> JS BatchQueryResult (object)
   template <>

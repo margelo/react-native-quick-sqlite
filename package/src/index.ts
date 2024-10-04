@@ -1,35 +1,35 @@
 import { transaction } from './transaction'
-import { HybridQuickSQLite } from './nitro'
+import { HybridNitroSQLite } from './nitro'
 import type {
   QueryResult,
-  QuickSQLiteConnection,
+  NitroSQLiteConnection,
   BatchQueryCommand,
   Transaction,
   SQLiteItem,
   SQLiteQueryParams,
-  QuickSQLiteConnectionOptions,
+  NitroSQLiteConnectionOptions,
 } from './types'
 import * as Operations from './operations'
-import QuickSQLiteOnLoad from './specs/NativeQuickSQLiteOnLoad'
+import NitroSQLiteOnLoad from './specs/NativeNitroSQLiteOnLoad'
 
 export * from './types'
 export { typeORMDriver } from './typeORM'
 
 export const onInitialized = new Promise<void>((resolve) => {
-  QuickSQLiteOnLoad.onReactApplicationContextReady(resolve)
+  NitroSQLiteOnLoad.onReactApplicationContextReady(resolve)
 })
 
 export function open(
-  options: QuickSQLiteConnectionOptions
-): QuickSQLiteConnection {
+  options: NitroSQLiteConnectionOptions
+): NitroSQLiteConnection {
   Operations.open(options.name, options.location)
 
   return {
     close: () => Operations.close(options.name),
-    delete: () => HybridQuickSQLite.drop(options.name, options.location),
+    delete: () => HybridNitroSQLite.drop(options.name, options.location),
     attach: (dbNameToAttach: string, alias: string, location?: string) =>
-      HybridQuickSQLite.attach(options.name, dbNameToAttach, alias, location),
-    detach: (alias: string) => HybridQuickSQLite.detach(options.name, alias),
+      HybridNitroSQLite.attach(options.name, dbNameToAttach, alias, location),
+    detach: (alias: string) => HybridNitroSQLite.detach(options.name, alias),
     transaction: (fn: (tx: Transaction) => Promise<void> | void) =>
       transaction(options.name, fn),
     execute: <Data extends SQLiteItem = never>(
@@ -42,18 +42,18 @@ export function open(
     ): Promise<QueryResult<Data>> =>
       Operations.executeAsync(options.name, query, params),
     executeBatch: (commands: BatchQueryCommand[]) =>
-      HybridQuickSQLite.executeBatch(options.name, commands),
+      HybridNitroSQLite.executeBatch(options.name, commands),
     executeBatchAsync: (commands: BatchQueryCommand[]) =>
-      HybridQuickSQLite.executeBatchAsync(options.name, commands),
+      HybridNitroSQLite.executeBatchAsync(options.name, commands),
     loadFile: (location: string) =>
-      HybridQuickSQLite.loadFile(options.name, location),
+      HybridNitroSQLite.loadFile(options.name, location),
     loadFileAsync: (location: string) =>
-      HybridQuickSQLite.loadFileAsync(options.name, location),
+      HybridNitroSQLite.loadFileAsync(options.name, location),
   }
 }
 
-export const QuickSQLite = {
-  ...HybridQuickSQLite,
+export const NitroSQLite = {
+  ...HybridNitroSQLite,
   onInitialized,
   open,
   transaction,

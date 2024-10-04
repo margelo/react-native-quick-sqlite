@@ -9,13 +9,13 @@
 #include <sqlite3.h>
 #include <sstream>
 #include <unistd.h>
-#include "QuickSQLiteException.hpp"
+#include "NitroSQLiteException.hpp"
 
 using namespace facebook;
 using namespace margelo::nitro;
-using namespace margelo::nitro::rnquicksqlite;
+using namespace margelo::nitro::rnnitrosqlite;
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 std::map<std::string, sqlite3*> dbMap = std::map<std::string, sqlite3*>();
 
@@ -29,7 +29,7 @@ void sqliteOpenDb(const std::string& dbName, const std::string& docPath) {
   exit = sqlite3_open_v2(dbPath.c_str(), &db, sqlOpenFlags, nullptr);
 
   if (exit != SQLITE_OK) {
-    throw QuickSQLiteException(QuickSQLiteExceptionType::DatabaseCannotBeOpened, sqlite3_errmsg(db));
+    throw NitroSQLiteException(NitroSQLiteExceptionType::DatabaseCannotBeOpened, sqlite3_errmsg(db));
   } else {
     dbMap[dbName] = db;
   }
@@ -38,7 +38,7 @@ void sqliteOpenDb(const std::string& dbName, const std::string& docPath) {
 void sqliteCloseDb(const std::string& dbName) {
 
   if (dbMap.count(dbName) == 0) {
-    throw QuickSQLiteException::DatabaseNotOpen(dbName);
+    throw NitroSQLiteException::DatabaseNotOpen(dbName);
   }
 
   sqlite3* db = dbMap[dbName];
@@ -64,11 +64,11 @@ void sqliteAttachDb(const std::string& mainDBName, const std::string& docPath, c
    * */
   std::string dbPath = get_db_path(databaseToAttach, docPath);
   std::string statement = "ATTACH DATABASE '" + dbPath + "' AS " + alias;
-  
+
   try {
     sqliteExecuteLiteral(mainDBName, statement);
-  } catch (QuickSQLiteException& e) {
-    throw QuickSQLiteException(QuickSQLiteExceptionType::UnableToAttachToDatabase, mainDBName + " was unable to attach another database: " + std::string(e.what()));
+  } catch (NitroSQLiteException& e) {
+    throw NitroSQLiteException(NitroSQLiteExceptionType::UnableToAttachToDatabase, mainDBName + " was unable to attach another database: " + std::string(e.what()));
   }
 }
 
@@ -77,11 +77,11 @@ void sqliteDetachDb(const std::string& mainDBName, const std::string& alias) {
    * There is no need to check if mainDBName is opened because sqliteExecuteLiteral will do that.
    * */
   std::string statement = "DETACH DATABASE " + alias;
-  
+
   try {
     sqliteExecuteLiteral(mainDBName, statement);
-  } catch (QuickSQLiteException& e) {
-    throw QuickSQLiteException(QuickSQLiteExceptionType::UnableToAttachToDatabase, mainDBName + " was unable to detach database: " + std::string(e.what()));
+  } catch (NitroSQLiteException& e) {
+    throw NitroSQLiteException(NitroSQLiteExceptionType::UnableToAttachToDatabase, mainDBName + " was unable to detach database: " + std::string(e.what()));
   }
 }
 
@@ -92,7 +92,7 @@ void sqliteRemoveDb(const std::string& dbName, const std::string& docPath) {
 
   std::string dbFilePath = get_db_path(dbName, docPath);
   if (!file_exists(dbFilePath)) {
-    throw QuickSQLiteException::DatabaseFileNotFound(dbFilePath);
+    throw NitroSQLiteException::DatabaseFileNotFound(dbFilePath);
   }
 
   remove(dbFilePath.c_str());
@@ -102,7 +102,7 @@ void bindStatement(sqlite3_stmt* statement, const SQLiteQueryParams& values) {
   for (int valueIndex = 0; valueIndex < values.size(); valueIndex++) {
     int sqliteIndex = valueIndex+1;
     SQLiteValue value = values.at(valueIndex);
-    
+
     // if (std::holds_alternative<std::monostate>(value))
     // {
     //     sqlite3_bind_null(statement, sqliteIndex);
@@ -125,7 +125,7 @@ void bindStatement(sqlite3_stmt* statement, const SQLiteQueryParams& values) {
 
 SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::string& query, const std::optional<SQLiteQueryParams>& params) {
   if (dbMap.count(dbName) == 0) {
-    throw QuickSQLiteException::DatabaseNotOpen(dbName);
+    throw NitroSQLiteException::DatabaseNotOpen(dbName);
   }
 
   auto db = dbMap[dbName];
@@ -138,7 +138,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
       bindStatement(statement, *params);
     }
   } else {
-    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
+    throw NitroSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
   auto isConsuming = true;
@@ -148,7 +148,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
   std::string column_name;
   ColumnType column_declared_type;
   SQLiteQueryResultRow row;
-  
+
   auto results = std::make_unique<SQLiteQueryResults>();
   auto metadata = new SQLiteQueryTableMetadata();
 
@@ -222,7 +222,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
   sqlite3_finalize(statement);
 
   if (isFailed) {
-    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
+    throw NitroSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
   int rowsAffected = sqlite3_changes(db);
@@ -232,7 +232,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
     ? std::make_optional(std::move(*metadata))
     : std::nullopt
   );
-  
+
   return {
     .rowsAffected = rowsAffected,
     .insertId = static_cast<double>(latestInsertRowId),
@@ -244,7 +244,7 @@ SQLiteExecuteQueryResult sqliteExecute(const std::string& dbName, const std::str
 SQLiteOperationResult sqliteExecuteLiteral(const std::string& dbName, const std::string& query) {
   // Check if db connection is opened
   if (dbMap.count(dbName) == 0) {
-    throw QuickSQLiteException::DatabaseNotOpen(dbName);
+    throw NitroSQLiteException::DatabaseNotOpen(dbName);
   }
 
   sqlite3* db = dbMap[dbName];
@@ -257,7 +257,7 @@ SQLiteOperationResult sqliteExecuteLiteral(const std::string& dbName, const std:
 
   if (statementStatus != SQLITE_OK) // statemnet is correct, bind the passed parameters
   {
-    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
+    throw NitroSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
   bool isConsuming = true;
@@ -287,10 +287,10 @@ SQLiteOperationResult sqliteExecuteLiteral(const std::string& dbName, const std:
   sqlite3_finalize(statement);
 
   if (isFailed) {
-    throw QuickSQLiteException::SqlExecution(sqlite3_errmsg(db));
+    throw NitroSQLiteException::SqlExecution(sqlite3_errmsg(db));
   }
 
   return {.rowsAffected = sqlite3_changes(db)};
 }
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

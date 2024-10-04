@@ -2,20 +2,20 @@
 #include <jni.h>
 #include <jsi/jsi.h>
 #include <typeinfo>
-#include "HybridQuickSQLite.hpp"
-#include "RNQuickSQLiteOnLoad.hpp"
+#include "HybridNitroSQLite.hpp"
+#include "RNNitroSQLiteOnLoad.hpp"
 
-using namespace margelo::nitro::rnquicksqlite;
+using namespace margelo::nitro::rnnitrosqlite;
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
-    return margelo::nitro::rnquicksqlite::initialize(vm);
+    return margelo::nitro::rnnitrosqlite::initialize(vm);
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_margelo_rnquicksqlite_RNQuickSQLiteOnLoadModule_setDocPathInJNI(JNIEnv *env, jclass clazz,
+Java_com_margelo_rnnitrosqlite_RNNitroSQLiteOnLoadModule_setDocPathInJNI(JNIEnv *env, jclass clazz,
                                                                          jstring doc_path) {
   const char *nativeString = env->GetStringUTFChars(doc_path, nullptr);
-  HybridQuickSQLite::docPath = std::string(nativeString);
+  HybridNitroSQLite::docPath = std::string(nativeString);
   env->ReleaseStringUTFChars(doc_path, nativeString);
 }

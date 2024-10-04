@@ -8,7 +8,7 @@
 
 #include "types.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 SQLiteOperationResult importSqlFile(const std::string& dbName, const std::string& fileLocation);
 

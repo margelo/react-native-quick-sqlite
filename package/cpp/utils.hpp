@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <string>
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 bool folder_exists(const std::string& foldername) {
   struct stat buffer;
@@ -41,10 +41,10 @@ int mkdir(const char* path) {
     // create current level
     if (!folder_exists(current_level) && _mkdir(current_level.c_str()) != 0)
       return -1;
-    
+
     current_level += "/"; // don't forget to append a slash
   }
-  
+
   return 0;
 }
 

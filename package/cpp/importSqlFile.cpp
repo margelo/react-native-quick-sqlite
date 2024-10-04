@@ -5,10 +5,10 @@
 #include "importSqlFile.hpp"
 #include <fstream>
 #include <iostream>
-#include "QuickSQLiteException.hpp"
+#include "NitroSQLiteException.hpp"
 #include "operations.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 SQLiteOperationResult importSqlFile(const std::string& dbName, const std::string& fileLocation) {
   std::string line;
@@ -24,10 +24,10 @@ SQLiteOperationResult importSqlFile(const std::string& dbName, const std::string
             SQLiteOperationResult result = sqliteExecuteLiteral(dbName, line);
             rowsAffected += result.rowsAffected;
             commands++;
-          } catch (QuickSQLiteException& e) {
+          } catch (NitroSQLiteException& e) {
             sqliteExecuteLiteral(dbName, "ROLLBACK");
             sqFile.close();
-            throw QuickSQLiteException::CouldNotLoadFile(fileLocation, "Transaction was rolled back");
+            throw NitroSQLiteException::CouldNotLoadFile(fileLocation, "Transaction was rolled back");
           }
         }
       }
@@ -38,11 +38,11 @@ SQLiteOperationResult importSqlFile(const std::string& dbName, const std::string
     } catch (...) {
       sqFile.close();
       sqliteExecuteLiteral(dbName, "ROLLBACK");
-      throw QuickSQLiteException(QuickSQLiteExceptionType::UnknownError, "Unexpected error. Transaction was rolled back");
+      throw NitroSQLiteException(NitroSQLiteExceptionType::UnknownError, "Unexpected error. Transaction was rolled back");
     }
   } else {
-    throw QuickSQLiteException::CouldNotLoadFile(fileLocation);
+    throw NitroSQLiteException::CouldNotLoadFile(fileLocation);
   }
 }
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

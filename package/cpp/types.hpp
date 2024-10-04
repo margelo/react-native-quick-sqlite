@@ -6,9 +6,9 @@
 #include <string>
 
 using namespace margelo::nitro;
-using namespace margelo::nitro::rnquicksqlite;
+using namespace margelo::nitro::rnnitrosqlite;
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 // using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>, std::monostate>;
 using SQLiteValue = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
@@ -48,4 +48,4 @@ constexpr ColumnType mapSQLiteTypeToColumnType(std::string type) {
   }
 }
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

@@ -4,9 +4,9 @@
 #include "sqliteExecuteBatch.hpp"
 #include "operations.hpp"
 #include <utility>
-#include "QuickSQLiteException.hpp"
+#include "NitroSQLiteException.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryCommand>& batchParams) {
   auto commands = std::vector<BatchQuery>();
@@ -35,7 +35,7 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
 SQLiteOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands) {
   size_t commandCount = commands.size();
   if (commandCount <= 0) {
-    throw QuickSQLiteException(QuickSQLiteExceptionType::NoBatchCommandsProvided, "No SQL batch commands provided");
+    throw NitroSQLiteException(NitroSQLiteExceptionType::NoBatchCommandsProvided, "No SQL batch commands provided");
   }
 
   try {
@@ -50,21 +50,21 @@ SQLiteOperationResult sqliteExecuteBatch(const std::string& dbName, const std::v
       try {
         auto result = sqliteExecute(dbName, command.sql, *command.params.get());
         rowsAffected += result.rowsAffected;
-      } catch (QuickSQLiteException& e) {
+      } catch (NitroSQLiteException& e) {
         sqliteExecuteLiteral(dbName, "ROLLBACK");
         throw e;
       }
     }
-    
+
     sqliteExecuteLiteral(dbName, "COMMIT");
     return {
         .rowsAffected = rowsAffected,
         .commands = (int)commandCount,
     };
-  } catch (QuickSQLiteException& e) {
+  } catch (NitroSQLiteException& e) {
     sqliteExecuteLiteral(dbName, "ROLLBACK");
     throw e;
   }
 }
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

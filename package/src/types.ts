@@ -1,9 +1,9 @@
-export interface QuickSQLiteConnectionOptions {
+export interface NitroSQLiteConnectionOptions {
   name: string
   location?: string
 }
 
-export interface QuickSQLiteConnection {
+export interface NitroSQLiteConnection {
   close(): void
   delete(): void
   attach(dbNameToAttach: string, alias: string, location?: string): void

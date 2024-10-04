@@ -9,7 +9,7 @@
 using namespace facebook;
 using namespace margelo::nitro;
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 struct BatchQuery {
   std::string sql;
@@ -27,4 +27,4 @@ std::vector<BatchQuery> batchParamsToCommands(const std::vector<BatchQueryComman
  */
 SQLiteOperationResult sqliteExecuteBatch(const std::string& dbName, const std::vector<BatchQuery>& commands);
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

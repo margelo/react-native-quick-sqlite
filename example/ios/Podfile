@@ -16,7 +16,7 @@ linkage = ENV['USE_FRAMEWORKS']
 	  use_frameworks! :linkage => linkage.to_sym
 	end
 
-target 'QuickSQLiteExample' do
+target 'NitroSQLiteExample' do
   config = use_native_modules!
 
   use_react_native!(
@@ -25,9 +25,9 @@ target 'QuickSQLiteExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  # pod 'RNQuickSQLite', :path => '../../package'
+  # pod 'RNNitroSQLite', :path => '../../package'
 
-  target 'QuickSQLiteExampleTests' do
+  target 'NitroSQLiteExampleTests' do
     inherit! :complete
     # Pods for testing
   end

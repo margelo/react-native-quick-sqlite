@@ -7,7 +7,7 @@
 
 #include "HybridNativeQueryResultSpec.hpp"
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   void HybridNativeQueryResultSpec::loadHybridMethods() {
     // load base methods/properties
@@ -21,4 +21,4 @@ namespace margelo::nitro::rnquicksqlite {
     });
   }
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite

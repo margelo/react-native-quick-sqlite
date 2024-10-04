@@ -1,6 +1,6 @@
 //
 //  ThreadPool.hpp
-//  react-native-quick-sqlite
+//  react-native-nitro-sqlite
 //
 //  Created by Oscar on 13.03.22.
 //
@@ -15,7 +15,7 @@
 #include <thread>
 #include <vector>
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 class ThreadPool {
 public:
@@ -47,4 +47,4 @@ private:
   void doWork();
 };
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

@@ -4,9 +4,9 @@
 #include "types.hpp"
 #include <map>
 
-using namespace margelo::rnquicksqlite;
+using namespace margelo::rnnitrosqlite;
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
 class HybridNativeQueryResult : public HybridNativeQueryResultSpec {
 public:
@@ -32,4 +32,4 @@ public:
   std::optional<SQLiteQueryTableMetadata> getMetadata() override;
 };
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite

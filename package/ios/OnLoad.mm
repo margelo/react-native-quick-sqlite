@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "RNQuickSQLite-Swift-Cxx-Umbrella.hpp"
-#import "HybridQuickSQLite.hpp"
+#import "RNNitroSQLite-Swift-Cxx-Umbrella.hpp"
+#import "HybridNitroSQLite.hpp"
 
 @interface OnLoad : NSObject
 @end
@@ -8,11 +8,11 @@
 @implementation OnLoad
 
 using namespace margelo::nitro;
-using namespace margelo::nitro::rnquicksqlite;
+using namespace margelo::nitro::rnnitrosqlite;
 
 + (void)load {
   // Get appGroupID value from Info.plist using key "AppGroup"
-  NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RNQuickSQLite_AppGroup"];
+  NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RNNitroSQLite_AppGroup"];
   NSString *documentPath;
 
   if (appGroupID != nil) {
@@ -35,7 +35,7 @@ using namespace margelo::nitro::rnquicksqlite;
     documentPath = [paths objectAtIndex:0];
   }
 
-  HybridQuickSQLite::docPath = [documentPath UTF8String];
+  HybridNitroSQLite::docPath = [documentPath UTF8String];
 }
 
 @end

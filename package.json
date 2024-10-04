@@ -1,5 +1,5 @@
 {
-  "name": "react-native-quick-sqlite-workspace",
+  "name": "react-native-nitro-sqlite-workspace",
   "packageManager": "bun@1.1.21",
   "private": "true",
   "version": "8.1.0",
@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/margelo/react-native-quick-sqlite.git"
+    "url": "git+https://github.com/margelo/react-native-nitro-sqlite.git"
   },
   "scripts": {
     "package": "bun --cwd package",
@@ -24,9 +24,9 @@
   "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/margelo/react-native-quick-sqlite/issues"
+    "url": "https://github.com/margelo/react-native-nitro-sqlite/issues"
   },
-  "homepage": "https://github.com/margelo/react-native-quick-sqlite#readme",
+  "homepage": "https://github.com/margelo/react-native-nitro-sqlite#readme",
   "devDependencies": {
     "@eslint/js": "^9.10.0",
     "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",

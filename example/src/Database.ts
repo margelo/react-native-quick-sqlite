@@ -1,6 +1,6 @@
 import {DataSource} from 'typeorm';
-import type {QueryResult} from 'react-native-quick-sqlite';
-import {typeORMDriver} from 'react-native-quick-sqlite';
+import type {QueryResult} from 'react-native-nitro-sqlite';
+import {typeORMDriver} from 'react-native-nitro-sqlite';
 import {Book} from './model/Book';
 import {User} from './model/User';
 let datasource: DataSource;

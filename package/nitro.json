@@ -1,19 +1,19 @@
 {
   "cxxNamespace": [
-    "rnquicksqlite"
+    "rnnitrosqlite"
   ],
   "ios": {
-    "iosModulename": "RNQuickSQLite"
+    "iosModulename": "RNNitroSQLite"
   },
   "android": {
     "androidNamespace": [
-      "rnquicksqlite"
+      "rnnitrosqlite"
     ],
-    "androidCxxLibName": "RNQuickSQLite"
+    "androidCxxLibName": "RNNitroSQLite"
   },
   "autolinking": {
-    "QuickSQLite": {
-      "cpp": "HybridQuickSQLite"
+    "NitroSQLite": {
+      "cpp": "HybridNitroSQLite"
     }
   },
   "ignorePaths": [

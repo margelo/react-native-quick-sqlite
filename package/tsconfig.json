@@ -3,7 +3,7 @@
   "include": ["src"],
   "compilerOptions": {
     "paths": {
-      "react-native-quick-sqlite": ["./src/index"]
+      "react-native-nitro-sqlite": ["./src/index"]
     },
     "rootDir": "src"
   }

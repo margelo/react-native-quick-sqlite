@@ -1,13 +1,13 @@
 //
 //  ThreadPool.cpp
-//  react-native-quick-sqlite
+//  react-native-nitro-sqlite
 //
 //  Created by Oscar on 13.03.22.
 //
 
 #include "ThreadPool.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 ThreadPool::ThreadPool() : done(false) {
   // This returns the number of threads supported by the system. If the
@@ -88,4 +88,4 @@ void ThreadPool::waitFinished() {
   workQueueConditionVariable.wait(g, [&] { return workQueue.empty() && (busy == 0); });
 }
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

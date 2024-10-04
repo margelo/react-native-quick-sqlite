@@ -1,7 +1,7 @@
 import type {Repository} from 'typeorm';
 import {DataSource} from 'typeorm';
 import {beforeAll, beforeEach, it, describe} from './MochaRNAdapter';
-import {typeORMDriver} from 'react-native-quick-sqlite';
+import {typeORMDriver} from 'react-native-nitro-sqlite';
 import {User} from '../model/User';
 import {Book} from '../model/Book';
 import chai from 'chai';

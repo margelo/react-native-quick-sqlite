@@ -1,9 +1,9 @@
-import { locks, HybridQuickSQLite } from './nitro'
+import { locks, HybridNitroSQLite } from './nitro'
 import type { NativeQueryResult } from './specs/NativeQueryResult.nitro'
 import type { QueryResult, SQLiteItem, SQLiteQueryParams } from './types'
 
 export function open(dbName: string, location?: string) {
-  HybridQuickSQLite.open(dbName, location)
+  HybridNitroSQLite.open(dbName, location)
 
   locks[dbName] = {
     queue: [],
@@ -12,7 +12,7 @@ export function open(dbName: string, location?: string) {
 }
 
 export function close(dbName: string) {
-  HybridQuickSQLite.close(dbName)
+  HybridNitroSQLite.close(dbName)
   delete locks[dbName]
 }
 
@@ -21,7 +21,7 @@ export function execute<Data extends SQLiteItem = never>(
   query: string,
   params?: SQLiteQueryParams
 ): QueryResult<Data> {
-  const nativeResult = HybridQuickSQLite.execute(dbName, query, params)
+  const nativeResult = HybridNitroSQLite.execute(dbName, query, params)
   const result = buildJsQueryResult<Data>(nativeResult)
   return result
 }
@@ -31,7 +31,7 @@ export async function executeAsync<Data extends SQLiteItem = never>(
   query: string,
   params?: SQLiteQueryParams
 ): Promise<QueryResult<Data>> {
-  const nativeResult = await HybridQuickSQLite.executeAsync(
+  const nativeResult = await HybridNitroSQLite.executeAsync(
     dbName,
     query,
     params

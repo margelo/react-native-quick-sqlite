@@ -1,5 +1,5 @@
 {
-  "name": "react-native-quick-sqlite",
+  "name": "react-native-nitro-sqlite",
   "version": "8.1.0",
   "description": "Fast SQLite for react-native",
   "main": "lib/commonjs/index",
@@ -10,10 +10,11 @@
   "files": [
     "src",
     "lib",
+    "nitrogen",
     "android",
     "ios",
     "cpp",
-    "react-native-quick-sqlite.podspec",
+    "RNNitroSQLite.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!android/.cxx",
@@ -25,9 +26,9 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "prepare": "bob build",
+    "prepare": "rm -rf lib && bob build",
     "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
-    "specs": "bun run --filter=\"**\" typescript && bun nitro-codegen --logLevel=\"debug\"",
+    "specs": "bun typescript && bun nitro-codegen --logLevel=\"debug\"",
     "bump": "./bump-version.sh"
   },
   "keywords": [
@@ -37,14 +38,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/margelo/react-native-quick-sqlite.git"
+    "url": "git+https://github.com/margelo/react-native-nitro-sqlite.git"
   },
   "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/margelo/react-native-quick-sqlite/issues"
+    "url": "https://github.com/margelo/react-native-nitro-sqlite/issues"
   },
-  "homepage": "https://github.com/margelo/react-native-quick-sqlite#readme",
+  "homepage": "https://github.com/margelo/react-native-nitro-sqlite#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -65,11 +66,11 @@
     "react-native-nitro-modules": "*"
   },
   "codegenConfig": {
-    "name": "QuickSQLite",
+    "name": "RNNitroSQLite",
     "type": "modules",
     "jsSrcsDir": "src",
     "android": {
-      "javaPackageName": "com.margelo.rnquicksqlite"
+      "javaPackageName": "com.margelo.rnnitrosqlite"
     }
   },
   "react-native-builder-bob": {

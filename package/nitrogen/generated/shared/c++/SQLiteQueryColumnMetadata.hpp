@@ -19,12 +19,12 @@
 #endif
 
 // Forward declaration of `ColumnType` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { enum class ColumnType; }
+namespace margelo::nitro::rnnitrosqlite { enum class ColumnType; }
 
 #include <string>
 #include "ColumnType.hpp"
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   /**
    * A struct which can be represented as a JavaScript object (SQLiteQueryColumnMetadata).
@@ -39,11 +39,11 @@ namespace margelo::nitro::rnquicksqlite {
     explicit SQLiteQueryColumnMetadata(std::string name, ColumnType type, double index): name(name), type(type), index(index) {}
   };
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rnquicksqlite;
+  using namespace margelo::nitro::rnnitrosqlite;
 
   // C++ SQLiteQueryColumnMetadata <> JS SQLiteQueryColumnMetadata (object)
   template <>

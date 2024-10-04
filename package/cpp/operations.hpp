@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-namespace margelo::rnquicksqlite {
+namespace margelo::rnnitrosqlite {
 
 void sqliteOpenDb(const std::string& dbName, const std::string& docPath);
 
@@ -21,4 +21,4 @@ SQLiteOperationResult sqliteExecuteLiteral(const std::string& dbName, const std:
 
 void sqliteCloseAll();
 
-} // namespace margelo::rnquicksqlite
+} // namespace margelo::rnnitrosqlite

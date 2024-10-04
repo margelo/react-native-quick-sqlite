@@ -19,7 +19,7 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   /**
    * An enum which can be represented as a JavaScript enum (ColumnType).
@@ -33,11 +33,11 @@ namespace margelo::nitro::rnquicksqlite {
     NULL_VALUE      SWIFT_NAME(nullValue) = 5,
   } CLOSED_ENUM;
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rnquicksqlite;
+  using namespace margelo::nitro::rnnitrosqlite;
 
   // C++ ColumnType <> JS ColumnType (enum)
   template <>

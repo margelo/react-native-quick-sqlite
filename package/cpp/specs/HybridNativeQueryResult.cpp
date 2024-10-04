@@ -1,6 +1,6 @@
 #include "HybridNativeQueryResult.hpp"
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
 std::optional<double> HybridNativeQueryResult::getInsertId() {
   return this->_insertId;
@@ -17,4 +17,4 @@ std::optional<SQLiteQueryTableMetadata> HybridNativeQueryResult::getMetadata() {
   return this->_metadata;
 }
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite

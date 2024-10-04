@@ -18,26 +18,26 @@ def isNewArchitectureEnabled() {
   return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
 }
 
-def SQLITE_FLAGS = rootProject.properties['quickSqliteFlags']
+def SQLITE_FLAGS = rootProject.properties['nitroSqliteFlags']
 
 apply plugin: "com.android.library"
 apply plugin: 'org.jetbrains.kotlin.android'
-apply from: '../nitrogen/generated/android/RNQuickSQLite+autolinking.gradle'
+apply from: '../nitrogen/generated/android/RNNitroSQLite+autolinking.gradle'
 
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["RNQuickSQLite_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["RNNitroSQLite_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["RNQuickSQLite_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["RNNitroSQLite_" + name]).toInteger()
 }
 
 android {
-  namespace "com.margelo.rnquicksqlite"
+  namespace "com.margelo.rnnitrosqlite"
 
   ndkVersion getExtOrDefault("ndkVersion")
   compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
@@ -113,7 +113,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "RNQuickSQLite"
-    codegenJavaPackageName = "com.margelo.rnquicksqlite"
+    libraryName = "RNNitroSQLite"
+    codegenJavaPackageName = "com.margelo.rnnitrosqlite"
   }
 }

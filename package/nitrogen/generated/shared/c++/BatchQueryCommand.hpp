@@ -27,7 +27,7 @@ namespace NitroModules { class ArrayBuffer; }
 #include <vector>
 #include <NitroModules/ArrayBuffer.hpp>
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   /**
    * A struct which can be represented as a JavaScript object (BatchQueryCommand).
@@ -41,11 +41,11 @@ namespace margelo::nitro::rnquicksqlite {
     explicit BatchQueryCommand(std::string query, std::optional<std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>> params): query(query), params(params) {}
   };
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rnquicksqlite;
+  using namespace margelo::nitro::rnnitrosqlite;
 
   // C++ BatchQueryCommand <> JS BatchQueryCommand (object)
   template <>

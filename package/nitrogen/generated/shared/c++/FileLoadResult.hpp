@@ -22,7 +22,7 @@
 
 #include <optional>
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   /**
    * A struct which can be represented as a JavaScript object (FileLoadResult).
@@ -36,11 +36,11 @@ namespace margelo::nitro::rnquicksqlite {
     explicit FileLoadResult(std::optional<double> commands, std::optional<double> rowsAffected): commands(commands), rowsAffected(rowsAffected) {}
   };
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rnquicksqlite;
+  using namespace margelo::nitro::rnnitrosqlite;
 
   // C++ FileLoadResult <> JS FileLoadResult (object)
   template <>

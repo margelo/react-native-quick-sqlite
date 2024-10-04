@@ -16,7 +16,7 @@
 // Forward declaration of `ArrayBuffer` to properly resolve imports.
 namespace NitroModules { class ArrayBuffer; }
 // Forward declaration of `SQLiteQueryColumnMetadata` to properly resolve imports.
-namespace margelo::nitro::rnquicksqlite { struct SQLiteQueryColumnMetadata; }
+namespace margelo::nitro::rnnitrosqlite { struct SQLiteQueryColumnMetadata; }
 
 #include <optional>
 #include <vector>
@@ -26,7 +26,7 @@ namespace margelo::nitro::rnquicksqlite { struct SQLiteQueryColumnMetadata; }
 #include <NitroModules/ArrayBuffer.hpp>
 #include "SQLiteQueryColumnMetadata.hpp"
 
-namespace margelo::nitro::rnquicksqlite {
+namespace margelo::nitro::rnnitrosqlite {
 
   using namespace margelo::nitro;
 
@@ -68,4 +68,4 @@ namespace margelo::nitro::rnquicksqlite {
       static constexpr auto TAG = "NativeQueryResult";
   };
 
-} // namespace margelo::nitro::rnquicksqlite
+} // namespace margelo::nitro::rnnitrosqlite
