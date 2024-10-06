@@ -82,6 +82,14 @@
             }
           ]
         }
+      },
+      "@release-it/bumper": {
+        "out": {
+          "file": "package.json",
+          "path": [
+            "package"
+          ]
+        }
       }
     }
   },
