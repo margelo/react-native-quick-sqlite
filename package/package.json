@@ -14,7 +14,6 @@
     "ios",
     "cpp",
     "react-native-quick-sqlite.podspec",
-    "!lib/typescript/example",
     "!android/build",
     "!android/.cxx",
     "!ios/build",
@@ -26,7 +25,6 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "prepare": "bun typescript && bob build",
-    "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
     "release": "bun prepare && release-it"
   },
   "keywords": [
@@ -83,15 +81,6 @@
     "github": {
       "release": false
     },
-    "plugins": {
-      "@release-it/bumper": {
-        "in": {
-          "file": "package.json",
-          "path": [
-            ".."
-          ]
-        }
-      }
-    }
+    "plugins": {}
   }
 }
