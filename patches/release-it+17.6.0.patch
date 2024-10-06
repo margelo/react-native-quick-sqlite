@@ -1,3 +1,37 @@
+diff --git a/node_modules/release-it/config/release-it.json b/node_modules/release-it/config/release-it.json
+index 729cc6e..e1f1315 100644
+--- a/node_modules/release-it/config/release-it.json
++++ b/node_modules/release-it/config/release-it.json
+@@ -20,7 +20,9 @@
+     "tagAnnotation": "Release ${version}",
+     "tagArgs": [],
+     "push": true,
+-    "pushArgs": ["--follow-tags"],
++    "pushArgs": [
++      "--follow-tags"
++    ],
+     "pushRepo": ""
+   },
+   "npm": {
+@@ -35,6 +37,18 @@
+     "skipChecks": false,
+     "timeout": 10
+   },
++  "bun": {
++    "publish": false,
++    "publishPath": ".",
++    "publishArgs": [],
++    "tag": null,
++    "otp": null,
++    "ignoreVersion": false,
++    "allowSameVersion": false,
++    "versionArgs": [],
++    "skipChecks": false,
++    "timeout": 10
++  },
+   "github": {
+     "release": false,
+     "releaseName": "Release ${version}",
 diff --git a/node_modules/release-it/lib/config.js b/node_modules/release-it/lib/config.js
 index 025dc40..f9e4a7a 100644
 --- a/node_modules/release-it/lib/config.js
@@ -317,7 +351,7 @@ index 0000000..0454f34
 +};
 diff --git a/node_modules/release-it/schema/bun.json b/node_modules/release-it/schema/bun.json
 new file mode 100644
-index 0000000..efba5bb
+index 0000000..afe8233
 --- /dev/null
 +++ b/node_modules/release-it/schema/bun.json
 @@ -0,0 +1,57 @@
@@ -330,7 +364,7 @@ index 0000000..efba5bb
 +  "properties": {
 +    "publish": {
 +      "type": "boolean",
-+      "default": true
++      "default": false
 +    },
 +    "publishPath": {
 +      "type": "string",
@@ -826,7 +860,7 @@ index 0000000..927f6d9
 +  t.regex(version[0][0], / --workspaces-update=false --allow-same-version/);
 +});
 diff --git a/node_modules/release-it/types/config.d.ts b/node_modules/release-it/types/config.d.ts
-index 2034157..2d22996 100644
+index 2034157..2b792af 100644
 --- a/node_modules/release-it/types/config.d.ts
 +++ b/node_modules/release-it/types/config.d.ts
 @@ -98,6 +98,36 @@ export interface Config {
