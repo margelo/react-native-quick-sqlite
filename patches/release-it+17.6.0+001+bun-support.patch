@@ -1,3 +1,41 @@
+diff --git a/node_modules/release-it/README.md b/node_modules/release-it/README.md
+index 825b923..09e0041 100644
+--- a/node_modules/release-it/README.md
++++ b/node_modules/release-it/README.md
+@@ -60,10 +60,11 @@ npx release-it
+ 
+ You will be prompted to select the new version, and more prompts will follow based on your configuration.
+ 
+-## Yarn & pnpm
++## Yarn, Bun & pnpm
+ 
+ - Using Yarn? Please see the [npm section on Yarn][15].
+-- Using pnpm? Please see [release-it-pnpm][16].
++- Using pnpm? Please see [release-it-bun][16].
++- Using pnpm? Please see [release-it-pnpm][17].
+ 
+ ## Monorepos
+ 
+@@ -305,7 +306,8 @@ Since v11, release-it can be extended in many, many ways. Here are some plugins:
+ | [@grupoboticario/news-fragments][45]      | An easy way to generate your changelog file                                                 |
+ | [@j-ulrich/release-it-regex-bumper][46]   | Regular expression based version read/write plugin for release-it                           |
+ | [@jcamp-code/release-it-dotnet][47]       | Use .csproj or .props file for versioning, automate NuGet publishing                        |
+-| [release-it-pnpm][16]                     | Add basic support for pnpm workspaces, integrates with [bumpp][48] and [changelogithub][49] |
++| [release-it-bun][16]                     | Add basic support for Bun workspaces, integrates with [bumpp][48] and [changelogithub][49] |
++| [release-it-pnpm][17]                     | Add basic support for pnpm workspaces, integrates with [bumpp][48] and [changelogithub][49] |
+ | [changesets-release-it-plugin][50]        | Combine [Changesets][51] changelog management with release-it                               |
+ 
+ Internally, release-it uses its own plugin architecture (for Git, GitHub, GitLab, npm).
+@@ -374,7 +376,8 @@ Are you using release-it at work? Please consider [sponsoring me][14]!
+ [13]: https://badge.fury.io/js/release-it.svg
+ [14]: https://github.com/sponsors/webpro
+ [15]: ./docs/npm.md#yarn
+-[16]: https://github.com/hyoban/release-it-pnpm
++[16]: https://github.com/hyoban/release-it-bun
++[17]: https://github.com/hyoban/release-it-pnpm
+ [17]: ./docs/recipes/monorepo.md
+ [18]: https://github.com/juancarlosjr97/release-it-containerized
+ [19]: https://github.com/juancarlosjr97
 diff --git a/node_modules/release-it/config/release-it.json b/node_modules/release-it/config/release-it.json
 index 729cc6e..e1f1315 100644
 --- a/node_modules/release-it/config/release-it.json
@@ -349,6 +387,32 @@ index 0000000..0454f34
 +    message: () => `Please enter OTP for bun:`
 +  }
 +};
+diff --git a/node_modules/release-it/lib/plugin/factory.js b/node_modules/release-it/lib/plugin/factory.js
+index 53ea22e..b893d87 100644
+--- a/node_modules/release-it/lib/plugin/factory.js
++++ b/node_modules/release-it/lib/plugin/factory.js
+@@ -8,17 +8,19 @@ import Git from './git/Git.js';
+ import GitLab from './gitlab/GitLab.js';
+ import GitHub from './github/GitHub.js';
+ import npm from './npm/npm.js';
++import bun from './bun/bun.js';
+ 
+ const debug = util.debug('release-it:plugins');
+ 
+-const pluginNames = ['npm', 'git', 'github', 'gitlab', 'version'];
++const pluginNames = ['npm', 'bun', 'git', 'github', 'gitlab', 'version'];
+ 
+ const plugins = {
+   version: Version,
+   git: Git,
+   gitlab: GitLab,
+   github: GitHub,
+-  npm: npm
++  npm: npm,
++  bun: bun
+ };
+ 
+ const load = async pluginName => {
 diff --git a/node_modules/release-it/schema/bun.json b/node_modules/release-it/schema/bun.json
 new file mode 100644
 index 0000000..afe8233
@@ -860,7 +924,7 @@ index 0000000..927f6d9
 +  t.regex(version[0][0], / --workspaces-update=false --allow-same-version/);
 +});
 diff --git a/node_modules/release-it/types/config.d.ts b/node_modules/release-it/types/config.d.ts
-index 2034157..2b792af 100644
+index 2034157..9250153 100644
 --- a/node_modules/release-it/types/config.d.ts
 +++ b/node_modules/release-it/types/config.d.ts
 @@ -98,6 +98,36 @@ export interface Config {
@@ -868,7 +932,7 @@ index 2034157..2b792af 100644
    };
  
 +  bun?: {
-+    /** @default true */
++    /** @default false */
 +    publish?: boolean;
 +
 +    /** @default "." */
