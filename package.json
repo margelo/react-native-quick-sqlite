@@ -14,6 +14,7 @@
   "scripts": {
     "package": "bun --cwd package",
     "example": "bun --cwd example",
+    "postinstall": "patch-package",
     "format-cpp": "./scripts/clang-format.sh",
     "typescript": "bun --filter=\"**\" typescript",
     "lint": "bun --filter=\"**\" lint",
@@ -83,5 +84,8 @@
         }
       }
     }
+  },
+  "dependencies": {
+    "patch-package": "^8.0.0"
   }
 }
