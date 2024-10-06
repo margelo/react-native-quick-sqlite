@@ -32,7 +32,7 @@
     "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
     "@react-native/eslint-config": "0.75.2",
     "@release-it/bumper": "^6.0.1",
-    "@release-it/conventional-changelog": "^8.0.1",
+    "@release-it/conventional-changelog": "^8.0.2",
     "@tsconfig/react-native": "^2.0.2",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.13",
@@ -54,6 +54,34 @@
     "github": {
       "release": true
     },
-    "plugins": {}
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": {
+          "name": "conventionalcommits",
+          "types": [
+            {
+              "type": "feat",
+              "section": "✨ Features"
+            },
+            {
+              "type": "perf",
+              "section": "💨 Performance Improvements"
+            },
+            {
+              "type": "fix",
+              "section": "🐛 Bug Fixes"
+            },
+            {
+              "type": "chore(deps)",
+              "section": "🛠️ Dependency Upgrades"
+            },
+            {
+              "type": "docs",
+              "section": "📚 Documentation"
+            }
+          ]
+        }
+      }
+    }
   }
 }

@@ -25,9 +25,9 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "prepare": "bob build",
+    "prepare": "bun typescript && bob build",
     "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
-    "bump": "./bump-version.sh"
+    "release": "bun prepare && release-it"
   },
   "keywords": [
     "react-native",
@@ -74,5 +74,24 @@
         }
       ]
     ]
+  },
+  "release-it": {
+    "npm": {
+      "publish": true
+    },
+    "git": false,
+    "github": {
+      "release": false
+    },
+    "plugins": {
+      "@release-it/bumper": {
+        "in": {
+          "file": "package.json",
+          "path": [
+            ".."
+          ]
+        }
+      }
+    }
   }
 }
