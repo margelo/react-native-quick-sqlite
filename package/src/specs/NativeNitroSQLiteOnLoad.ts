@@ -1,7 +1,7 @@
-import type { Spec as AndroidOnLoadTurboModuleSpec } from './NativeNitroSQLiteOnLoad.android.ts'
+import { TurboModuleRegistry, type TurboModule } from 'react-native'
 
-export const noop: AndroidOnLoadTurboModuleSpec = {
-  onReactApplicationContextReady: () => undefined,
+export interface Spec extends TurboModule {
+  onReactApplicationContextReady(callback: () => void): void
 }
 
-export default noop
+export default TurboModuleRegistry.getEnforcing<Spec>('RNNitroSQLiteOnLoad')
