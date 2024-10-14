@@ -24,7 +24,7 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "prepare": "bun typescript && bob build",
+    "prepare": "rm -rf lib && bun typescript && bob build",
     "release": "bun prepare && release-it"
   },
   "keywords": [
