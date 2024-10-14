@@ -13,6 +13,7 @@
     "android",
     "ios",
     "cpp",
+    "nitrogen",
     "RNQuickSQLite.podspec",
     "!android/build",
     "!android/.cxx",
