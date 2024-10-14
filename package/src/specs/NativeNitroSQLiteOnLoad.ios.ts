@@ -1,4 +1,4 @@
-import type { Spec as AndroidOnLoadTurboModuleSpec } from './NativeNitroSQLiteOnLoad.js'
+import type { Spec as AndroidOnLoadTurboModuleSpec } from './NativeNitroSQLiteOnLoad'
 
 export const noop: AndroidOnLoadTurboModuleSpec = {
   onReactApplicationContextReady: () => undefined,
