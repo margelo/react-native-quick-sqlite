@@ -33,9 +33,12 @@ namespace margelo::nitro::rnnitrosqlite {
   /**
    * An abstract base class for `NativeQueryResult`
    * Inherit this class to create instances of `HybridNativeQueryResultSpec` in C++.
+   * You must explicitly call `HybridObject`'s constructor yourself, because it is virtual.
    * @example
    * ```cpp
    * class HybridNativeQueryResult: public HybridNativeQueryResultSpec {
+   * public:
+   *   HybridNativeQueryResult(...): HybridObject(TAG) { ... }
    *   // ...
    * };
    * ```

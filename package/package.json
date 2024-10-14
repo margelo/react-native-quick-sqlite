@@ -1,6 +1,6 @@
 {
   "name": "react-native-nitro-sqlite",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "description": "Fast SQLite for react-native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -14,6 +14,7 @@
     "android",
     "ios",
     "cpp",
+    "nitrogen",
     "RNNitroSQLite.podspec",
     "!lib/typescript/example",
     "!android/build",
@@ -26,10 +27,10 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "prepare": "rm -rf lib && bob build",
+    "prepare": "rm -rf lib && bun typescript && bob build",
     "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
     "specs": "bun typescript && bun nitro-codegen --logLevel=\"debug\"",
-    "bump": "./bump-version.sh"
+    "release": "bun prepare && release-it"
   },
   "keywords": [
     "react-native",
@@ -55,7 +56,7 @@
   "devDependencies": {
     "@react-native/typescript-config": "0.75.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
-    "nitro-codegen": "^0.10.0",
+    "nitro-codegen": "^0.11.0",
     "react": "18.3.1",
     "react-native": "0.75.2",
     "react-native-builder-bob": "^0.18.2"
@@ -86,5 +87,15 @@
         }
       ]
     ]
+  },
+  "release-it": {
+    "npm": {
+      "publish": true
+    },
+    "git": false,
+    "github": {
+      "release": false
+    },
+    "plugins": {}
   }
 }

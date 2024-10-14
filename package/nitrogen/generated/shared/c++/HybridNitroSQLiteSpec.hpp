@@ -43,9 +43,12 @@ namespace margelo::nitro::rnnitrosqlite {
   /**
    * An abstract base class for `NitroSQLite`
    * Inherit this class to create instances of `HybridNitroSQLiteSpec` in C++.
+   * You must explicitly call `HybridObject`'s constructor yourself, because it is virtual.
    * @example
    * ```cpp
    * class HybridNitroSQLite: public HybridNitroSQLiteSpec {
+   * public:
+   *   HybridNitroSQLite(...): HybridObject(TAG) { ... }
    *   // ...
    * };
    * ```
