@@ -95,38 +95,49 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>`.
+   * Wrapper struct for `std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>`.
+   * std::variant cannot be used in Swift because of a Swift bug.
+   * Not even specializing it works. So we create a wrapper struct.
    */
-  using std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ = std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>;
-  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const std::string& value) {
-    return value;
+  struct std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ {
+    std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> variant;
+    std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> variant): variant(variant) { }
+    operator std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>() const {
+      return variant;
+    }
+    inline size_t index() const {
+      return variant.index();
+    }
+  };
+  inline std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const std::string& value) {
+    return std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(value);
   }
-  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(double value) {
-    return value;
+  inline std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(double value) {
+    return std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(value);
   }
-  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(int64_t value) {
-    return value;
+  inline std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(int64_t value) {
+    return std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(value);
   }
-  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(bool value) {
-    return value;
+  inline std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(bool value) {
+    return std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(value);
   }
-  inline std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>> create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const std::shared_ptr<ArrayBuffer>& value) {
-    return value;
+  inline std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__ create_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(const std::shared_ptr<ArrayBuffer>& value) {
+    return std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__(value);
   }
-  inline std::string get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___0(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
-    return std::get<0>(variant);
+  inline std::string get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___0(const std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& variantWrapper) {
+    return std::get<0>(variantWrapper.variant);
   }
-  inline double get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___1(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
-    return std::get<1>(variant);
+  inline double get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___1(const std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& variantWrapper) {
+    return std::get<1>(variantWrapper.variant);
   }
-  inline int64_t get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___2(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
-    return std::get<2>(variant);
+  inline int64_t get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___2(const std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& variantWrapper) {
+    return std::get<2>(variantWrapper.variant);
   }
-  inline bool get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___3(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
-    return std::get<3>(variant);
+  inline bool get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___3(const std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& variantWrapper) {
+    return std::get<3>(variantWrapper.variant);
   }
-  inline std::shared_ptr<ArrayBuffer> get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___4(const std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>& variant) {
-    return std::get<4>(variant);
+  inline std::shared_ptr<ArrayBuffer> get_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer___4(const std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer__& variantWrapper) {
+    return std::get<4>(variantWrapper.variant);
   }
   
   /**
@@ -228,20 +239,31 @@ namespace margelo::nitro::rnquicksqlite::bridge::swift {
   }
   
   /**
-   * Specialized version of `std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>`.
+   * Wrapper struct for `std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>`.
+   * std::variant cannot be used in Swift because of a Swift bug.
+   * Not even specializing it works. So we create a wrapper struct.
    */
-  using std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____ = std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>;
-  inline std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>> create_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& value) {
-    return value;
+  struct std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____ {
+    std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>> variant;
+    std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>> variant): variant(variant) { }
+    operator std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>() const {
+      return variant;
+    }
+    inline size_t index() const {
+      return variant.index();
+    }
+  };
+  inline std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____ create_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(const std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>& value) {
+    return std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(value);
   }
-  inline std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>> create_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(const std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& value) {
-    return value;
+  inline std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____ create_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(const std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>& value) {
+    return std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____(value);
   }
-  inline std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> get_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer______0(const std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>& variant) {
-    return std::get<0>(variant);
+  inline std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>> get_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer______0(const std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____& variantWrapper) {
+    return std::get<0>(variantWrapper.variant);
   }
-  inline std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> get_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer______1(const std::variant<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>, std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>>>& variant) {
-    return std::get<1>(variant);
+  inline std::vector<std::vector<std::variant<std::string, double, int64_t, bool, std::shared_ptr<ArrayBuffer>>>> get_std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer______1(const std__variant_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____std__vector_std__vector_std__variant_std__string__double__int64_t__bool__std__shared_ptr_ArrayBuffer_____& variantWrapper) {
+    return std::get<1>(variantWrapper.variant);
   }
   
   /**
