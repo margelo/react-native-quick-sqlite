@@ -9,7 +9,7 @@ using namespace facebook;
 
 @implementation RNQuickSQLiteInit
 
-RCT_EXPORT_MODULE()
+@synthesize bridge = _bridge;
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
@@ -20,8 +20,7 @@ RCT_EXPORT_MODULE()
 - (NSNumber *) install {
   NSLog(@"Installing QuickSQLite module...");
 
-  RCTBridge *bridge = [RCTBridge currentBridge];
-  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)bridge;
+  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
   if (cxxBridge == nil) {
     return @false;
   }
@@ -31,7 +30,7 @@ RCT_EXPORT_MODULE()
     return @false;
   }
   auto &runtime = *jsiRuntime;
-  auto callInvoker = bridge.jsCallInvoker;
+  auto callInvoker = cxxBridge.jsCallInvoker;
 
   // Get appGroupID value from Info.plist using key "AppGroup"
   NSString *appGroupID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ReactNativeQuickSQLite_AppGroup"];

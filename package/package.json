@@ -1,6 +1,6 @@
 {
   "name": "react-native-quick-sqlite",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "description": "Fast SQLite for react-native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -25,9 +25,8 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "prepare": "bob build",
-    "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
-    "bump": "./bump-version.sh"
+    "prepare": "rm -rf lib && bun typescript && bob build",
+    "release": "bun prepare && release-it"
   },
   "keywords": [
     "react-native",
@@ -82,5 +81,15 @@
         }
       ]
     ]
+  },
+  "release-it": {
+    "npm": {
+      "publish": true
+    },
+    "git": false,
+    "github": {
+      "release": false
+    },
+    "plugins": {}
   }
 }
