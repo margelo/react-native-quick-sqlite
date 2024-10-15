@@ -7,13 +7,11 @@
 
 using namespace facebook;
 
-#ifdef RCT_NEW_ARCH_ENABLED
 @implementation RNQuickSQLite
 
+#ifdef RCT_NEW_ARCH_ENABLED
 RCT_EXPORT_MODULE()
 #else
-@implementation RNQuickSQLite
-
 RCT_EXPORT_MODULE(RNQuickSQLite)
 #endif
 
