@@ -1,28 +1,39 @@
-#import "QuickSQLite.h"
-
-#import <React/RCTBridge+Private.h>
-
 #import <React/RCTUtils.h>
+#import <React/RCTBridge+Private.h>
 #import <ReactCommon/RCTTurboModule.h>
 #import <jsi/jsi.h>
-
+#import "QuickSQLite.h"
 #import "../cpp/bindings.h"
 
-@implementation QuickSQLite
+using namespace facebook;
 
-RCT_EXPORT_MODULE(QuickSQLite)
+@implementation RNQuickSQLite
+
+#ifdef RCT_NEW_ARCH_ENABLED
+RCT_EXPORT_MODULE()
+#else
+RCT_EXPORT_MODULE(RNQuickSQLite)
+#endif
 
 @synthesize bridge = _bridge;
 
+#ifdef RCT_NEW_ARCH_ENABLED
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+    (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+    return std::make_shared<facebook::react::NativeRNQuickSQLiteSpecJSI>(params);
+}
+
+- (NSNumber *) install {
+#else
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
-  NSLog(@"Installing QuickSQLite module...");
+#endif
+  NSLog(@"Installing RNQuickSQLite module...");
 
   RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
   if (cxxBridge == nil) {
     return @false;
   }
-
-  using namespace facebook;
 
   auto jsiRuntime = (jsi::Runtime *)cxxBridge.runtime;
   if (jsiRuntime == nil) {
@@ -56,10 +67,5 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   osp::install(runtime, callInvoker, [documentPath UTF8String]);
   return @true;
 }
-
-- (void)invalidate {
-  osp::clearState();
-}
-
 
 @end

@@ -1,41 +1,30 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable no-return-await */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-var */
-import { NativeModules } from 'react-native'
+
+import RNQuickSQLiteModule from './NativeRNQuickSQLite'
 
 declare global {
-  function nativeCallSyncHook(): unknown
   var __QuickSQLiteProxy: object | undefined
 }
 
 if (global.__QuickSQLiteProxy == null) {
-  const QuickSQLiteModule = NativeModules.QuickSQLite
-
-  if (QuickSQLiteModule == null) {
+  if (RNQuickSQLiteModule == null) {
     throw new Error(
-      'Base quick-sqlite module not found. Maybe try rebuilding the app.'
-    )
-  }
-
-  // Check if we are running on-device (JSI)
-  if (global.nativeCallSyncHook == null || QuickSQLiteModule.install == null) {
-    throw new Error(
-      'Failed to install react-native-quick-sqlite: React Native is not running on-device. QuickSQLite can only be used when synchronous method invocations (JSI) are possible. If you are using a remote debugger (e.g. Chrome), switch to an on-device debugger (e.g. Flipper) instead.'
+      'RNQuickSQLite TurboModule not found. Maybe try rebuilding the app.'
     )
   }
 
   // Call the synchronous blocking install() function
-  const result = QuickSQLiteModule.install()
+  const result = RNQuickSQLiteModule.install()
   if (result !== true) {
     throw new Error(
-      `Failed to install react-native-quick-sqlite: The native QuickSQLite Module could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
+      `Failed to install react-native-quick-sqlite: The RNQuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
     )
   }
 
@@ -46,9 +35,37 @@ if (global.__QuickSQLiteProxy == null) {
     )
   }
 }
+export const QuickSQLite = global.__QuickSQLiteProxy as ISQLite
 
-const proxy = global.__QuickSQLiteProxy
-export const QuickSQLite = proxy as ISQLite
+interface ISQLite {
+  open: (dbName: string, location?: string) => void
+  close: (dbName: string) => void
+  delete: (dbName: string, location?: string) => void
+  attach: (
+    mainDbName: string,
+    dbNameToAttach: string,
+    alias: string,
+    location?: string
+  ) => void
+  detach: (mainDbName: string, alias: string) => void
+  transaction: (
+    dbName: string,
+    fn: (tx: Transaction) => Promise<void> | void
+  ) => Promise<void>
+  execute: (dbName: string, query: string, params?: any[]) => QueryResult
+  executeAsync: (
+    dbName: string,
+    query: string,
+    params?: any[]
+  ) => Promise<QueryResult>
+  executeBatch: (dbName: string, commands: SQLBatchTuple[]) => BatchQueryResult
+  executeBatchAsync: (
+    dbName: string,
+    commands: SQLBatchTuple[]
+  ) => Promise<BatchQueryResult>
+  loadFile: (dbName: string, location: string) => FileLoadResult
+  loadFileAsync: (dbName: string, location: string) => Promise<FileLoadResult>
+}
 
 /**
  * Object returned by SQL Query executions {
@@ -140,36 +157,6 @@ export interface PendingTransaction {
    * It should also automatically commit or rollback the transaction if needed
    */
   start: () => void
-}
-
-interface ISQLite {
-  open: (dbName: string, location?: string) => void
-  close: (dbName: string) => void
-  delete: (dbName: string, location?: string) => void
-  attach: (
-    mainDbName: string,
-    dbNameToAttach: string,
-    alias: string,
-    location?: string
-  ) => void
-  detach: (mainDbName: string, alias: string) => void
-  transaction: (
-    dbName: string,
-    fn: (tx: Transaction) => Promise<void> | void
-  ) => Promise<void>
-  execute: (dbName: string, query: string, params?: any[]) => QueryResult
-  executeAsync: (
-    dbName: string,
-    query: string,
-    params?: any[]
-  ) => Promise<QueryResult>
-  executeBatch: (dbName: string, commands: SQLBatchTuple[]) => BatchQueryResult
-  executeBatchAsync: (
-    dbName: string,
-    commands: SQLBatchTuple[]
-  ) => Promise<BatchQueryResult>
-  loadFile: (dbName: string, location: string) => FileLoadResult
-  loadFileAsync: (dbName: string, location: string) => Promise<FileLoadResult>
 }
 
 const locks: Record<

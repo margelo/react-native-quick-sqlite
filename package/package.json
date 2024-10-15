@@ -60,6 +60,14 @@
     "react": "*",
     "react-native": ">=0.74.0"
   },
+  "codegenConfig": {
+    "name": "RNQuickSQLite",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.margelo.rnquicksqlite"
+    }
+  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
