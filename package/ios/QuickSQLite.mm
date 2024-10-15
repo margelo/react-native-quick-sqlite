@@ -9,7 +9,11 @@ using namespace facebook;
 
 @implementation RNQuickSQLiteModule
 
+RCT_EXPORT_MODULE()
+
 @synthesize bridge = _bridge;
+
+#if RCT_NEW_ARCH_ENABLED
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
@@ -17,7 +21,9 @@ using namespace facebook;
     return std::make_shared<facebook::react::NativeRNQuickSQLiteModuleSpecJSI>(params);
 }
 
-- (NSNumber *) install {
+#endif
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
   NSLog(@"Installing RNQuickSQLite module...");
 
   RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
