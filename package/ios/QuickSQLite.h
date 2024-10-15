@@ -3,11 +3,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RNQuickSQLiteModule : NSObject<NativeRNQuickSQLiteModuleSpec>
+@interface RNQuickSQLite : NSObject<NativeRNQuickSQLiteSpec>
 #else
 #import <React/RCTBridge.h>
 
-@interface RNQuickSQLiteModule : NSObject<RCTBridgeModule>
+@interface RNQuickSQLite : NSObject<RCTBridgeModule>
 #endif
 
 @property(nonatomic, assign) BOOL setBridgeOnMainQueue;

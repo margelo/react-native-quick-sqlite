@@ -4,4 +4,4 @@ export interface Spec extends TurboModule {
   install(): boolean
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('RNQuickSQLiteModule')
+export default TurboModuleRegistry.getEnforcing<Spec>('RNQuickSQLite')

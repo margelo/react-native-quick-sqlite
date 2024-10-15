@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 
-public class RNQuickSQLiteModule extends NativeRNQuickSQLiteModuleSpec {
+public class RNQuickSQLiteModule extends NativeRNQuickSQLiteSpec {
   public RNQuickSQLiteModule(ReactApplicationContext reactContext) {
     super(reactContext);
   }
