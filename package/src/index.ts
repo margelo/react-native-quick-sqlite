@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -11,14 +10,13 @@
 import RNQuickSQLiteModule from './NativeRNQuickSQLiteModule'
 
 declare global {
-  function nativeCallSyncHook(): unknown
   var __QuickSQLiteProxy: object | undefined
 }
 
 if (global.__QuickSQLiteProxy == null) {
-  if (RNQuickSQLiteModule == null || RNQuickSQLiteModule.install == null) {
+  if (RNQuickSQLiteModule == null) {
     throw new Error(
-      'QuickSQLite TurboModule not found. Maybe try rebuilding the app.'
+      'RNQuickSQLite TurboModule not found. Maybe try rebuilding the app.'
     )
   }
 
@@ -26,7 +24,7 @@ if (global.__QuickSQLiteProxy == null) {
   const result = RNQuickSQLiteModule.install()
   if (result !== true) {
     throw new Error(
-      `Failed to install react-native-quick-sqlite: The QuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
+      `Failed to install react-native-quick-sqlite: The RNQuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`
     )
   }
 
@@ -38,6 +36,36 @@ if (global.__QuickSQLiteProxy == null) {
   }
 }
 export const QuickSQLite = global.__QuickSQLiteProxy as ISQLite
+
+interface ISQLite {
+  open: (dbName: string, location?: string) => void
+  close: (dbName: string) => void
+  delete: (dbName: string, location?: string) => void
+  attach: (
+    mainDbName: string,
+    dbNameToAttach: string,
+    alias: string,
+    location?: string
+  ) => void
+  detach: (mainDbName: string, alias: string) => void
+  transaction: (
+    dbName: string,
+    fn: (tx: Transaction) => Promise<void> | void
+  ) => Promise<void>
+  execute: (dbName: string, query: string, params?: any[]) => QueryResult
+  executeAsync: (
+    dbName: string,
+    query: string,
+    params?: any[]
+  ) => Promise<QueryResult>
+  executeBatch: (dbName: string, commands: SQLBatchTuple[]) => BatchQueryResult
+  executeBatchAsync: (
+    dbName: string,
+    commands: SQLBatchTuple[]
+  ) => Promise<BatchQueryResult>
+  loadFile: (dbName: string, location: string) => FileLoadResult
+  loadFileAsync: (dbName: string, location: string) => Promise<FileLoadResult>
+}
 
 /**
  * Object returned by SQL Query executions {
@@ -129,36 +157,6 @@ export interface PendingTransaction {
    * It should also automatically commit or rollback the transaction if needed
    */
   start: () => void
-}
-
-interface ISQLite {
-  open: (dbName: string, location?: string) => void
-  close: (dbName: string) => void
-  delete: (dbName: string, location?: string) => void
-  attach: (
-    mainDbName: string,
-    dbNameToAttach: string,
-    alias: string,
-    location?: string
-  ) => void
-  detach: (mainDbName: string, alias: string) => void
-  transaction: (
-    dbName: string,
-    fn: (tx: Transaction) => Promise<void> | void
-  ) => Promise<void>
-  execute: (dbName: string, query: string, params?: any[]) => QueryResult
-  executeAsync: (
-    dbName: string,
-    query: string,
-    params?: any[]
-  ) => Promise<QueryResult>
-  executeBatch: (dbName: string, commands: SQLBatchTuple[]) => BatchQueryResult
-  executeBatchAsync: (
-    dbName: string,
-    commands: SQLBatchTuple[]
-  ) => Promise<BatchQueryResult>
-  loadFile: (dbName: string, location: string) => FileLoadResult
-  loadFileAsync: (dbName: string, location: string) => Promise<FileLoadResult>
 }
 
 const locks: Record<
