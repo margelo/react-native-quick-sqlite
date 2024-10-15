@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RNQuickSQLiteInit : NSObject <NativeRNQuickSQLiteInitSpec>
+@interface RNQuickSQLiteModule : NSObject <NativeRNQuickSQLiteModuleSpec>
 
 @property(nonatomic, assign) BOOL setBridgeOnMainQueue;
 

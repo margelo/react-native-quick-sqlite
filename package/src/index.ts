@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import RNQuickSQLiteInit from './NativeRNQuickSQLiteInit'
+import RNQuickSQLiteModule from './NativeRNQuickSQLiteModule'
 
 declare global {
   function nativeCallSyncHook(): unknown
@@ -16,14 +16,14 @@ declare global {
 }
 
 if (global.__QuickSQLiteProxy == null) {
-  if (RNQuickSQLiteInit == null || RNQuickSQLiteInit.install == null) {
+  if (RNQuickSQLiteModule == null || RNQuickSQLiteModule.install == null) {
     throw new Error(
       'QuickSQLite TurboModule not found. Maybe try rebuilding the app.'
     )
   }
 
   // Call the synchronous blocking install() function
-  const result = RNQuickSQLiteInit.install()
+  const result = RNQuickSQLiteModule.install()
   if (result !== true) {
     throw new Error(
       `Failed to install react-native-quick-sqlite: The QuickSQLite TurboModule could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`

@@ -21,8 +21,8 @@ public class RNQuickSQLitePackage extends TurboReactPackage {
   @Nullable
   @Override
   public NativeModule getModule(String name, ReactApplicationContext reactContext) {
-    if (name.equals(RNQuickSQLiteInitModule.NAME)) {
-      return new RNQuickSQLiteInitModule(reactContext);
+    if (name.equals(RNQuickSQLiteModule.NAME)) {
+      return new RNQuickSQLiteModule(reactContext);
     } else {
       return null;
     }
@@ -33,10 +33,10 @@ public class RNQuickSQLitePackage extends TurboReactPackage {
     return () -> {
       final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
       moduleInfos.put(
-          RNQuickSQLiteInitModule.NAME,
+          RNQuickSQLiteModule.NAME,
           new ReactModuleInfo(
-              RNQuickSQLiteInitModule.NAME,
-              RNQuickSQLiteInitModule.NAME,
+              RNQuickSQLiteModule.NAME,
+              RNQuickSQLiteModule.NAME,
               false,
               true,
               true,
