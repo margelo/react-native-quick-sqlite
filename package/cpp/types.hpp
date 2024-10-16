@@ -32,16 +32,18 @@ struct SQLiteExecuteQueryResult {
 };
 
 // constexpr function that maps SQLiteColumnType to string literals
-constexpr ColumnType mapSQLiteTypeToColumnType(std::string type) {
-  if (type == "BOOLEAN") {
+constexpr ColumnType mapSQLiteTypeToColumnType(const char* type) {
+  if (type == NULL) {
+    return ColumnType::NULL_VALUE;
+  } else if (*type == "BOOLEAN") {
     return ColumnType::BOOLEAN;
-  } else if (type == "FLOAT") {
+  } else if (*type == "FLOAT") {
     return ColumnType::NUMBER;
-  } else if (type == "INTEGER") {
+  } else if (*type == "INTEGER") {
     return ColumnType::INT64;
-  } else if (type == "TEXT") {
+  } else if (*type == "TEXT") {
     return ColumnType::TEXT;
-  } else if (type == "BLOB") {
+  } else if (*type == "BLOB") {
     return ColumnType::ARRAY_BUFFER;
   } else {
     return ColumnType::NULL_VALUE;
