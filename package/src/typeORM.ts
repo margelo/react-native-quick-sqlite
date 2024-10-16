@@ -11,7 +11,7 @@ import type {
   SQLiteQueryParams,
   Transaction,
 } from './types'
-import * as Operations from './operations'
+import * as Operations from './operations/session'
 
 interface TypeOrmQuickSQLiteConnection {
   executeSql: <RowData extends SQLiteItem = never>(
