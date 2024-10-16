@@ -4,4 +4,4 @@ export interface Spec extends TurboModule {
   onReactApplicationContextReady(callback: () => void): void
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('RNQuickSQLiteOnLoad')
+export default TurboModuleRegistry.getEnforcing<Spec>('RNNitroSQLiteOnLoad')

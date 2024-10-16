@@ -1,7 +1,8 @@
-import { transaction } from './transaction'
+import { transaction } from './operations/transaction'
 import { HybridNitroSQLite } from './nitro'
-import * as Operations from './operations'
+import { open } from './operations/session'
 import NitroSQLiteOnLoad from './specs/NativeNitroSQLiteOnLoad'
+import { execute, executeAsync } from './operations/execute'
 
 export * from './types'
 export { typeORMDriver } from './typeORM'
@@ -16,10 +17,10 @@ export const NitroSQLite = {
   onInitialized,
   // Overwrite native functions with session-based JS implementations,
   // where the database name can be ommited once opened
-  open: Operations.open,
+  open,
   transaction,
-  execute: Operations.execute,
-  executeAsync: Operations.executeAsync,
+  execute,
+  executeAsync,
 }
 
-export { open } from './operations'
+export { open } from './operations/session'

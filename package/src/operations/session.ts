@@ -1,5 +1,4 @@
-import { locks, HybridNitroSQLite } from './nitro'
-import type { NativeQueryResult } from './specs/NativeQueryResult.nitro'
+import { locks, HybridNitroSQLite } from '../nitro'
 import { transaction } from './transaction'
 import type {
   BatchQueryCommand,
@@ -9,7 +8,8 @@ import type {
   SQLiteItem,
   SQLiteQueryParams,
   Transaction,
-} from './types'
+} from '../types'
+import { execute, executeAsync } from './execute'
 
 export function open(
   options: NitroSQLiteConnectionOptions
@@ -55,46 +55,4 @@ export function openDb(dbName: string, location?: string) {
 export function close(dbName: string) {
   HybridNitroSQLite.close(dbName)
   delete locks[dbName]
-}
-
-export function execute<Data extends SQLiteItem = never>(
-  dbName: string,
-  query: string,
-  params?: SQLiteQueryParams
-): QueryResult<Data> {
-  const nativeResult = HybridNitroSQLite.execute(dbName, query, params)
-  const result = buildJsQueryResult<Data>(nativeResult)
-  return result
-}
-
-export async function executeAsync<Data extends SQLiteItem = never>(
-  dbName: string,
-  query: string,
-  params?: SQLiteQueryParams
-): Promise<QueryResult<Data>> {
-  const nativeResult = await HybridNitroSQLite.executeAsync(
-    dbName,
-    query,
-    params
-  )
-  const result = buildJsQueryResult<Data>(nativeResult)
-  return result
-}
-
-function buildJsQueryResult<Data extends SQLiteItem = never>({
-  insertId,
-  rowsAffected,
-  results,
-}: NativeQueryResult): QueryResult<Data> {
-  const data = results as Data[]
-
-  return {
-    insertId,
-    rowsAffected,
-    rows: {
-      _array: data,
-      length: data.length,
-      item: (idx: number) => data[idx],
-    },
-  }
 }

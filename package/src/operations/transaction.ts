@@ -1,11 +1,11 @@
-import * as Operations from './operations'
-import { locks, HybridNitroSQLite } from './nitro'
+import { locks, HybridNitroSQLite } from '../nitro'
 import type {
   QueryResult,
   SQLiteItem,
   SQLiteQueryParams,
   Transaction,
-} from './types'
+} from '../types'
+import { execute, executeAsync } from './execute'
 
 export interface PendingTransaction {
   /*
@@ -39,7 +39,7 @@ export const transaction = async (
         `Nitro SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
       )
     }
-    return Operations.execute(dbName, query, params)
+    return execute(dbName, query, params)
   }
 
   const executeAsyncOnTransaction = <Data extends SQLiteItem = never>(
@@ -51,7 +51,7 @@ export const transaction = async (
         `Nitro SQLite Error: Cannot execute query on finalized transaction: ${dbName}`
       )
     }
-    return Operations.executeAsync(dbName, query, params)
+    return executeAsync(dbName, query, params)
   }
 
   const commit = () => {
