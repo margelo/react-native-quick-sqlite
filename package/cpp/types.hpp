@@ -33,7 +33,9 @@ struct SQLiteExecuteQueryResult {
 
 // constexpr function that maps SQLiteColumnType to string literals
 inline ColumnType mapSQLiteTypeToColumnType(const char* type) {
-  if (strcmp(type, "BOOLEAN")) {
+  if (type == NULL) {
+    return ColumnType::NULL_VALUE;
+  } else if (strcmp(type, "BOOLEAN")) {
     return ColumnType::BOOLEAN;
   } else if (strcmp(type, "FLOAT")) {
     return ColumnType::NUMBER;
