@@ -11,7 +11,7 @@ import type {
   SQLiteQueryParams,
   Transaction,
 } from './types'
-import { open } from 'react-native-quick-sqlite'
+import * as Operations from './operations'
 
 interface TypeOrmQuickSQLiteConnection {
   executeSql: <RowData extends SQLiteItem = never>(
@@ -45,7 +45,7 @@ export const typeORMDriver = {
     fail: (msg: string) => void
   ): TypeOrmQuickSQLiteConnection | null => {
     try {
-      const db = open(options)
+      const db = Operations.open(options)
 
       const connection: TypeOrmQuickSQLiteConnection = {
         executeSql: async <RowData extends SQLiteItem = never>(
