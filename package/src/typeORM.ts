@@ -11,7 +11,7 @@ import type {
   SQLiteQueryParams,
   Transaction,
 } from './types'
-import { open } from 'react-native-nitro-sqlite'
+import * as Operations from './operations'
 
 interface TypeOrmNitroSQLiteConnection {
   executeSql: <RowData extends SQLiteItem = never>(
@@ -45,7 +45,7 @@ export const typeORMDriver = {
     fail: (msg: string) => void
   ): TypeOrmNitroSQLiteConnection | null => {
     try {
-      const db = open(options)
+      const db = Operations.open(options)
 
       const connection: TypeOrmNitroSQLiteConnection = {
         executeSql: async <RowData extends SQLiteItem = never>(

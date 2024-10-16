@@ -1,5 +1,5 @@
-import { HybridObject } from 'react-native-nitro-modules'
-import { ColumnType, SQLiteValue } from '../types'
+import type { HybridObject } from 'react-native-nitro-modules'
+import type { ColumnType, SQLiteValue } from '../types'
 
 /**
  * Object returned by SQL Query executions {
