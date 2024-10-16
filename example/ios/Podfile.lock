@@ -7,7 +7,7 @@ PODS:
   - hermes-engine (0.75.2):
     - hermes-engine/Pre-built (= 0.75.2)
   - hermes-engine/Pre-built (0.75.2)
-  - NitroModules (0.10.0):
+  - NitroModules (0.11.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1584,7 +1584,7 @@ PODS:
     - React-logger (= 0.75.2)
     - React-perflogger (= 0.75.2)
     - React-utils (= 0.75.2)
-  - RNNitroSQLite (8.1.0):
+  - RNNitroSQLite (8.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1870,7 +1870,7 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: 69ef571f3de08433d766d614c73a9838a06bf7eb
   hermes-engine: 3b6e0717ca847e2fc90a201e59db36caf04dee88
-  NitroModules: c9d57098c1fbad84d4891794ce609eee8d68f54d
+  NitroModules: e8722903c6ca5c7616f62c0d7a926a903ae75bce
   RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
   RCTDeprecation: 34cbf122b623037ea9facad2e92e53434c5c7422
   RCTRequired: 24c446d7bcd0f517d516b6265d8df04dc3eb1219
@@ -1927,11 +1927,11 @@ SPEC CHECKSUMS:
   React-utils: 81a715d9c0a2a49047e77a86f3a2247408540deb
   ReactCodegen: 4eedb2fdd079174d6fc3c80b1cccafbe4ff1be8d
   ReactCommon: 6ef348087d250257c44c0204461c03f036650e9b
-  RNNitroSQLite: 7ab14c517fe49069e46a8580e547f2d5551a0bdd
+  RNNitroSQLite: 8ef18749cfa699f7d15cbf11fe54b740e9da6463
   RNScreens: de6e57426ba0e6cbc3fb5b4f496e7f08cb2773c2
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: a1d7895431387402a674fd0d1c04ec85e87909b8
 
-PODFILE CHECKSUM: c6724dc625a6aa9f3f0577b2c2d3f9b39ece8968
+PODFILE CHECKSUM: 27ad3045377187b09e7ab4a604c851aa9838f52d
 
 COCOAPODS: 1.15.2
