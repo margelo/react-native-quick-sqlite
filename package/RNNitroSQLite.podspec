@@ -2,6 +2,10 @@ require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
+# TODO: Should be customizable in package.json.
+# Used to create comparable benchmark results
+performance_mode = 1
+
 Pod::Spec.new do |s|
   s.name         = "RNNitroSQLite"
   s.version      = package["version"]
@@ -35,7 +39,19 @@ Pod::Spec.new do |s|
     s.dependency "React-Core"
   end
 
-  if ENV['Nitro_SQLITE_USE_PHONE_VERSION'] == '1' then
+  optimizedCflags = '$(inherited) -DSQLITE_DQS=0 -DSQLITE_DEFAULT_MEMSTATUS=0 -DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1 -DSQLITE_LIKE_DOESNT_MATCH_BLOBS=1 -DSQLITE_MAX_EXPR_DEPTH=0 -DSQLITE_OMIT_DEPRECATED=1 -DSQLITE_OMIT_PROGRESS_CALLBACK=1 -DSQLITE_OMIT_SHARED_CACHE=1 -DSQLITE_USE_ALLOCA=1'
+
+  if performance_mode == '1' then
+    log_message.call("Thread unsafe (1) performance mode enabled. Use only transactions! 🚀🚀")
+    xcconfig[:OTHER_CFLAGS] = optimizedCflags + ' -DSQLITE_THREADSAFE=0 '
+  end
+
+  if performance_mode == '2' then
+    log_message.call("Thread safe (2) performance mode enabled 🚀")
+    xcconfig[:OTHER_CFLAGS] = optimizedCflags + ' -DSQLITE_THREADSAFE=1 '
+  end
+
+  if ENV['NITRO_SQLITE_USE_PHONE_VERSION'] == '1' then
     s.exclude_files = "cpp/sqlite3.c", "cpp/sqlite3.h"
     s.library = "sqlite3"
   end
