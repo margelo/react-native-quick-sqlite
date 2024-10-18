@@ -1,6 +1,6 @@
 {
   "name": "react-native-nitro-sqlite-example",
-  "version": "0.1.0",
+  "version": "8.2.1-nitro.1",
   "private": true,
   "scripts": {
     "pods": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install",
