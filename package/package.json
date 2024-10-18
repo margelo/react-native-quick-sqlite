@@ -75,9 +75,9 @@
     ]
   },
   "release-it": {
-    "npm": false,
-    "bun": {
-      "publish": true
+    "npm": {
+      "publish": true,
+      "publishPackageManager": "bun"
     },
     "git": false
   }
