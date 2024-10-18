@@ -1,8 +1,8 @@
 {
   "name": "react-native-quick-sqlite-workspace",
+  "version": "8.2.0",
   "packageManager": "bun@1.1.21",
   "private": "true",
-  "version": "8.2.0",
   "workspaces": [
     "package",
     "example"
@@ -28,6 +28,9 @@
     "url": "https://github.com/margelo/react-native-quick-sqlite/issues"
   },
   "homepage": "https://github.com/margelo/react-native-quick-sqlite#readme",
+  "dependencies": {
+    "patch-package": "^8.0.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
     "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
@@ -44,9 +47,7 @@
     "typescript-eslint": "^8.6.0"
   },
   "release-it": {
-    "npm": {
-      "publish": false
-    },
+    "npm": false,
     "git": {
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}",
@@ -56,6 +57,7 @@
       "release": true
     },
     "plugins": {
+      "@release-it-plugins/workspaces": true,
       "@release-it/conventional-changelog": {
         "preset": {
           "name": "conventionalcommits",
@@ -85,16 +87,9 @@
       },
       "@release-it/bumper": {
         "out": {
-          "file": "package.json",
-          "path": [
-            "package"
-          ]
+          "file": "example/package.json"
         }
       }
     }
-  },
-  "dependencies": {
-    "patch-package": "^8.0.0"
-  },
-  "package": "8.2.0"
+  }
 }

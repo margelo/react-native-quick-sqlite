@@ -81,7 +81,6 @@
     "git": false,
     "github": {
       "release": false
-    },
-    "plugins": {}
+    }
   }
 }
