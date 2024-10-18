@@ -1,6 +1,6 @@
 {
   "name": "react-native-nitro-sqlite-workspace",
-  "version": "8.2.1",
+  "version": "0.1.0",
   "packageManager": "bun@1.1.21",
   "private": "true",
   "workspaces": [
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/margelo/react-native-nitro-sqlite.git"
   },
-  "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
+  "author": "Margelo <hello@margelo.com> (https://github.com/margelo)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/margelo/react-native-nitro-sqlite/issues"

@@ -1,12 +1,30 @@
 {
   "name": "react-native-nitro-sqlite",
-  "version": "8.2.1",
+  "version": "0.1.0",
   "description": "Fast SQLite for react-native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/margelo/react-native-nitro-sqlite.git"
+  },
+  "author": "Margelo <hello@margelo.com> (https://github.com/margelo)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/margelo/react-native-nitro-sqlite/issues"
+  },
+  "homepage": "https://github.com/margelo/react-native-nitro-sqlite#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "src",
     "lib",
@@ -31,24 +49,6 @@
     "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
     "specs": "bun typescript && bun nitro-codegen --logLevel=\"debug\"",
     "release": "bun prepare && release-it"
-  },
-  "keywords": [
-    "react-native",
-    "ios",
-    "android"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/margelo/react-native-nitro-sqlite.git"
-  },
-  "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/margelo/react-native-nitro-sqlite/issues"
-  },
-  "homepage": "https://github.com/margelo/react-native-nitro-sqlite#readme",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "typeorm": "^0.3.20"
