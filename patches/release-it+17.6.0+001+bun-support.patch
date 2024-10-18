@@ -84,7 +84,7 @@ index 025dc40..f9e4a7a 100644
    }
 diff --git a/node_modules/release-it/lib/plugin/bun/bun.js b/node_modules/release-it/lib/plugin/bun/bun.js
 new file mode 100644
-index 0000000..99dd67d
+index 0000000..4d1c28a
 --- /dev/null
 +++ b/node_modules/release-it/lib/plugin/bun/bun.js
 @@ -0,0 +1,281 @@
@@ -95,7 +95,7 @@ index 0000000..99dd67d
 +import { hasAccess, rejectAfter, parseVersion, readJSON, e } from '../../util.js';
 +import prompts from './prompts.js';
 +
-+const docs = 'https://git.io/release-it-bun';
++const docs = 'https://git.io/release-it-npm';
 +
 +const options = { write: false };
 +
@@ -137,11 +137,11 @@ index 0000000..99dd67d
 +    const [isRegistryUp, isAuthenticated, latestVersionInRegistry] = await validations;
 +
 +    if (!isRegistryUp) {
-+      throw e(`Unable to reach bun registry (timed out after ${timeout}ms).`, docs);
++      throw e(`Unable to reach npm registry (timed out after ${timeout}ms).`, docs);
 +    }
 +
 +    if (!isAuthenticated) {
-+      throw e('Not authenticated with bun. Please `bun login` and try again.', docs);
++      throw e('Not authenticated with npm. Please `npm login` and try again.', docs);
 +    }
 +
 +    if (!(await this.isCollaborator())) {
@@ -150,7 +150,7 @@ index 0000000..99dd67d
 +    }
 +
 +    if (!latestVersionInRegistry) {
-+      this.log.warn('No version found in bun registry. Assuming new package.');
++      this.log.warn('No version found in npm registry. Assuming new package.');
 +    } else {
 +      if (!semver.eq(latestVersion, latestVersionInRegistry)) {
 +        this.log.warn(
@@ -176,8 +176,8 @@ index 0000000..99dd67d
 +
 +    const { versionArgs, allowSameVersion } = this.options;
 +    const args = [version, '--no-git-tag-version', allowSameVersion && '--allow-same-version', ...fixArgs(versionArgs)];
-+    const task = () => this.exec(`bun version ${args.filter(Boolean).join(' ')}`);
-+    return this.spinner.show({ task, label: 'bun version' });
++    const task = () => this.exec(`npm version ${args.filter(Boolean).join(' ')}`);
++    return this.spinner.show({ task, label: 'npm version' });
 +  }
 +
 +  release() {
@@ -192,11 +192,11 @@ index 0000000..99dd67d
 +  isRegistryUp() {
 +    const registry = this.getRegistry();
 +    const registryArg = registry ? ` --registry ${registry}` : '';
-+    return this.exec(`bun ping${registryArg}`, { options }).then(
++    return this.exec(`npm ping${registryArg}`, { options }).then(
 +      () => true,
 +      err => {
 +        if (/code E40[04]|404.*(ping not found|No content for path)/.test(err)) {
-+          this.log.warn('Ignoring response from unsupported `bun ping` command.');
++          this.log.warn('Ignoring response from unsupported `npm ping` command.');
 +          return true;
 +        }
 +        return false;
@@ -207,7 +207,7 @@ index 0000000..99dd67d
 +  isAuthenticated() {
 +    const registry = this.getRegistry();
 +    const registryArg = registry ? ` --registry ${registry}` : '';
-+    return this.exec(`bun whoami${registryArg}`, { options }).then(
++    return this.exec(`npm whoami${registryArg}`, { options }).then(
 +      output => {
 +        const username = output ? output.trim() : null;
 +        this.setContext({ username });
@@ -216,7 +216,7 @@ index 0000000..99dd67d
 +      err => {
 +        this.debug(err);
 +        if (/code E40[04]/.test(err)) {
-+          this.log.warn('Ignoring response from unsupported `bun whoami` command.');
++          this.log.warn('Ignoring response from unsupported `npm whoami` command.');
 +          return true;
 +        }
 +        return false;
@@ -233,13 +233,13 @@ index 0000000..99dd67d
 +    if (username === null) return false;
 +
 +    try {
-+      let bunVersion = await this.exec('bun --version', { options });
++      let npmVersion = await this.exec('npm --version', { options });
 +
 +      let accessCommand;
-+      if (semver.gt(bunVersion, '9.0.0')) {
-+        accessCommand = 'bun access list collaborators --json';
++      if (semver.gt(npmVersion, '9.0.0')) {
++        accessCommand = 'npm access list collaborators --json';
 +      } else {
-+        accessCommand = 'bun access ls-collaborators';
++        accessCommand = 'npm access ls-collaborators';
 +      }
 +
 +      const output = await this.exec(`${accessCommand} ${name}${registryArg}`, { options });
@@ -255,7 +255,7 @@ index 0000000..99dd67d
 +    } catch (err) {
 +      this.debug(err);
 +      if (/code E400/.test(err)) {
-+        this.log.warn('Ignoring response from unsupported `bun access` command.');
++        this.log.warn('Ignoring response from unsupported `npm access` command.');
 +      } else {
 +        this.log.warn(`Unable to verify if user ${username} is a collaborator for ${name}.`);
 +      }
@@ -269,11 +269,11 @@ index 0000000..99dd67d
 +    const name = this.getName();
 +    const latestVersion = this.getLatestVersion();
 +    const tag = await this.resolveTag(latestVersion);
-+    return this.exec(`bun show ${name}@${tag} version${registryArg}`, { options }).catch(() => null);
++    return this.exec(`npm show ${name}@${tag} version${registryArg}`, { options }).catch(() => null);
 +  }
 +
 +  getRegistryPreReleaseTags() {
-+    return this.exec(`bun view ${this.getName()} dist-tags --json`, { options }).then(
++    return this.exec(`npm view ${this.getName()} dist-tags --json`, { options }).then(
 +      output => {
 +        try {
 +          const tags = JSON.parse(output);
@@ -315,7 +315,7 @@ index 0000000..99dd67d
 +    if (tag) {
 +      return tag;
 +    } else {
-+      this.log.warn(`Unable to get pre-release tag(s) from bun registry. Using "${DEFAULT_TAG_PRERELEASE}".`);
++      this.log.warn(`Unable to get pre-release tag(s) from npm registry. Using "${DEFAULT_TAG_PRERELEASE}".`);
 +      return DEFAULT_TAG_PRERELEASE;
 +    }
 +  }
@@ -924,7 +924,7 @@ index 0000000..927f6d9
 +  t.regex(version[0][0], / --workspaces-update=false --allow-same-version/);
 +});
 diff --git a/node_modules/release-it/types/config.d.ts b/node_modules/release-it/types/config.d.ts
-index 2034157..9250153 100644
+index 2034157..ceade66 100644
 --- a/node_modules/release-it/types/config.d.ts
 +++ b/node_modules/release-it/types/config.d.ts
 @@ -98,6 +98,36 @@ export interface Config {
