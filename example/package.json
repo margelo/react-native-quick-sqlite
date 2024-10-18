@@ -1,6 +1,6 @@
 {
   "name": "react-native-quick-sqlite-example",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "private": true,
   "scripts": {
     "pods": "cd ios && bundle exec pod install",
