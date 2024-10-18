@@ -75,12 +75,10 @@
     ]
   },
   "release-it": {
-    "npm": {
+    "npm": false,
+    "bun": {
       "publish": true
     },
-    "git": false,
-    "github": {
-      "release": false
-    }
+    "git": false
   }
 }
