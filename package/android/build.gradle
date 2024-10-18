@@ -22,6 +22,7 @@ def SQLITE_FLAGS = rootProject.properties['quickSqliteFlags']
 
 apply plugin: "com.android.library"
 apply plugin: 'org.jetbrains.kotlin.android'
+apply from: '../nitrogen/generated/android/RNQuickSQLite+autolinking.gradle'
 
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"
@@ -104,6 +105,9 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
+
+  // Add a dependency on NitroModules
+  implementation project(":react-native-nitro-modules")
 }
 
 if (isNewArchitectureEnabled()) {

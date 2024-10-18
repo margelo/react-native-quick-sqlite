@@ -13,8 +13,8 @@ const Stack = createNativeStackNavigator<ParamList>();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="QuickSQLite Example">
-        <Stack.Screen name="QuickSQLite Example" component={HomeScreen} />
+      <Stack.Navigator initialRouteName="NitroSQLite Example">
+        <Stack.Screen name="NitroSQLite Example" component={HomeScreen} />
         <Stack.Screen name="Unit Tests" component={UnitTestScreen} />
         <Stack.Screen name="Benchmarks" component={BenchmarkScreen} />
       </Stack.Navigator>

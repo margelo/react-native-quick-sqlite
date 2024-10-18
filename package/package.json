@@ -13,7 +13,8 @@
     "android",
     "ios",
     "cpp",
-    "react-native-quick-sqlite.podspec",
+    "nitrogen",
+    "RNQuickSQLite.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!android/.cxx",
@@ -26,6 +27,8 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "prepare": "rm -rf lib && bun typescript && bob build",
+    "bootstrap": "bun --filter=\"**\" install && bun tsc && bun --filter=\"example\" pods",
+    "specs": "bun typescript && bun nitro-codegen --logLevel=\"debug\"",
     "release": "bun prepare && release-it"
   },
   "keywords": [
@@ -52,13 +55,23 @@
   "devDependencies": {
     "@react-native/typescript-config": "0.75.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "nitro-codegen": "^0.11.0",
     "react": "18.3.1",
     "react-native": "0.75.2",
     "react-native-builder-bob": "^0.18.2"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": ">=0.74.0"
+    "react-native": ">=0.74.0",
+    "react-native-nitro-modules": "*"
+  },
+  "codegenConfig": {
+    "name": "QuickSQLite",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.margelo.rnquicksqlite"
+    }
   },
   "react-native-builder-bob": {
     "source": "src",

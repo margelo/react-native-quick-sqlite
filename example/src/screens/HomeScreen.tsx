@@ -5,7 +5,7 @@ import type {ParamList} from '../navigation';
 import {StatusBar} from 'expo-status-bar';
 import {ScreenStyles} from '../styles';
 
-type Props = NativeStackScreenProps<ParamList, 'QuickSQLite Example'>;
+type Props = NativeStackScreenProps<ParamList, 'NitroSQLite Example'>;
 
 export const HomeScreen: React.FC<Props> = ({navigation}) => {
   return (

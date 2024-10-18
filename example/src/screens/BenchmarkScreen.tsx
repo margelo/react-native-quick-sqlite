@@ -106,7 +106,7 @@ export const BenchmarkScreen: React.FC<Props> = () => {
 
     setResults({});
     setIsLoading(true);
-    console.log('--------- BEGINNING QuickSQLite BENCHMARKS ---------');
+    console.log('--------- BEGINNING NitroSQLite BENCHMARKS ---------');
 
     async function start(i = 0): Promise<void> {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -121,7 +121,7 @@ export const BenchmarkScreen: React.FC<Props> = () => {
 
     await start();
 
-    console.log('--------- FINISHED QuickSQLite BENCHMARKS! ---------');
+    console.log('--------- FINISHED NitroSQLite BENCHMARKS! ---------');
     setIsLoading(false);
   }, []);
 
